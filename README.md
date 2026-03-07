@@ -63,6 +63,12 @@ The framework evaluates four distinct scheduling modes:
 pip install --extra-index-url https://download.pytorch.org/whl/torch_stable.html torch==1.8.0 torchvision==0.9.0
 
 sudo apt update
+sudo apt install -y python3-pip libopenblas-base libopenmpi-dev
+pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+sudo nvpmodel -m 0
+sudo jetson_clocks
+
+sudo apt update
 sudo apt install -y python3-dev libopenblas-dev libopenmpi-dev
 wget https://developer.download.nvidia.com/compute/redist/jp/v46/pytorch/torch-1.10.0-cp36-cp36m-linux_aarch64.whl
 torch-1.10.0-cp36-cp36m-linux_aarch64.whl
