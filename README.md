@@ -77,6 +77,14 @@ To run the simulation-based comparison graphs:
 ```bash
 python3 generate_plots.py
 ```
+python3 - <<EOF
+import psutil
+import matplotlib
+import pandas
+print("psutil OK")
+print("matplotlib OK")
+print("pandas OK")
+EOF
 
 ---
 
