@@ -60,6 +60,15 @@ The framework evaluates four distinct scheduling modes:
 - Matplotlib, NumPy, Psutil
 - (Optional) Apache TVM for AutoScheduler benchmarks
 
+sudo apt update
+sudo apt install -y python3-dev libopenblas-dev libopenmpi-dev
+wget https://developer.download.nvidia.com/compute/redist/jp/v46/pytorch/torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+pip install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+python3 -c "import torch; print(torch.__version__)"
+python3 -c "import torch, psutil, matplotlib, pandas; print('Environment ready')"
+
+
 ### Installation
 ```bash
 git clone https://github.com/MRvandals4vage/Cache-Aware-Winograd-Scheduling-for-Energy-Efficient-CNN-Inference-on-Edge-CPUs.git
