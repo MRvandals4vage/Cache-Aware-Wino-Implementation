@@ -1,14 +1,13 @@
 import torch
 import os
-from cnn_model import get_resnet18_full, get_mobilenet_v2_full
+from cnn_model import get_resnet18_full
 
 def export_models():
-    """Exports ResNet-18 and MobileNetV2 to ONNX format."""
+    """Exports ResNet-18 to ONNX format."""
     print("Exporting models to ONNX...")
     
     models = {
-        "resnet18": get_resnet18_full(),
-        "mobilenetv2": get_mobilenet_v2_full()
+        "resnet18": get_resnet18_full()
     }
     
     dummy_input = torch.randn(1, 3, 224, 224)

@@ -17,22 +17,12 @@ def get_resnet18_cifar100():
     model.fc = nn.Linear(model.fc.in_features, 100)
     return model
 
-def get_mobilenet_v2_full():
-    """Returns the standard MobileNetV2 model (ImageNet version)."""
-    model = models.mobilenet_v2(weights=None)
-    return model
-
 if __name__ == "__main__":
     # Test ResNet
     model_rn = get_resnet18_full()
     print("Full ResNet-18 conv1:", model_rn.conv1)
     
-    # Test MobileNet
-    model_mn = get_mobilenet_v2_full()
-    print("Full MobileNetV2 features[0]:", model_mn.features[0])
-    
     dummy_input = torch.randn(1, 3, 224, 224)
     out_rn = model_rn(dummy_input)
-    out_mn = model_mn(dummy_input)
     print(f"ResNet Output shape: {out_rn.shape}")
-    print(f"MobileNet Output shape: {out_mn.shape}")
+

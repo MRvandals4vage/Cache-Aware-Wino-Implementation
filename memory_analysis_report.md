@@ -12,9 +12,6 @@
 | resnet18 | PyTorch Baseline | 0.00e+00 | 1.67e+07 |
 | resnet18 | ONNX Runtime | 0.00e+00 | 1.67e+07 |
 | resnet18 | TVM Model | 0.00e+00 | 1.56e+07 |
-| mobilenetv2 | PyTorch Baseline | 0.00e+00 | 1.87e+07 |
-| mobilenetv2 | ONNX Runtime | 0.00e+00 | 1.87e+07 |
-| mobilenetv2 | TVM Model | 0.00e+00 | 1.53e+07 |
 
 ## 3. Findings
 The experimental results validate that memory-aware scheduling significantly reduces DRAM traffic from architecture-dominant $O(C_{in} \cdot C_{out})$ towards $O(1)$ scaling per weight.

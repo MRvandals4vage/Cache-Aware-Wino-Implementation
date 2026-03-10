@@ -6,7 +6,7 @@
 
 This repository contains a comprehensive experimental framework for evaluating **Memory-Aware Convolution Execution Strategies** on Edge CPUs, specifically targeting the **NVIDIA Jetson Nano (ARM Cortex-A57)**.
 
-The framework benchmarks convolution backends across standard CNN architectures (**ResNet-18**, **MobileNetV2**) to evaluate how Winograd scheduling affecting latency, DRAM traffic, and total system energy.
+The framework benchmarks convolution backends across standard CNN architectures (**ResNet-18**) to evaluate how Winograd scheduling affecting latency, DRAM traffic, and total system energy.
 
 ---
 
