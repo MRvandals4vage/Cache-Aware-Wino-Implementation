@@ -43,10 +43,9 @@ class EnergyModel:
         return macs / energy_J
 
 def estimate_macs(model_name):
-    """Returns standard theoretical MAC counts for ResNet18 and MobileNetV2."""
+    """Returns standard theoretical MAC counts for ResNet18."""
     counts = {
-        "resnet18": 2.27e9,
-        "mobilenetv2": 3.40e8
+        "resnet18": 2.27e9
     }
     return counts.get(model_name.lower(), 0.0)
 
@@ -56,10 +55,6 @@ def estimate_dram_accesses(model_name, mode):
         "resnet18": {
             "Baseline": 3.4219e8,
             "Optimized": 1.8477e8
-        },
-        "mobilenetv2": {
-            "Baseline": 2.7869e8,
-            "Optimized": 2.8026e8
         }
     }
     model_data = estimates.get(model_name.lower())

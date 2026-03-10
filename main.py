@@ -28,15 +28,15 @@ def save_markdown_table(all_results):
 
 def main():
     parser = argparse.ArgumentParser(description="Edge AI Convolution Benchmarking")
-    parser.add_argument("--model", type=str, choices=["resnet18", "mobilenetv2", "all"], default="all", help="Model to benchmark")
+    parser.add_argument("--model", type=str, choices=["resnet18", "all"], default="all", help="Model to benchmark")
     args = parser.parse_args()
 
-    models_to_run = ["resnet18", "mobilenetv2"] if args.model == "all" else [args.model]
+    models_to_run = ["resnet18"] if args.model == "all" else [args.model]
     
     all_combined_results = []
     
     print("="*60)
-    print("Edge AI Benchmarking: ResNet-18 vs MobileNetV2")
+    print("Edge AI Benchmarking: ResNet-18 Evaluation")
     print("Evaluating Winograd Convolution Memory Scheduling Strategies")
     print("="*60)
 

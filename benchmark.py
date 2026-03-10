@@ -1,7 +1,7 @@
 import time
 import torch
 import numpy as np
-from cnn_model import get_resnet18_cifar100, get_resnet18_full, get_mobilenet_v2_full
+from cnn_model import get_resnet18_cifar100, get_resnet18_full
 from memory_scheduler import MemoryScheduler
 from energy_model import EnergyModel
 
@@ -22,9 +22,6 @@ class BenchmarkRunner:
         
         if model_name == "resnet18":
             self.model = get_resnet18_full().to(self.device).eval()
-            self.input_size = (1, 3, 224, 224)
-        elif model_name == "mobilenetv2":
-            self.model = get_mobilenet_v2_full().to(self.device).eval()
             self.input_size = (1, 3, 224, 224)
         elif model_name == "resnet18_cifar":
             self.model = get_resnet18_cifar100().to(self.device).eval()
