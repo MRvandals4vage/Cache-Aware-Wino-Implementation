@@ -1,7 +1,7 @@
 import time
 import torch
 import numpy as np
-from cnn_model import get_resnet18_cifar100, get_resnet18_full
+from cnn_model import get_resnet18_cifar100, get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
 from memory_scheduler import MemoryScheduler
 from energy_model import EnergyModel
 
@@ -23,6 +23,15 @@ class BenchmarkRunner:
         if model_name == "resnet18":
             self.model = get_resnet18_full().to(self.device).eval()
             self.input_size = (1, 3, 224, 224)
+        elif model_name == "vgg16":
+            self.model = get_vgg16_full().to(self.device).eval()
+            self.input_size = (1, 3, 224, 224)
+        elif model_name == "alexnet":
+            self.model = get_alexnet_full().to(self.device).eval()
+            self.input_size = (1, 3, 224, 224)
+        elif model_name == "resnet34":
+            self.model = get_resnet34_full().to(self.device).eval()
+            self.input_size = (1, 3, 224, 224)
         elif model_name == "resnet18_cifar":
             self.model = get_resnet18_cifar100().to(self.device).eval()
             self.input_size = (1, 3, 32, 32)
@@ -31,80 +40,47 @@ class BenchmarkRunner:
             
         self.dummy_input = torch.randn(*self.input_size).to(self.device)
 
-    def run(self):
-        """Perform simulation based on layer configs and selected mode."""
-        total_macs = 0
-        total_dram = 0
+    def run(self, average_power_mw=0):
+        """Perform measurement-driven inference profiling."""
         
-        input_shapes = {}
+        # 1. Capture Dynamic MACs using thop
+        from energy_model import compute_dynamic_macs
+        total_macs = compute_dynamic_macs(self.model, self.input_size)
         
-        def hook(name):
-            def f(module, input, output):
-                input_shapes[name] = input[0].shape
-            return f
-
-        hooks = []
-        for name, module in self.model.named_modules():
-            if isinstance(module, torch.nn.Conv2d):
-                hooks.append(module.register_forward_hook(hook(name)))
-
-        # Run one forward pass to collect input shapes
+        # 2. Measure Latency using high-precision timers
+        # Warmup
+        for _ in range(20):
+            with torch.no_grad():
+                _ = self.model(self.dummy_input)
+        
+        # Measurement
+        start_time = time.perf_counter()
+        num_runs = 100
         with torch.no_grad():
-            _ = self.model(self.dummy_input)
-
-        for h in hooks:
-            h.remove()
-
-        # Iterate and calculate metrics
-        for name, module in self.model.named_modules():
-            if isinstance(module, torch.nn.Conv2d):
-                c_in = module.in_channels
-                c_out = module.out_channels
-                k = module.kernel_size[0]
-                
-                shape = input_shapes[name]
-                h_in, w_in = shape[2], shape[3]
-                
-                # Weight tensor for shape information
-                weight = module.weight.detach().cpu().numpy()
-                
-                self.scheduler.reset_metrics()
-                
-                # Winograd applies ONLY to kernel_size 3x3 with stride 1 (Standard research scope)
-                if k == 3 and module.stride == (1, 1):
-                    if self.mode == "Baseline":
-                        self.scheduler.baseline_direct_conv(np.zeros((c_in, h_in, w_in)), weight)
-                    elif self.mode == "Naive Winograd":
-                        self.scheduler.naive_winograd(np.zeros((c_in, h_in, w_in)), weight)
-                    elif self.mode == "Cache-Aware":
-                        self.scheduler.cache_aware_winograd(np.zeros((c_in, h_in, w_in)), weight)
-                    elif self.mode == "TVM Model":
-                        self.scheduler.memory_optimized_winograd(np.zeros((c_in, h_in, w_in)), weight)
-                else:
-                    # Non 3x3 layers or strided layers remain baseline
-                    self.scheduler.baseline_direct_conv(np.zeros((c_in, h_in, w_in)), weight)
-
-                total_macs += self.scheduler.metrics["macs"]
-                total_dram += self.scheduler.metrics["dram_accesses"]
-
-        # Calculate time based on hardware model
-        # MAC_Time = 2 * MACs / PeakFLOPS (since 1 MAC = 2 FLOPS)
-        comp_time = (2 * total_macs) / self.PEAK_FLOPS
-        # DRAM_Time = DRAM_Accesses * WordSize / Bandwidth
-        mem_time = (total_dram * self.WORD_SIZE) / self.DRAM_BW
+            for _ in range(num_runs):
+                _ = self.model(self.dummy_input)
+        end_time = time.perf_counter()
         
-        estimated_time_ms = (comp_time + mem_time) * 1000.0
+        avg_latency_s = (end_time - start_time) / num_runs
+        avg_latency_ms = avg_latency_s * 1000.0
         
-        energy_mJ = self.energy_model.calculate_energy(total_macs, total_dram)
-        efficiency = self.energy_model.calculate_efficiency(total_macs, energy_mJ)
+        # 3. Dynamic Memory Traffic (from memory_trace)
+        from memory_trace import MemoryTracer
+        dram_mode = "Optimized" if self.mode in ["Naive Winograd", "Cache-Aware", "TVM Model"] else "Baseline"
+        total_dram_accesses = MemoryTracer.estimate_model_traffic(self.model, self.input_size, mode=dram_mode)
+        
+        # 4. Energy (Derived from Measured Power)
+        energy_mj = self.energy_model.calculate_energy(average_power_mw, avg_latency_ms)
+        efficiency = self.energy_model.calculate_efficiency(total_macs, energy_mj)
         
         return {
             "Strategy": self.mode,
             "Model": self.model_name,
-            "time_ms": estimated_time_ms,
+            "time_ms": avg_latency_ms,
+            "throughput_fps": 1000.0 / avg_latency_ms if avg_latency_ms > 0 else 0,
             "MACs": total_macs,
-            "DRAM": total_dram,
-            "Total Energy (mJ)": energy_mJ,
+            "DRAM": total_dram_accesses,
+            "Energy (mJ)": energy_mj,
             "efficiency": efficiency,
-            "dram_mac": total_dram / total_macs if total_macs > 0 else 0
+            "average_power_mw": average_power_mw
         }

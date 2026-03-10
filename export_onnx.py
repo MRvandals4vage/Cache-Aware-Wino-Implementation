@@ -1,13 +1,16 @@
 import torch
 import os
-from cnn_model import get_resnet18_full
+from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
 
 def export_models():
-    """Exports ResNet-18 to ONNX format."""
+    """Exports ResNet-18, VGG16, AlexNet, and ResNet34 to ONNX format."""
     print("Exporting models to ONNX...")
     
     models = {
-        "resnet18": get_resnet18_full()
+        "resnet18": get_resnet18_full(),
+        "vgg16": get_vgg16_full(),
+        "alexnet": get_alexnet_full(),
+        "resnet34": get_resnet34_full()
     }
     
     dummy_input = torch.randn(1, 3, 224, 224)
