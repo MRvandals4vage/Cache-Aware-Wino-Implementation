@@ -51,13 +51,13 @@ def main():
     print("="*105)
 
     # Automatically export ONNX models if they do not exist
-    models_to_check = ["resnet18.onnx"]
+    models_to_check = ["resnet18.onnx", "vgg16.onnx", "alexnet.onnx", "resnet34.onnx"]
     for path in models_to_check:
         if not os.path.exists(path):
             export_models()
             break
 
-    models_names = ["resnet18"]
+    models_names = ["resnet18", "vgg16", "alexnet", "resnet34"]
     strategies = [
         {"name": "PyTorch Baseline", "backend": "Baseline"},
         {"name": "ONNX Runtime", "backend": "ORT"},
@@ -78,8 +78,15 @@ def main():
         onnx_file = f"{model_name}.onnx"
         
         # We need the torch model for MemoryTracer
-        from cnn_model import get_resnet18_full
-        torch_model = get_resnet18_full().eval()
+        from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
+        if model_name == "resnet18":
+            torch_model = get_resnet18_full().eval()
+        elif model_name == "vgg16":
+            torch_model = get_vgg16_full().eval()
+        elif model_name == "alexnet":
+            torch_model = get_alexnet_full().eval()
+        else:
+            torch_model = get_resnet34_full().eval()
 
         # TVM Compilation
         tvm_lib = None

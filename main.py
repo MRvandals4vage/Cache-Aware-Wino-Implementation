@@ -2,15 +2,40 @@ import argparse
 from benchmark import BenchmarkRunner
 from visualization import generate_bench_plots
 
+from power_monitor import JetsonPowerMonitor
+
 def run_model_benchmarks(model_name):
     print(f"\nRunning benchmarks for model: {model_name}")
     print("-" * 40)
     modes = ["Baseline", "Naive Winograd", "Cache-Aware", "TVM Model"]
     results = []
+    
+    # Initialize Power Monitor
+    power_monitor = JetsonPowerMonitor()
+    
     for mode in modes:
         print(f"  Mode: {mode:<20}")
+        
+        # Start power monitoring
+        power_monitor.start_monitoring()
+        
         runner = BenchmarkRunner(mode=mode, model_name=model_name)
-        res = runner.run()
+        
+        # We pass a reference to the monitor if we wanted to read it inside runner, 
+        # but here we'll just profile it in one block.
+        # Stop power monitoring after execution
+        res = runner.run() # runner.run() now includes warmup and measurement loops
+        
+        power_avgs = power_monitor.stop_monitoring()
+        
+        # Update result with measured power
+        res["average_power_mw"] = power_avgs["total"]
+        # Re-calculate energy with final power average
+        from energy_model import EnergyModel
+        em = EnergyModel()
+        res["Energy (mJ)"] = em.calculate_energy(res["average_power_mw"], res["time_ms"])
+        res["efficiency"] = em.calculate_efficiency(res["MACs"], res["Energy (mJ)"])
+        
         results.append(res)
     
     # Generate Plots for this model
@@ -18,25 +43,25 @@ def run_model_benchmarks(model_name):
     return results
 
 def save_markdown_table(all_results):
-    with open("benchmark_results.md", "w") as f:
-        f.write("# Convolution Strategy Benchmarking Results\n\n")
-        f.write("| Model          | Mode                | Time (ms) | MACs         | DRAM Accesses | Energy (mJ) | MACs/J    |\n")
-        f.write("| :------------- | :------------------ | :-------: | :----------: | :-----------: | :---------: | :-------: |\n")
+    with open("benchmark_results_measured.md", "w") as f:
+        f.write("# Measurement-Driven CNN Benchmarking Results\n\n")
+        f.write("| Architecture   | Mode                | Latency (ms) | FPS    | MACs (Measured) | DRAM (Est/Run) | Power (mW) | Energy (mJ) | MACs/J    |\n")
+        f.write("| :------------- | :------------------ | :----------: | :----: | :------------: | :------------: | :--------: | :---------: | :-------: |\n")
         for r in all_results:
-            f.write(f"| {r['Model']:<14} | {r['Strategy']:<19} | {r['time_ms']:>9.2f} | {int(r['MACs']):>12,} | {int(r['DRAM']):>13,} | {r['Total Energy (mJ)']:>11.2f} | {r['efficiency']:>9.2e} |\n")
-    print("\nSummary table saved to benchmark_results.md")
+            f.write(f"| {r['Model']:<14} | {r['Strategy']:<19} | {r['time_ms']:>12.2f} | {r['throughput_fps']:>6.1f} | {int(r['MACs']):>14,} | {int(r['DRAM']):>14,} | {r['average_power_mw']:>10.1f} | {r['Energy (mJ)']:>11.2f} | {r['efficiency']:>9.2e} |\n")
+    print("\nSummary table saved to benchmark_results_measured.md")
 
 def main():
     parser = argparse.ArgumentParser(description="Edge AI Convolution Benchmarking")
-    parser.add_argument("--model", type=str, choices=["resnet18", "all"], default="all", help="Model to benchmark")
+    parser.add_argument("--model", type=str, choices=["resnet18", "vgg16", "alexnet", "resnet34", "all"], default="all", help="Model to benchmark")
     args = parser.parse_args()
 
-    models_to_run = ["resnet18"] if args.model == "all" else [args.model]
+    models_to_run = ["resnet18", "vgg16", "alexnet", "resnet34"] if args.model == "all" else [args.model]
     
     all_combined_results = []
     
     print("="*60)
-    print("Edge AI Benchmarking: ResNet-18 Evaluation")
+    print("Edge AI Benchmarking: Multi-Architecture Evaluation")
     print("Evaluating Winograd Convolution Memory Scheduling Strategies")
     print("="*60)
 
@@ -45,6 +70,11 @@ def main():
         all_combined_results.extend(model_results)
 
     save_markdown_table(all_combined_results)
+    
+    # Generate Architecture Comparison Plots
+    print("\nGenerating Architecture Comparison Graphs...")
+    generate_bench_plots(all_combined_results)
+    
     print("\nBenchmarking completed successfully.")
 
 if __name__ == "__main__":

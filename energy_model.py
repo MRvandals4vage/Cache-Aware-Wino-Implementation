@@ -1,63 +1,43 @@
 """
-Analytical Energy Model for CNN Inference Benchmarking
+Measurement-Driven Energy Model for CNN Inference Benchmarking
 -------------------------------------------------------
-Constants:
-E_MAC = 3.1 pJ
-E_DRAM = 220 pJ
+Energy is derived from measured hardware power and runtime latency.
 """
 
-# Energy constants (Joules per operation/access)
-E_MAC = 3.1e-12
-E_DRAM = 220e-12
-
-def estimate_compute_energy(macs):
-    """Calculates compute energy in millijoules (mJ)."""
-    energy_j = macs * E_MAC
-    return energy_j * 1000.0
-
-def estimate_memory_energy(dram_accesses):
-    """Calculates memory energy in millijoules (mJ)."""
-    energy_j = dram_accesses * E_DRAM
-    return energy_j * 1000.0
-
-def estimate_total_energy(macs, dram_accesses):
-    """Calculates total energy consumption in millijoules (mJ)."""
-    return estimate_compute_energy(macs) + estimate_memory_energy(dram_accesses)
-
 class EnergyModel:
-    """Class wrapper for compatibility with internal simulation scripts."""
+    """
+    Measurement-Driven Energy Model.
+    Calculates energy and efficiency based on direct hardware readings.
+    """
     
-    def calculate_energy(self, macs, dram_accesses, sram_accesses=0):
-        """Calculates total energy consumption in millijoules (mJ)."""
-        # (sram_accesses is optional, using 5.2 pJ if needed)
-        E_SRAM = 5.2e-12
-        total_mj = estimate_total_energy(macs, dram_accesses)
-        total_mj += (sram_accesses * E_SRAM) * 1000.0
-        return total_mj
+    def calculate_energy(self, average_power_mw, latency_ms):
+        """
+        Calculates energy consumption in millijoules (mJ).
+        Formula: Energy (mJ) = Average Power (W) * Latency (s) * 1000
+        Which simplifies to: Energy (mJ) = Power (mW) * Latency (ms) / 1000
+        """
+        return (average_power_mw * latency_ms) / 1000.0
         
-    def calculate_efficiency(self, macs, energy_mJ):
-        """Calculates energy efficiency in MACs per Joule (MACs/J)."""
-        if energy_mJ == 0:
+    def calculate_efficiency(self, macs, energy_mj):
+        """
+        Calculates energy efficiency in MACs per Joule (MACs/J).
+        """
+        if energy_mj == 0:
             return 0
-        energy_J = energy_mJ / 1000.0
-        return macs / energy_J
+        energy_j = energy_mj / 1000.0
+        return macs / energy_j
 
-def estimate_macs(model_name):
-    """Returns standard theoretical MAC counts for ResNet18."""
-    counts = {
-        "resnet18": 2.27e9
-    }
-    return counts.get(model_name.lower(), 0.0)
-
-def estimate_dram_accesses(model_name, mode):
-    """Returns calibrated DRAM access estimates for regression testing."""
-    estimates = {
-        "resnet18": {
-            "Baseline": 3.4219e8,
-            "Optimized": 1.8477e8
-        }
-    }
-    model_data = estimates.get(model_name.lower())
-    if model_data:
-        return model_data.get(mode, 0.0)
-    return 0.0
+def compute_dynamic_macs(model, input_size=(1, 3, 224, 224)):
+    """
+    Uses thop to compute MAC operations directly from the model graph.
+    """
+    try:
+        from thop import profile
+        import torch
+        device = next(model.parameters()).device
+        dummy_input = torch.randn(*input_size).to(device)
+        macs, params = profile(model, inputs=(dummy_input,), verbose=False)
+        return macs
+    except ImportError:
+        print("Warning: thop not installed, MAC counting may be inaccurate.")
+        return 0
