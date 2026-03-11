@@ -90,3 +90,13 @@ Reports and traces are automatically saved to `benchmark_results_measured.md` an
 ## 📝 Citation
 If you use this framework in your research, please cite:
 > "Cache-Aware Winograd Scheduling for Energy-Efficient CNN Inference on Edge CPUs" (2026).
+
+
+# System dependencies for Jetson
+sudo apt-get update
+sudo apt-get install -y libopenblas-base libopenmpi-dev
+
+# Exporting the Jetson-specific PyTorch (example for L4T 32.6+)
+# Visit https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048 for specific version links
+wget https://nvidia.box.com/shared/static/p57jwue9bh09p8vth7qthv0h598n6pfs.whl -O torch-1.8.0-cp36-cp36m-linux_aarch64.whl
+pip install torch-1.8.0-cp36-cp36m-linux_aarch64.whl

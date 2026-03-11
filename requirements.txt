@@ -1,0 +1,8 @@
+torch
+torchvision
+onnx
+onnxruntime
+matplotlib
+numpy
+psutil
+thop
