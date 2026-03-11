@@ -21,10 +21,8 @@ def run_model_benchmarks(model_name):
         
         runner = BenchmarkRunner(mode=mode, model_name=model_name)
         
-        # We pass a reference to the monitor if we wanted to read it inside runner, 
-        # but here we'll just profile it in one block.
-        # Stop power monitoring after execution
-        res = runner.run() # runner.run() now includes warmup and measurement loops
+        # runner.run() now includes warmup, algorithmic trace, and measurement loops
+        res = runner.run() 
         
         power_avgs = power_monitor.stop_monitoring()
         
@@ -48,7 +46,8 @@ def save_markdown_table(all_results):
         f.write("| Architecture   | Mode                | Latency (ms) | FPS    | MACs (Measured) | DRAM (Est/Run) | Power (mW) | Energy (mJ) | MACs/J    |\n")
         f.write("| :------------- | :------------------ | :----------: | :----: | :------------: | :------------: | :--------: | :---------: | :-------: |\n")
         for r in all_results:
-            f.write(f"| {r['Model']:<14} | {r['Strategy']:<19} | {r['time_ms']:>12.2f} | {r['throughput_fps']:>6.1f} | {int(r['MACs']):>14,} | {int(r['DRAM']):>14,} | {r['average_power_mw']:>10.1f} | {r['Energy (mJ)']:>11.2f} | {r['efficiency']:>9.2e} |\n")
+            # Note: r['Bytes'] is returned by BenchmarkRunner now
+            f.write(f"| {r['Model']:<14} | {r['Strategy']:<19} | {r['time_ms']:>12.2f} | {r['throughput_fps']:>6.1f} | {int(r['MACs']):>14,} | {int(r['Bytes']):>14,} | {r['average_power_mw']:>10.1f} | {r['Energy (mJ)']:>11.2f} | {r['efficiency']:>9.2e} |\n")
     print("\nSummary table saved to benchmark_results_measured.md")
 
 def main():

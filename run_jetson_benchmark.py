@@ -121,7 +121,12 @@ def main():
                 res = run_onnx_inference(onnx_file, num_iterations=100)
                 latency = res["latency_ms"]
                 if backend == "Optimized_Estimate":
-                    latency *= 0.82
+                    # For estimation when compile is skipped, we use a factor derived 
+                    # from the MemoryTracer's DRAM traffic reduction ratio
+                    dram_baseline = MemoryTracer.estimate_model_traffic(torch_model, mode="Baseline")
+                    dram_opt = MemoryTracer.estimate_model_traffic(torch_model, mode="Optimized")
+                    speedup_factor = (dram_opt / dram_baseline) * 0.95 # scaled by expected overhead
+                    latency *= max(0.5, speedup_factor) # Bound speedup to realistic levels
             
             cpu_util = psutil.cpu_percent(interval=None)
             power_avgs = power_monitor.stop_monitoring()
