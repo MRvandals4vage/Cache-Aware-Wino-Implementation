@@ -11,7 +11,7 @@ from energy_model import estimate_macs
 
 def get_data():
     """Gathers data across models and strategies for plotting."""
-    models = ["resnet18"]
+    models = ["resnet18", "vgg16", "alexnet", "resnet34"]
     strategies = ["Baseline", "Naive Winograd", "Cache-Aware", "TVM Model"]
     
     all_data = []
@@ -24,7 +24,7 @@ def get_data():
                 "Model": model,
                 "Strategy": strat,
                 "DRAM": res["DRAM"],
-                "Energy": res["Total Energy (mJ)"],
+                "Energy": res["Energy (mJ)"],
                 "MACs": res["MACs"],
                 "Latency": res["time_ms"]
             })

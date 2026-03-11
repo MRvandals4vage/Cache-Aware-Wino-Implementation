@@ -1,17 +1,12 @@
 import time
 import torch
 import numpy as np
-from cnn_model import get_resnet18_cifar100, get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
+from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
 from memory_scheduler import MemoryScheduler
 from energy_model import EnergyModel
 
 class BenchmarkRunner:
     """Class to run benchmarks on a CNN model with different strategies."""
-
-    # Approximate Jetson Nano CPU constraints
-    PEAK_FLOPS = 10e9 # 10 GFLOPS
-    DRAM_BW = 25.6e9  # 25.6 GB/s
-    WORD_SIZE = 4     # float32
 
     def __init__(self, mode="Baseline", model_name="resnet18"):
         self.mode = mode
@@ -32,9 +27,6 @@ class BenchmarkRunner:
         elif model_name == "resnet34":
             self.model = get_resnet34_full().to(self.device).eval()
             self.input_size = (1, 3, 224, 224)
-        elif model_name == "resnet18_cifar":
-            self.model = get_resnet18_cifar100().to(self.device).eval()
-            self.input_size = (1, 3, 32, 32)
         else:
             raise ValueError(f"Unknown model: {model_name}")
             
@@ -43,10 +35,53 @@ class BenchmarkRunner:
     def run(self, average_power_mw=0):
         """Perform measurement-driven inference profiling."""
         
-        # 1. Capture Dynamic MACs using thop
-        from energy_model import compute_dynamic_macs
-        total_macs = compute_dynamic_macs(self.model, self.input_size)
+        # 1. Tracing Algorithm MACs and Memory Traffic
+        self.scheduler.reset_metrics()
         
+        # We need shapes. Use a simple tracer or hooks.
+        input_shapes = {}
+        def hook(name):
+            def f(module, input, output):
+                input_shapes[name] = input[0].shape
+            return f
+
+        hooks = []
+        for name, module in self.model.named_modules():
+            if isinstance(module, torch.nn.Conv2d):
+                hooks.append(module.register_forward_hook(hook(name)))
+
+        # Run one forward pass to collect input shapes
+        with torch.no_grad():
+            _ = self.model(self.dummy_input)
+
+        for h in hooks:
+            h.remove()
+
+        # Iterate and calculate algorithmic metrics
+        for name, module in self.model.named_modules():
+            if isinstance(module, torch.nn.Conv2d):
+                c_in = module.in_channels
+                c_out = module.out_channels
+                k = module.kernel_size[0]
+                stride = module.stride[0]
+                
+                shape = input_shapes[name]
+                h_in, w_in = shape[2], shape[3]
+                
+                # Winograd applies ONLY to kernel_size 3x3 with stride 1 (Standard research scope)
+                if k == 3 and stride == 1:
+                    if self.mode == "Baseline":
+                        self.scheduler.baseline_direct_conv(c_in, c_out, h_in, w_in, k, stride)
+                    elif self.mode == "Naive Winograd":
+                        self.scheduler.winograd_f23(c_in, c_out, h_in, w_in, mode="Naive")
+                    elif self.mode == "Cache-Aware":
+                        self.scheduler.winograd_f23(c_in, c_out, h_in, w_in, mode="Cache-Aware")
+                    elif self.mode == "TVM Model":
+                        self.scheduler.winograd_f23(c_in, c_out, h_in, w_in, mode="Optimized")
+                else:
+                    # Non 3x3 layers or strided layers remain baseline
+                    self.scheduler.baseline_direct_conv(c_in, c_out, h_in, w_in, k, stride)
+
         # 2. Measure Latency using high-precision timers
         # Warmup
         for _ in range(20):
@@ -64,12 +99,9 @@ class BenchmarkRunner:
         avg_latency_s = (end_time - start_time) / num_runs
         avg_latency_ms = avg_latency_s * 1000.0
         
-        # 3. Dynamic Memory Traffic (from memory_trace)
-        from memory_trace import MemoryTracer
-        dram_mode = "Optimized" if self.mode in ["Naive Winograd", "Cache-Aware", "TVM Model"] else "Baseline"
-        total_dram_accesses = MemoryTracer.estimate_model_traffic(self.model, self.input_size, mode=dram_mode)
-        
-        # 4. Energy (Derived from Measured Power)
+        # 3. Final Calculations (Measurement + Algorithm)
+        total_macs = self.scheduler.metrics["macs"]
+        total_bytes = self.scheduler.metrics["bytes_transferred"]
         energy_mj = self.energy_model.calculate_energy(average_power_mw, avg_latency_ms)
         efficiency = self.energy_model.calculate_efficiency(total_macs, energy_mj)
         
@@ -79,7 +111,7 @@ class BenchmarkRunner:
             "time_ms": avg_latency_ms,
             "throughput_fps": 1000.0 / avg_latency_ms if avg_latency_ms > 0 else 0,
             "MACs": total_macs,
-            "DRAM": total_dram_accesses,
+            "Bytes": total_bytes,
             "Energy (mJ)": energy_mj,
             "efficiency": efficiency,
             "average_power_mw": average_power_mw

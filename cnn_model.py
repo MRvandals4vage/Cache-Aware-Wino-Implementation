@@ -23,15 +23,6 @@ def get_resnet34_full():
     model = models.resnet34(pretrained=False)
     return model
 
-def get_resnet18_cifar100():
-    """Returns a ResNet-18 model modified for CIFAR-100 (32x32 inputs)."""
-    model = models.resnet18(weights=None)
-    # Modify for CIFAR-100
-    model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-    model.maxpool = nn.Identity()
-    model.fc = nn.Linear(model.fc.in_features, 100)
-    return model
-
 if __name__ == "__main__":
     # Test architectures
     archs = {

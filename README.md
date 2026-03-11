@@ -6,48 +6,48 @@
 
 This repository contains a comprehensive experimental framework for evaluating **Memory-Aware Convolution Execution Strategies** on Edge CPUs, specifically targeting the **NVIDIA Jetson Nano (ARM Cortex-A57)**.
 
-The framework benchmarks convolution backends across standard CNN architectures (**ResNet-18**) to evaluate how Winograd scheduling affecting latency, DRAM traffic, and total system energy.
+The framework benchmarks convolution backends across standard CNN architectures (**ResNet-18, VGG16, AlexNet, ResNet34**) to evaluate how Winograd scheduling affecting latency, DRAM traffic, and total system energy.
 
 ---
 
 ## 🚀 Key Features
 
-- **Multi-Rail Power Monitoring**: Real-time hardware sampling of VDD_IN (Total), VDD_CPU, and VDD_GPU via INA3221 sensors at 10ms intervals.
-- **Analytical Energy Model**: Deep-dive energy breakdown using pJ-level constants ($E_{MAC}=3.1$ pJ, $E_{DRAM}=220$ pJ).
-- **Memory Traffic Validation**: Dynamic `MemoryTracer` that replaces hardcoded estimates with analytical tracing of feature map and weight bytes.
-- **Cross-Backend Support**: Comparison between **PyTorch Baseline**, **ONNX Runtime (CPU)**, and **TVM AutoScheduler**.
-- **Publication-Ready Artifacts**: Automatic generation of Markdown reports, energy breakdown tables, and research-grade standard library plots.
+- **Multi-Rail Hardware Power Monitoring**: Real-time hardware sampling of VDD_IN (Total), VDD_CPU, and VDD_GPU via INA3221 sensors at 10ms intervals.
+- **Measurement-Driven Profiling**: Replaces theoretical constants with high-precision metrics (`time.perf_counter`, `psutil`) for latency and power.
+- **Dynamic MAC Counting**: Runtime graph observation using the `thop` profiling library for precise operation counts across different layer types.
+- **Memory Traffic Validation**: Dynamic `MemoryTracer` that performs analytical tracing of architecture-specific data movement patterns.
+- **Cross-Backend Support**: Seamless comparison between **PyTorch Baseline**, **Naive Winograd**, **Cache-Aware**, and **TVM Model**.
+- **Publication-Ready Artifacts**: Automatic generation of Markdown reports and research-grade plots (`latency_comparison.png`, `energy_comparison.png`, etc.).
 
 ---
 
 ## 🛠 Project Structure
 
 ```text
-├── run_jetson_benchmark.py   # Primary research pipeline for real hardware
-├── run_experiments.py        # Simulation-based benchmarking suite
-├── energy_model.py           # Analytical energy constants & logic
-├── memory_scheduler.py       # Custom Winograd scheduling algorithms
+├── run_jetson_benchmark.py   # Primary research pipeline for real hardware profiling
+├── main.py                   # Main entry point for multi-architecture benchmarking
+├── benchmark.py              # Core measurement-driven benchmarking engine
+├── cnn_model.py              # standard full-scale architecture defs (ImageNet)
+├── memory_scheduler.py       # Winograd scheduling implementations
 ├── memory_trace.py           # Analytical DRAM traffic estimator
-├── visualization.py          # core plotting engine
-├── power_monitor.py          # Jetson hardware sensor integration
-├── tvm_compiler.py           # ONNX to TVM AutoScheduler compilation
-└── generate_plots.py         # Dedicated script for unified graph generation
+├── visualization.py          # Publication-ready plotting engine
+├── power_monitor.py          # Jetson INA3221 sensor integration & generic falls-backs
+└── tvm_compiler.py           # ONNX to TVM compilation utilities
 ```
 
 ---
 
 ## 📊 Methodology
 
-### 1. Energy Model
-We utilize a two-component energy model to assess architectural efficiency:
-$$E_{total} = E_{MAC} \times N_{MAC} + E_{DRAM} \times N_{DRAM}$$
+### 1. Power & Energy Measurement
+Total energy for an inference pass is derived from instantaneous hardware power samples and high-precision latency observations:
+$$E_{inference} = \int_{0}^{t} P(t) dt \approx P_{avg} \times t_{measured}$$
 
-### 2. Memory Complexity
-The framework evaluates four distinct scheduling modes:
-- **Baseline**: Standard direct convolution ($O(C_{in} \cdot C_{out})$ DRAM scale).
-- **Naive Winograd**: Tile-by-tile processing.
-- **Cache-Aware**: Exploits temporal locality by loading input tiles once for all filters.
-- **TVM Model**: Heavily optimized ARM NEON backend.
+### 2. Architecture Suite
+All models are standard full-sized versions (Input: $1 \times 3 \times 224 \times 224$):
+- **VGG16**: Deep stack of $3 \times 3$ convolutions, highly sensitive to memory traffic.
+- **AlexNet**: Classic architecture with diverse kernel sizes.
+- **ResNet-18/34**: Modern residual networks with varying depth.
 
 ---
 
@@ -57,64 +57,33 @@ The framework evaluates four distinct scheduling modes:
 - Python 3.10+
 - PyTorch & Torchvision
 - ONNX & ONNX Runtime
-- Matplotlib, NumPy, Psutil
-- (Optional) Apache TVM for AutoScheduler benchmarks
-
-pip install --extra-index-url https://download.pytorch.org/whl/torch_stable.html torch==1.8.0 torchvision==0.9.0
-
-sudo apt update
-sudo apt install -y python3-pip libopenblas-base libopenmpi-dev
-pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
-sudo nvpmodel -m 0
-sudo jetson_clocks
-
-sudo apt update
-sudo apt install -y python3-dev libopenblas-dev libopenmpi-dev
-wget https://developer.download.nvidia.com/compute/redist/jp/v46/pytorch/torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-pip install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-python3 -c "import torch; print(torch.__version__)"
-python3 -c "import torch, psutil, matplotlib, pandas; print('Environment ready')"
-
+- Matplotlib, NumPy, Psutil, Thop
 
 ### Installation
 ```bash
-git clone https://github.com/MRvandals4vage/Cache-Aware-Winograd-Scheduling-for-Energy-Efficient-CNN-Inference-on-Edge-CPUs.git
-cd Cache-Aware-Winograd-Scheduling-for-Energy-Efficient-CNN-Inference-on-Edge-CPUs
+git clone https://github.com/ishaanupponi/edge_conv_benchmarking.git
+cd edge_conv_benchmarking
 pip install -r requirements.txt
 ```
 
 ### Running Benchmarks
-To run the full research suite on a Jetson Nano:
+To run the full multi-architecture experimental suite:
 ```bash
-python3 run_jetson_benchmark.py
+python3 main.py --model all
 ```
-
-To run the simulation-based comparison graphs:
-```bash
-python3 generate_plots.py
-```
-python3 - <<EOF
-import psutil
-import matplotlib
-import pandas
-print("psutil OK")
-print("matplotlib OK")
-print("pandas OK")
-EOF
 
 ---
 
 ## 📈 Results Preview
 
-The framework produces a comprehensive energy breakdown:
+The framework produces a comprehensive measurement breakdown in `benchmark_results_measured.md`:
 
-| Model | Strategy | Time (ms) | Energy (mJ) | MACs/J |
-| :--- | :--- | :---: | :---: | :---: |
-| ResNet18 | Baseline | 8.90 | 10.71 | 7.9e+10 |
-| ResNet18 | TVM Model | 7.04 | 10.47 | 9.6e+10 |
+| Architecture | Strategy | Latency (ms) | Power (mW) | Energy (mJ) | MACs/J |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| VGG16 | Baseline | 36.24 | 2531.1 | 91.73 | 1.69e+11 |
+| VGG16 | TVM Model | 44.16 | 2526.7 | 111.57 | 1.39e+11 |
 
-Reports and traces are automatically saved to `jetson_energy_breakdown.md` and `scheduler_trace.log`.
+Reports and traces are automatically saved to `benchmark_results_measured.md` and `memory_analysis_report.md`.
 
 ---
 
