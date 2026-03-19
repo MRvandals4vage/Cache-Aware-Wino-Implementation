@@ -51,7 +51,7 @@ class MemoryTracer:
         hooks = []
         for name, module in model.named_modules():
             if isinstance(module, torch.nn.Conv2d):
-                hooks.append(module.register_forward_hook(hook(name)))
+                hooks.append(module.register_forward_hook(hook(name))) # type: ignore
 
         # Run forward to get shapes
         with torch.no_grad():
@@ -75,10 +75,10 @@ class MemoryTracer:
                 # Apply mode-specific multipliers
                 if mode == "Baseline":
                     # Naive reuse might cause multiple input reads
-                    total_dram_bytes += traffic["weights"] + (traffic["input"] * 1.5) + traffic["output"]
+                    total_dram_bytes += traffic["weights"] + (traffic["input"] * 1.5) + traffic["output"]  # type: ignore
                 else: # Optimized (TVM/Winograd)
                     # Minimized writes/reads
-                    total_dram_bytes += traffic["weights"] + traffic["input"] + traffic["output"]
+                    total_dram_bytes += traffic["weights"] + traffic["input"] + traffic["output"]  # type: ignore
         
         # Convert bytes to "DRAM Accesses" (Assuming 4-byte words as requested by previous steps)
         return total_dram_bytes / 4

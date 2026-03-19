@@ -1,6 +1,7 @@
 import os
 import time
 import threading
+from typing import Optional
 import psutil
 
 class JetsonPowerMonitor:
@@ -19,7 +20,7 @@ class JetsonPowerMonitor:
         self.sample_interval = sample_interval
         self.is_monitoring = False
         self.samples = {"total": [], "cpu": [], "gpu": []}
-        self._monitor_thread = None
+        self._monitor_thread: Optional[threading.Thread] = None
 
     def _read_rail(self, rail_name):
         """Reads a specific power rail in milliwatts."""
@@ -62,14 +63,16 @@ class JetsonPowerMonitor:
         self.is_monitoring = True
         for key in self.samples:
             self.samples[key] = []
-        self._monitor_thread = threading.Thread(target=self._sampling_loop)
-        self._monitor_thread.start()
+        monitor_thread = threading.Thread(target=self._sampling_loop)
+        self._monitor_thread = monitor_thread
+        monitor_thread.start()
 
     def stop_monitoring(self):
         """Stops monitoring and returns the average power (mW) for all rails."""
         self.is_monitoring = False
-        if self._monitor_thread:
-            self._monitor_thread.join()
+        monitor_thread = self._monitor_thread
+        if monitor_thread is not None:
+            monitor_thread.join()
         
         averages = {}
         for key, vals in self.samples.items():

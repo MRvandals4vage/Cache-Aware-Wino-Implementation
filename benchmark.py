@@ -1,9 +1,9 @@
 import time
-import torch
-import numpy as np
-from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
-from memory_scheduler import MemoryScheduler
-from energy_model import EnergyModel
+import torch  # type: ignore
+import numpy as np  # type: ignore
+from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full  # type: ignore
+from memory_scheduler import MemoryScheduler  # type: ignore
+from energy_model import EnergyModel  # type: ignore
 
 class BenchmarkRunner:
     """Class to run benchmarks on a CNN model with different strategies."""
@@ -48,7 +48,7 @@ class BenchmarkRunner:
         hooks = []
         for name, module in self.model.named_modules():
             if isinstance(module, torch.nn.Conv2d):
-                hooks.append(module.register_forward_hook(hook(name)))
+                hooks.append(module.register_forward_hook(hook(name)))  # type: ignore
 
         # Run one forward pass to collect input shapes
         with torch.no_grad():
@@ -60,10 +60,10 @@ class BenchmarkRunner:
         # Iterate and calculate algorithmic metrics
         for name, module in self.model.named_modules():
             if isinstance(module, torch.nn.Conv2d):
-                c_in = module.in_channels
-                c_out = module.out_channels
-                k = module.kernel_size[0]
-                stride = module.stride[0]
+                c_in = module.in_channels  # type: ignore
+                c_out = module.out_channels  # type: ignore
+                k = module.kernel_size[0]  # type: ignore
+                stride = module.stride[0]  # type: ignore
                 
                 shape = input_shapes[name]
                 h_in, w_in = shape[2], shape[3]

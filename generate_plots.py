@@ -3,11 +3,11 @@ Unified Research Graph Generation Script
 Generates comparison plots for DRAM, Energy, and MAC Efficiency.
 """
 
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as plt  # type: ignore
+import numpy as np  # type: ignore
 import os
-from benchmark import BenchmarkRunner
-from energy_model import estimate_macs
+from benchmark import BenchmarkRunner  # type: ignore
+
 
 def get_data():
     """Gathers data across models and strategies for plotting."""
@@ -18,12 +18,12 @@ def get_data():
     for model in models:
         for strat in strategies:
             runner = BenchmarkRunner(mode=strat, model_name=model)
-            res = runner.run()
+            res = runner.run(average_power_mw=5000.0) # Assume 5W for Jetson Nano
             # Standardizing keys for plot consistency
             all_data.append({
                 "Model": model,
                 "Strategy": strat,
-                "DRAM": res["DRAM"],
+                "DRAM": res["Bytes"] / 4,
                 "Energy": res["Energy (mJ)"],
                 "MACs": res["MACs"],
                 "Latency": res["time_ms"]
@@ -71,7 +71,7 @@ def plot_comparison():
     # 3. MAC Efficiency (MACs per Joule)
     plt.figure(figsize=(12, 7))
     for i, model in enumerate(models):
-        efficiency = [d["MACs"] / (d["Energy"]/1000) if d["Energy"] > 0 else 0 for d in data if d["Model"] == model]
+        efficiency = [float(d["MACs"]) / (float(d["Energy"])/1000) if float(d["Energy"]) > 0 else 0 for d in data if d["Model"] == model]
         plt.bar(x + (i * width) - width/2, efficiency, width, label=f'Model: {model}')
     
     plt.ylabel('MACs / Joule')
