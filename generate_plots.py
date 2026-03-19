@@ -35,55 +35,81 @@ def plot_comparison():
     models = sorted(list(set(d["Model"] for d in data)))
     strategies = ["Baseline", "Naive Winograd", "Cache-Aware", "TVM Model"]
     
-    # 1. DRAM Accesses Comparison
-    plt.figure(figsize=(12, 7))
-    x = np.arange(len(strategies))
-    width = 0.35
+    # Use a clean, neat style
+    try:
+        plt.style.use('seaborn-v0_8-whitegrid')
+    except:
+        plt.style.use('ggplot')
+        
+    colors = plt.cm.tab10.colors # Use distinct colors
     
+    # Pre-calculate positions for 4 models to avoid congestion/overlap
+    x = np.arange(len(strategies))
+    width = 0.2
+    # Offsets for 4 items: -0.3, -0.1, 0.1, 0.3
+    offsets = [-1.5 * width, -0.5 * width, 0.5 * width, 1.5 * width]
+    
+    def format_plot(title, ylabel, log_scale=False):
+        plt.ylabel(ylabel, fontsize=12)
+        plt.title(title, fontsize=14, pad=15, fontweight='bold')
+        plt.xticks(x, strategies, fontsize=11)
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        if log_scale:
+            plt.yscale('log')
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.tight_layout()
+
+    # 1. DRAM Accesses Comparison (Bar Chart)
+    plt.figure(figsize=(10, 6))
     for i, model in enumerate(models):
         dram_vals = [d["DRAM"] for d in data if d["Model"] == model]
-        plt.bar(x + (i * width) - width/2, dram_vals, width, label=f'Model: {model}')
+        plt.bar(x + offsets[i], dram_vals, width, label=model.capitalize(), color=colors[i], edgecolor='black', linewidth=0.5)
     
-    plt.ylabel('DRAM Accesses')
-    plt.title('DRAM Traffic Analysis: Comparison of Scheduling Strategies')
-    plt.xticks(x, strategies)
-    plt.legend()
-    plt.grid(axis='y', linestyle='--', alpha=0.6)
-    plt.tight_layout()
-    plt.savefig('dram_comparison_unified.png', dpi=300)
+    format_plot('DRAM Traffic Analysis: Comparison of Scheduling Strategies', 'DRAM Accesses', log_scale=True)
+    plt.savefig('dram_comparison_unified.png', dpi=300, bbox_inches='tight')
     print("Generated: dram_comparison_unified.png")
 
-    # 2. Energy Consumption Comparison
-    plt.figure(figsize=(12, 7))
+    # 2. Energy Consumption Comparison (Bar Chart)
+    plt.figure(figsize=(10, 6))
     for i, model in enumerate(models):
         energy_vals = [d["Energy"] for d in data if d["Model"] == model]
-        plt.bar(x + (i * width) - width/2, energy_vals, width, label=f'Model: {model}')
+        plt.bar(x + offsets[i], energy_vals, width, label=model.capitalize(), color=colors[i], edgecolor='black', linewidth=0.5)
     
-    plt.ylabel('Energy (mJ)')
-    plt.title('Energy Consumption per Inference')
-    plt.xticks(x, strategies)
-    plt.legend()
-    plt.grid(axis='y', linestyle='--', alpha=0.6)
-    plt.tight_layout()
-    plt.savefig('energy_comparison_unified.png', dpi=300)
+    format_plot('Energy Consumption per Inference', 'Energy (mJ)')
+    plt.savefig('energy_comparison_unified.png', dpi=300, bbox_inches='tight')
     print("Generated: energy_comparison_unified.png")
 
-    # 3. MAC Efficiency (MACs per Joule)
-    plt.figure(figsize=(12, 7))
+    # 3. MAC Efficiency (MACs per Joule) (Bar Chart)
+    plt.figure(figsize=(10, 6))
     for i, model in enumerate(models):
-        efficiency = [float(d["MACs"]) / (float(d["Energy"])/1000) if float(d["Energy"]) > 0 else 0 for d in data if d["Model"] == model]
-        plt.bar(x + (i * width) - width/2, efficiency, width, label=f'Model: {model}')
+        efficiency = [float(d["MACs"]) / (float(d["Energy"])/1000) if float(d["Energy"]) > 0 else 0.0 for d in data if d["Model"] == model]
+        # Replace 0s with a small epsilon to avoid log scale warnings
+        efficiency = [e if e > 0 else 1e-5 for e in efficiency]
+        plt.bar(x + offsets[i], efficiency, width, label=model.capitalize(), color=colors[i], edgecolor='black', linewidth=0.5)
     
-    plt.ylabel('MACs / Joule')
-    plt.yscale('log')
-    plt.title('Energy Efficiency (MACs/J) - Log Scale')
-    plt.xticks(x, strategies)
-    plt.legend()
-    plt.grid(axis='y', linestyle='--', alpha=0.4)
-    plt.tight_layout()
-    # Save a second version specifically for the readme requirement
-    plt.savefig('mac_reduction_unified.png', dpi=300)
+    format_plot('Energy Efficiency (MACs/J)', 'MACs / Joule', log_scale=True)
+    plt.savefig('mac_reduction_unified.png', dpi=300, bbox_inches='tight')
     print("Generated: mac_reduction_unified.png")
+
+    # 4. Latency Trend Across Optimizations (Line Graph)
+    plt.figure(figsize=(10, 6))
+    for i, model in enumerate(models):
+        latency_vals = [d["Latency"] for d in data if d["Model"] == model]
+        plt.plot(x, latency_vals, marker='o', linewidth=2.5, markersize=8, label=model.capitalize(), color=colors[i])
+    
+    format_plot('Inference Latency Trend Across Optimizations', 'Latency (ms)')
+    plt.savefig('latency_trend_line.png', dpi=300, bbox_inches='tight')
+    print("Generated: latency_trend_line.png")
+
+    # 5. Energy vs Latency Trade-off (Line Graph)
+    plt.figure(figsize=(10, 6))
+    for i, model in enumerate(models):
+        energy_vals = [d["Energy"] for d in data if d["Model"] == model]
+        plt.plot(x, energy_vals, marker='s', linewidth=2.5, markersize=8, linestyle='--', label=model.capitalize(), color=colors[i])
+    
+    format_plot('Energy Consumption Trend Across Optimizations', 'Energy (mJ)')
+    plt.savefig('energy_trend_line.png', dpi=300, bbox_inches='tight')
+    print("Generated: energy_trend_line.png")
 
 if __name__ == "__main__":
     print("Running unified graph generator...")
