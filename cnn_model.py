@@ -1,6 +1,6 @@
-import torch
-import torch.nn as nn
-from torchvision import models
+import torch  # type: ignore
+import torch.nn as nn  # type: ignore
+from torchvision import models  # type: ignore
 
 def get_resnet18_full():
     """Returns the standard ResNet-18 model (ImageNet version)."""

@@ -53,46 +53,43 @@ def run_scaling_experiment():
         # Weight shape expected by scheduler (OC, C_in, KH, KW)
         weight_shape = (OUTPUT_CHANNELS, INPUT_CHANNELS, KERNEL_SIZE, KERNEL_SIZE)
         
-        # Mocks for metric calculations
-        mock_input = np.zeros(input_tensor_shape)
-        mock_weight = np.zeros(weight_shape)
-        
         for mode_key, mode_name in MODES.items():
             scheduler = MemoryScheduler(mode=mode_key)
             scheduler.reset_metrics()
             
             # Execute analytical model
             if mode_key == "Baseline":
-                scheduler.baseline_direct_conv(mock_input, mock_weight)
+                scheduler.baseline_direct_conv(INPUT_CHANNELS, OUTPUT_CHANNELS, h_in, w_in, KERNEL_SIZE, STRIDE)
             elif mode_key == "Naive Winograd":
-                scheduler.naive_winograd(mock_input, mock_weight)
+                scheduler.winograd_f23(INPUT_CHANNELS, OUTPUT_CHANNELS, h_in, w_in, mode="Naive")
             elif mode_key == "Cache-Aware":
-                scheduler.cache_aware_winograd(mock_input, mock_weight)
+                scheduler.winograd_f23(INPUT_CHANNELS, OUTPUT_CHANNELS, h_in, w_in, mode="Cache-Aware")
             elif mode_key == "TVM Model":
-                scheduler.memory_optimized_winograd(mock_input, mock_weight)
+                scheduler.winograd_f23(INPUT_CHANNELS, OUTPUT_CHANNELS, h_in, w_in, mode="Optimized")
             
             macs = scheduler.metrics["macs"]
-            dram = scheduler.metrics["dram_accesses"]
+            dram = scheduler.metrics["bytes_transferred"] / 4.0
             
             # Time calculation: Compute time (2 FLOPS per MAC) + Memory time
             comp_time = (2 * macs) / PEAK_FLOPS
             mem_time = (dram * WORD_SIZE) / DRAM_BW
             time_ms = (comp_time + mem_time) * 1000.0
             
-            # Energy calculation (mJ)
-            energy_mj = energy_model.calculate_energy(macs, dram)
+            # Analytical energy calculation (mJ): MAC = 3.1 pJ, DRAM = 220 pJ
+            energy_pj = macs * 3.1 + dram * 220.0
+            energy_mj = energy_pj / 1e9
             # Energy efficiency (MACs / Joule)
             macs_per_j = energy_model.calculate_efficiency(macs, energy_mj)
             
             results.append({
                 "Feature Map": label,
                 "Mode": mode_name,
-                "Time (ms)": round(time_ms, 2),
+                "Time (ms)": round(float(time_ms), 2),  # type: ignore
                 "MACs": int(macs),
                 "DRAM Accesses": int(dram),
-                "DRAM/MAC": round(dram / macs, 3) if macs > 0 else 0,
-                "Energy (mJ)": round(energy_mj, 4),
-                "MACs/J": round(macs_per_j, 2)
+                "DRAM/MAC": round(float(dram) / float(macs), 3) if macs > 0 else 0,  # type: ignore
+                "Energy (mJ)": round(float(energy_mj), 4),  # type: ignore
+                "MACs/J": round(float(macs_per_j), 2)  # type: ignore
             })
             
     return pd.DataFrame(results)
@@ -166,7 +163,7 @@ This experiment evaluates how memory traffic (DRAM accesses) and total energy co
 
 ## Discussion
 1. **DRAM Pressure**: Naive Winograd exhibits a rapid increase in DRAM accesses because it redundantly loads input tiles for every output channel filter. 
-2. **Cache-Aware Strategy**: By loading input tiles into the local cache and processing all output kernels iteratively, Cache-Aware Winograd reduces DRAM traffic by nearly $O(C\_out)$, bringing it closer to the baseline but with fewer MACs.
+2. **Cache-Aware Strategy**: By loading input tiles into the local cache and processing all output kernels iteratively, Cache-Aware Winograd reduces DRAM traffic by nearly $O(C\\_out)$, bringing it closer to the baseline but with fewer MACs.
 3. **TVM Optimization**: The 'TVM Optimized' mode (Memory-Optimized Winograd) provides the best scalability by fusing transformations and minimizing writes, achieving the lowest energy footprint across all feature map sizes.
 4. **Conclusion**: As feature map sizes grow, the memory-compute ratio of Cache-Aware Winograd remains superior, making it the preferred choice for large-scale CNN layers on edge hardware.
 """
