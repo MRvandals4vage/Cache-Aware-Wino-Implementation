@@ -84,10 +84,48 @@ class RuntimeCacheProbe:
     def _probe(self):
         import platform
         import datetime
+        import psutil
         
         self.cache_info["platform"] = platform.system()
         self.cache_info["cpu_model"] = platform.processor()
+        self.cache_info["architecture"] = platform.machine()
         self.cache_info["date_time"] = datetime.datetime.now().isoformat()
+        
+        try:
+            mem = psutil.virtual_memory()
+            self.cache_info["ram_bytes"] = mem.total
+            self.cache_info["swap_bytes"] = psutil.swap_memory().total
+        except Exception:
+            self.cache_info["ram_bytes"] = None
+        
+        # Pi and ARM specific checks
+        self.cache_info["is_raspberry_pi"] = False
+        self.cache_info["pi_model"] = None
+        self.cache_info["has_neon"] = False
+        self.cache_info["has_vcgencmd"] = False
+        
+        if platform.system() == "Linux":
+            # Check model
+            if os.path.exists("/proc/device-tree/model"):
+                with open("/proc/device-tree/model", "r") as f:
+                    model = f.read().strip('\x00').strip()
+                    self.cache_info["pi_model"] = model
+                    if "Raspberry Pi" in model:
+                        self.cache_info["is_raspberry_pi"] = True
+            
+            # Check NEON
+            if os.path.exists("/proc/cpuinfo"):
+                with open("/proc/cpuinfo", "r") as f:
+                    cpuinfo = f.read()
+                    if "neon" in cpuinfo.lower() or "asimd" in cpuinfo.lower():
+                        self.cache_info["has_neon"] = True
+            
+            # Check vcgencmd
+            try:
+                subprocess.check_output(["which", "vcgencmd"], stderr=subprocess.STDOUT)
+                self.cache_info["has_vcgencmd"] = True
+            except Exception:
+                self.cache_info["has_vcgencmd"] = False
         
         try:
             commit = subprocess.check_output(["git", "rev-parse", "HEAD"], universal_newlines=True).strip()

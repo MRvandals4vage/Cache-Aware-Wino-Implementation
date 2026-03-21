@@ -64,6 +64,8 @@ def _worker_fused(args):
     kernel = FusedWinogradKernel(use_c_ext=True)
     return kernel.execute(inp, U)
 
+from hardware_telemetry import HardwareTelemetry
+
 def run_microbenchmark():
     np.random.seed(42)
     
@@ -88,7 +90,7 @@ def run_microbenchmark():
     probe.save_descriptor("artifacts/platform_descriptor.json")
     print(f"Platform: {probe.get_info().get('platform', 'unknown')} | CPU: {probe.get_info().get('cpu_model', 'unknown')}")
     
-    hw_perf = HardwareCounter()
+    hw_perf = HardwareTelemetry(use_perf=True)
     tiler = CacheAdaptiveAutotiler()
     
     keys, values = zip(*configs.items())
@@ -169,7 +171,11 @@ def run_microbenchmark():
             "Test_Used": test_used,
             "P_Value_vs_Baseline": p_value,
             "Effect_Direction": effect_direction,
-            "HW_Perf_Output": "Logged" if perf_output else "Unsupported"
+            "HW_Perf_Output": "Logged" if perf_output.get("perf_stat") else "Unsupported",
+            "Pi_Temp": perf_output.get("pi_temp", "N/A"),
+            "Pi_Clock": perf_output.get("pi_clock_arm", "N/A"),
+            "Pi_Throttled": perf_output.get("pi_throttled", "N/A"),
+            "CPU_Percent_End": perf_output.get("cpu_percent", "N/A")
         })
         print(f"[{c_in}x{c_out} Fused={fused} Multi={multi}] Mean: {mean_lat:.2f}ms CI: ±{ci:.2f}ms | p_val: {p_value:.3e}")
         

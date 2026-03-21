@@ -49,3 +49,44 @@ docker run --rm -v $(pwd)/artifacts:/workspace/artifacts edge-winograd:jetson
 ## Release & Archival
 This repository is tagged as `v1.0.0-release` for artifact evaluation (Zenodo/ACM guidelines matching).
 All metadata for experiments, including raw CSVs and generated plots, refer to the timestamped files in the `artifacts/` directory. For a full breakdown of theoretical vs empirical measurements across $resnet$ and $vgg$ backbones, see the provided `benchmark_results_measured.md`.
+
+## Raspberry Pi Support Matrix
+
+| Feature | Raspberry Pi 4 | Raspberry Pi 5 | Notes |
+| :--- | :--- | :--- | :--- |
+| **Microbenchmarks (Latency/Tile Scheduling)** | Supported | Supported | Full core cache-adaptation. |
+| **Platform Discovery (`vcgencmd`/`psutil`)** | Supported | Supported | Outputs raw hardware status. |
+| **Hardware Counters (`perf`)** | Partial | Partial | Requires OS to have `linux-perf` and permissions. |
+| **Full Architecture Inference (PyTorch/ONNX)** | Optional | Optional | Only loaded if 64-bit OS + sufficient RAM handles framework installs. |
+| **Power/Energy Measurement** | Unsupported | Unsupported | Direct hardware power nodes missing on Pis. Requires external meter. |
+
+## Raspberry Pi Installation
+
+For an environment completely abstracted away from heavy ML tools that fail on ARMv7 or low RAM nodes, you can execute our Pi-native deployment script. This installs exclusively lightweight core requirements:
+
+```bash
+bash scripts/setup_raspberry_pi.sh
+```
+*Note: The script outputs logs to `artifacts/logs/raspberry_pi_setup.log`.*
+
+## Raspberry Pi Benchmark Commands
+
+Once installed, use the tailored runtime wrapper that automatically probes standard ARM `vcgencmd` structures and logs data properly:
+
+```bash
+bash scripts/run_raspberry_pi_benchmark.sh
+```
+*Note: The wrapper runs the rigorous microbenchmarks, captures thermal/clock throttling, and saves logs to `artifacts/logs/raspberry_pi_benchmark.log`.*
+
+## Known Limitations on Raspberry Pi
+
+- **No Direct Power/Energy API**: Unlike Jetson's `tegrastats`, the Raspberry Pi lacks native high-resolution system power profiling nodes in `sysfs`. Energy calculations cannot be blindly fabricated. 
+- **Optional HW Counters**: If permissions are missing for `perf` (e.g., standard Docker runs without `--privileged`), the benchmark falls back accurately to `psutil`/`vcgencmd` latency logging and omits simulated L1 cache miss stats.
+- **Python ML Framework Overhead**: Large ONNX packages are not officially tested or supported on small Pi configurations. We explicitly disable full-model tests if PyTorch/ONNX fail to invoke, protecting the runtime from Silent crashing. 
+
+## Optional External Power Measurement Workflow
+
+If you require precise *Joules/MAC* evaluation on the Raspberry Pi:
+1. Connect a USB hardware power meter (e.g., Makerhawk or RuiDeng) intercepting the Pi's power feed.
+2. Synchronize your meter's logging timeframe to match the output timestamps inside the `artifacts/processed/microbenchmark_results.csv`.
+3. Calculate `Energy = Average_Power` measured physically `* average_latency` exported by the benchmark. Do not substitute this algorithmically without genuine hardware.
