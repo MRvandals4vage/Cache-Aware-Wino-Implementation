@@ -82,18 +82,49 @@ class RuntimeCacheProbe:
             return None
 
     def _probe(self):
+        import platform
+        import datetime
+        
+        self.cache_info["platform"] = platform.system()
+        self.cache_info["cpu_model"] = platform.processor()
+        self.cache_info["date_time"] = datetime.datetime.now().isoformat()
+        
+        try:
+            commit = subprocess.check_output(["git", "rev-parse", "HEAD"], universal_newlines=True).strip()
+            self.cache_info["git_commit"] = commit
+        except Exception:
+            self.cache_info["git_commit"] = "unknown"
+            
         if not self._probe_sysfs():
             self._probe_lscpu()
             
-        # Fallbacks for typical edge devices if still None
+        # Fallbacks if still None (especially on Mac where lscpu/sysfs fails)
         if self.cache_info["l1d_size_bytes"] is None:
-            self.cache_info["l1d_size_bytes"] = 32768  # 32KB
-        if self.cache_info["l2_size_bytes"] is None:
-            self.cache_info["l2_size_bytes"] = 2097152 # 2MB
+            # On mac, try sysctl
+            if platform.system() == "Darwin":
+                try:
+                    l1d = subprocess.check_output(["sysctl", "-n", "hw.l1dcachesize"], universal_newlines=True).strip()
+                    self.cache_info["l1d_size_bytes"] = int(l1d)
+                    l2 = subprocess.check_output(["sysctl", "-n", "hw.l2cachesize"], universal_newlines=True).strip()
+                    self.cache_info["l2_size_bytes"] = int(l2)
+                    line = subprocess.check_output(["sysctl", "-n", "hw.cachelinesize"], universal_newlines=True).strip()
+                    self.cache_info["line_size_bytes"] = int(line)
+                except Exception:
+                    pass
+            if self.cache_info["l1d_size_bytes"] is None:
+                self.cache_info["l1d_size_bytes"] = 32768  # fallback
+                self.cache_info["l2_size_bytes"] = 2097152 # fallback
             
     def get_info(self):
         return self.cache_info
 
+    def save_descriptor(self, path="artifacts/platform_descriptor.json"):
+        import os
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(self.cache_info, f, indent=2)
+
 if __name__ == "__main__":
     probe = RuntimeCacheProbe()
+    probe.save_descriptor("platform_descriptor.json")
     print(json.dumps(probe.get_info(), indent=2))

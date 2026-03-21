@@ -17,40 +17,47 @@ To establish statistical significance, we conduct a Welch t-test analysis over 1
 
 ## 3. Results and Evaluation
 
-### 3.1 Initial Measurement-Driven Throughput
+#### 3.1 Measurement Core Latency
 
-| Architecture   | Mode                | Latency (ms) | FPS    | MACs (Measured) | DRAM (Est/Run) | Power (mW) | Energy (mJ) | MACs/J    |
-| :------------- | :------------------ | :----------: | :----: | :------------: | :------------: | :--------: | :---------: | :-------: |
-| resnet18       | Baseline            |        10.08 |   99.2 |  1,437,872,832 |     62,382,592 |     2529.1 |       25.49 |  5.64e+10 |
-| resnet18       | Naive Winograd      |         8.21 |  121.9 |    782,947,008 |     67,352,064 |     2525.2 |       20.72 |  3.78e+10 |
-| resnet18       | Cache-Aware         |         8.21 |  121.9 |    782,947,008 |     62,382,592 |     2519.3 |       20.67 |  3.79e+10 |
-| resnet18       | TVM Model           |         8.09 |  123.7 |    782,947,008 |     60,495,155 |     2511.7 |       20.31 |  3.85e+10 |
-| vgg16          | Baseline            |        31.28 |   32.0 | 13,884,537,600 |    146,789,120 |     2525.6 |       78.99 |  1.76e+11 |
-| vgg16          | Naive Winograd      |        33.73 |   29.6 |  6,342,768,736 |    190,762,752 |     2532.0 |       85.41 |  7.43e+10 |
-| vgg16          | Cache-Aware         |        31.02 |   32.2 |  6,342,768,736 |    146,789,120 |     2527.8 |       78.41 |  8.09e+10 |
-| vgg16          | TVM Model           |        31.18 |   32.1 |  6,342,768,736 |    143,847,027 |     2535.8 |       79.06 |  8.02e+10 |
-| alexnet        | Baseline            |         4.34 |  230.6 |    488,964,864 |     12,811,776 |     2538.9 |       11.01 |  4.44e+10 |
-| alexnet        | Naive Winograd      |         4.33 |  230.7 |    326,662,912 |     13,309,824 |     2500.0 |       10.84 |  3.01e+10 |
-| alexnet        | Cache-Aware         |         4.43 |  225.8 |    326,662,912 |     12,811,776 |     2550.7 |       11.30 |  2.89e+10 |
-| alexnet        | TVM Model           |         4.46 |  224.2 |    326,662,912 |     12,384,153 |     2538.0 |       11.32 |  2.89e+10 |
-| resnet34       | Baseline            |        14.59 |   68.5 |  2,849,026,752 |    111,962,624 |     2536.0 |       37.01 |  7.70e+10 |
-| resnet34       | Naive Winograd      |        14.47 |   69.1 |  1,407,742,656 |    121,520,640 |     2528.9 |       36.59 |  3.85e+10 |
-| resnet34       | Cache-Aware         |        14.32 |   69.8 |  1,407,742,656 |    111,962,624 |     2541.1 |       36.39 |  3.87e+10 |
-| resnet34       | TVM Model           |        14.27 |   70.1 |  1,407,742,656 |    108,055,040 |     2536.4 |       36.20 |  3.89e+10 |
+Platform descriptor context: `artifacts/platform_descriptor.json`
+
+| Platform | C_in | C_out | Fused | MultiCore | Mean Latency (ms) | 95% CI | Test Used | p-value | Effect |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Darwin | 32 | 32 | False | False | 2.94 | ±0.003 | N/A | 1.0e+00 | N/A |
+| Darwin | 32 | 32 | False | True | 4.02 | ±0.016 | Welch t-test | 0.0e+00 | Slower |
+| Darwin | 32 | 32 | True | False | 9.76 | ±0.050 | Welch t-test | 0.0e+00 | Slower |
+| Darwin | 32 | 32 | True | True | 11.34 | ±0.063 | Welch t-test | 0.0e+00 | Slower |
+| Darwin | 32 | 128 | False | False | 7.30 | ±0.045 | N/A | 1.0e+00 | N/A |
+| Darwin | 32 | 128 | False | True | 5.06 | ±0.065 | Welch t-test | 0.0e+00 | Faster |
+| Darwin | 32 | 128 | True | False | 11.31 | ±0.046 | Welch t-test | 0.0e+00 | Slower |
+| Darwin | 32 | 128 | True | True | 12.80 | ±0.133 | Welch t-test | 0.0e+00 | Slower |
+| Darwin | 128 | 32 | False | False | 7.14 | ±0.045 | N/A | 1.0e+00 | N/A |
+| Darwin | 128 | 32 | False | True | 5.06 | ±0.034 | Welch t-test | 0.0e+00 | Faster |
+| Darwin | 128 | 32 | True | False | 15.63 | ±0.996 | Welch t-test | 2.3e-55 | Slower |
+| Darwin | 128 | 32 | True | True | 13.04 | ±0.409 | Welch t-test | 4.7e-129 | Slower |
+| Darwin | 128 | 128 | False | False | 21.31 | ±0.058 | N/A | 1.0e+00 | N/A |
+| Darwin | 128 | 128 | False | True | 8.71 | ±0.082 | Welch t-test | 0.0e+00 | Faster |
+| Darwin | 128 | 128 | True | False | 17.30 | ±0.117 | Welch t-test | 0.0e+00 | Faster |
+| Darwin | 128 | 128 | True | True | 12.69 | ±0.095 | Welch t-test | 0.0e+00 | Faster |
+
+*Note: The hardware platforms probed (Darwin/macOS) currently return "Unsupported" for targeted L1/L2 `perf stat` data. Metrics previously marked with 'estimated' or fabricated numbers have been purged according to the rigorous tracking rules. Thus, derived energy calculations and hardware counters have legitimately been omitted since power-monitoring tools (tegrastats) are not executable natively on this runtime. Furthermore, `Energy = Average_Power * Average_Latency` and `MACs/J = Total_MACs / Energy_Joules` are the strict formulas used if telemetry succeeds.*
 
 ### 3.2 Discussion and Analysis
 
-From the measurements above, Naive Winograd reduces algorithmic MACs but suffers significant performance penalties (especially in VGG16) due to DRAM spillage caused by large intermediate buffers. The **Cache-Aware** integration prevents this regression by restoring DRAM read/writes back to the baseline level, allowing the MAC reduction to effectively dictate energy efficiency.
+The ablation results directly demonstrate the constraints of Python's execution model and caching over a unified memory Darwin host. 
 
-Our memory-aware framework specifically mitigates latency boundaries where Winograd would otherwise under-perform. When fused kernel execution is applied, intermediate caching becomes completely ephemeral at the thread block scale, ensuring steady improvements up to approximately $15-20\%$ better edge latency over the standard baseline, and complementary to graph-level compiler optimizations (like TVM).
+For smaller feature spaces ($C_{in} \le 32$, $C_{out} \le 32$), the `MultiCore` scheduling thread-pool overhead actually *slows down* execution, causing latency regressions observed through identical configurations (2.94ms vs 4.02ms). 
+However, under sustained heavy workloads (e.g. $128 \times 128$), the true multi-core capabilities win statistically ($p < 10^{-16}$). The baseline executes at $21.31$ ms, whereas Multi-Core completes in just $8.71$ ms—an unmistakable scaling demonstration.
+
+The **Fused Kernel** performance showcases a nuanced result: it yields a "Slower" evaluation for isolated $32 \times 32$ configurations, largely because Python `ctypes`/NumPy fallback fusion overhead overshadows simple memory bandwidth boundaries on dense cache chips. However, for $C_{in}=128, C_{out}=128$, the continuous cache-occupancy enabled by the Fused operation surpasses the isolated Baseline latency without multicore ($17.30$ vs $21.31$ ms).
 
 ## 4. Ablation Study & Cross-Platform Evaluation
 We conducted ablation over:
 - **Autotiling effect**: Static F(2,3) vs dynamic tile choices based on CPU characteristics.
 - **Micro-fusion**: Fused-kernel vs disjoint transformation logic.
-- **Multicore affinity**: Thread scaling on Jetson vs baseline Pi 5 architectures.
+- **Multicore affinity**: Thread scaling on Darwin architectures.
 
-Hardware counter analysis confirms that the proposed fused scheme consistently suppresses L1/L2 misses by minimizing working sets for each block execution, leading directly to higher execution speed without sacrificing numerical throughput.
+Due to the absence of supported `perf stat` events on the tested Darwin environment, hardware counter telemetry (L1/L2 misses) could not be reliably collected for these runs. Future deployments to edge edge-native Linux platforms (e.g. Jetson) will utilize the same tested artifact suite to directly evaluate these specific architectural cache behaviors.
 
 ## 5. State of The Art Comparison
 | Work / Method               | Platform Focus | Target Metric                      | Direct Compare | Key Method                 |
