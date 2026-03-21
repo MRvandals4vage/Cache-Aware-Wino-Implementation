@@ -7,6 +7,13 @@
   "num_cores": 12,
   "platform": "Darwin",
   "cpu_model": "arm",
-  "date_time": "2026-03-21T22:44:27.555741",
-  "git_commit": "20f82fe5492fa66dddf4ffb810c9065ee26bece7"
+  "architecture": "arm64",
+  "date_time": "2026-03-21T23:21:19.344468",
+  "ram_bytes": 25769803776,
+  "swap_bytes": 0,
+  "is_raspberry_pi": false,
+  "pi_model": null,
+  "has_neon": false,
+  "has_vcgencmd": false,
+  "git_commit": "27ebe75e1e02325895cbd9a15c1373b5044c6627"
 }

@@ -32,4 +32,4 @@ COPY . /workspace
 RUN gcc -shared -o fused_winograd.so -fPIC -O3 -march=native fused_winograd.c || true
 
 # Set default entrypoint
-CMD ["bash", "scripts/run_microbenchmarks.sh"]
+CMD ["bash", "scripts/run_raspberry_pi_benchmark.sh"]
