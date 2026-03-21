@@ -1,102 +1,51 @@
-# Cache-Aware Winograd Scheduling for Energy-Efficient CNN Inference on Edge CPUs
+# Runtime-Adaptive Cache-Aware Fused Winograd Execution for Edge CPUs
 
-[![Research Grade](https://img.shields.io/badge/Status-Research--Grade-blueviolet)](#)
-[![Hardware](https://img.shields.io/badge/Hardware-Jetson--Nano-green)](#)
-[![Framework](https://img.shields.io/badge/Framework-PyTorch--ONNX--TVM-blue)](#)
+This repository provides a benchmark suite and reference implementation for **Runtime-Adaptive Cache-Aware Fused Winograd Execution**. The focus of this work is analyzing and maximizing energy efficiency and runtime latency on resource-constrained Edge CPUs (ARM Cortex-A series, Jetson Nano, Raspberry Pi 5) via L1-cache footprints and dynamic tiling.
 
-This repository contains a comprehensive experimental framework for evaluating **Memory-Aware Convolution Execution Strategies** on Edge CPUs, specifically targeting the **NVIDIA Jetson Nano (ARM Cortex-A57)**.
+## Repository Layout
+- `benchmarks/`: Contains statistically rigorous microbenchmarks generating CSV outputs.
+- `scripts/`: Contains one-click execution wrappers.
+- `docker/`: Dockerfiles for standard reproduction environments (Jetson Nano, RPi 5).
+- `artifacts/`: Automatically saves the CSV results and plot generation.
+- `fused_winograd_kernel.py`: Python module / C-ext wrapper implementing our custom fused memory-aware operations.
+- `cache_adaptive_autotiler.py` & `runtime_cache_probe.py`: Heuristics framework for dynamic L1 footprints.
 
-The framework benchmarks convolution backends across standard CNN architectures (**ResNet-18, VGG16, AlexNet, ResNet34**) to evaluate how Winograd scheduling affecting latency, DRAM traffic, and total system energy.
+## Key Contributions
+1. **Cache Adaptive Autotiler**: Replaces naive manual fixed-schedule tiles with a probing mechanism that bounds Winograd $F(m,r)$ footprints to the physical L1 constraints.
+2. **Fused Winograd Execution**: Minimizes pipeline buffers (DRAM drops) by running transform, element-wise multiplication, and inverse transforms within an L1-pinned block.
+3. **Reproducible Benchmarks**: Comprehensive multi-metric evaluations with Welch t-tests and baseline comparisons.
 
----
+## Reproduction Flow (1-Command)
+For a straightforward validation of the methodology:
 
-## 🚀 Key Features
-
-- **Multi-Rail Hardware Power Monitoring**: Real-time hardware sampling of VDD_IN (Total), VDD_CPU, and VDD_GPU via INA3221 sensors at 10ms intervals.
-- **Measurement-Driven Profiling**: Replaces theoretical constants with high-precision metrics (`time.perf_counter`, `psutil`) for latency and power.
-- **Dynamic MAC Counting**: Runtime graph observation using the `thop` profiling library for precise operation counts across different layer types.
-- **Memory Traffic Validation**: Dynamic `MemoryTracer` that performs analytical tracing of architecture-specific data movement patterns.
-- **Cross-Backend Support**: Seamless comparison between **PyTorch Baseline**, **Naive Winograd**, **Cache-Aware**, and **TVM Model**.
-- **Publication-Ready Artifacts**: Automatic generation of Markdown reports and research-grade plots (`latency_comparison.png`, `energy_comparison.png`, etc.).
-
----
-
-## 🛠 Project Structure
-
-```text
-├── run_jetson_benchmark.py   # Primary research pipeline for real hardware profiling
-├── main.py                   # Main entry point for multi-architecture benchmarking
-├── benchmark.py              # Core measurement-driven benchmarking engine
-├── cnn_model.py              # standard full-scale architecture defs (ImageNet)
-├── memory_scheduler.py       # Winograd scheduling implementations
-├── memory_trace.py           # Analytical DRAM traffic estimator
-├── visualization.py          # Publication-ready plotting engine
-├── power_monitor.py          # Jetson INA3221 sensor integration & generic falls-backs
-└── tvm_compiler.py           # ONNX to TVM compilation utilities
-```
-
----
-
-## 📊 Methodology
-
-### 1. Power & Energy Measurement
-Total energy for an inference pass is derived from instantaneous hardware power samples and high-precision latency observations:
-$$E_{inference} = \int_{0}^{t} P(t) dt \approx P_{avg} \times t_{measured}$$
-
-### 2. Architecture Suite
-All models are standard full-sized versions (Input: $1 \times 3 \times 224 \times 224$):
-- **VGG16**: Deep stack of $3 \times 3$ convolutions, highly sensitive to memory traffic.
-- **AlexNet**: Classic architecture with diverse kernel sizes.
-- **ResNet-18/34**: Modern residual networks with varying depth.
-
----
-
-## 🏃 Getting Started
-
-### Prerequisites
-- Python 3.10+
-- PyTorch & Torchvision
-- ONNX & ONNX Runtime
-- Matplotlib, NumPy, Psutil, Thop
-
-### Installation
 ```bash
-git clone https://github.com/ishaanupponi/edge_conv_benchmarking.git
-cd edge_conv_benchmarking
+bash scripts/run_microbenchmarks.sh
+```
+This runs `benchmarks/microbenchmarks.py`, simulating combinations across core scaling ($1$ vs $N$), kernel types (Baseline vs Fused), and cache shapes. Results are automatically output into the `artifacts/` folder as structured `.csv` datasets.
+
+## Environment Setup
+Dependencies are pinned up to versions explicitly targeting our release profile.
+
+### Option A: Local Python Environment
+Create a `venv` and source dependencies:
+```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
+# To enable the fast C extension fallback
+gcc -shared -o fused_winograd.so -fPIC -O3 -march=native fused_winograd.c
 ```
 
-### Running Benchmarks
-To run the full multi-architecture experimental suite:
+### Option B: Dockerized Reproducibility Setup
+We provide robust Docker containers minimizing host configuration differences on specific platforms (Jetson or RPi5):
 ```bash
-python3 main.py --model all
+# Build Jetson Nano Image
+docker build -t edge-winograd:jetson -f docker/jetson-nano.Dockerfile .
+
+# Run entrypoint script
+docker run --rm -v $(pwd)/artifacts:/workspace/artifacts edge-winograd:jetson
 ```
 
----
-
-## 📈 Results Preview
-
-The framework produces a comprehensive measurement breakdown in `benchmark_results_measured.md`:
-
-| Architecture | Strategy | Latency (ms) | Power (mW) | Energy (mJ) | MACs/J |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| VGG16 | Baseline | 36.24 | 2531.1 | 91.73 | 1.69e+11 |
-| VGG16 | TVM Model | 44.16 | 2526.7 | 111.57 | 1.39e+11 |
-
-Reports and traces are automatically saved to `benchmark_results_measured.md` and `memory_analysis_report.md`.
-
----
-
-## 📝 Citation
-If you use this framework in your research, please cite:
-> "Cache-Aware Winograd Scheduling for Energy-Efficient CNN Inference on Edge CPUs" (2026).
-
-
-# System dependencies for Jetson
-sudo apt-get update
-sudo apt-get install -y libopenblas-base libopenmpi-dev
-
-# Exporting the Jetson-specific PyTorch (example for L4T 32.6+)
-# Visit https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048 for specific version links
-wget https://nvidia.box.com/shared/static/p57jwue9bh09p8vth7qthv0h598n6pfs.whl -O torch-1.8.0-cp36-cp36m-linux_aarch64.whl
-pip install torch-1.8.0-cp36-cp36m-linux_aarch64.whl
+## Release & Archival
+This repository is tagged as `v1.0.0-release` for artifact evaluation (Zenodo/ACM guidelines matching).
+All metadata for experiments, including raw CSVs and generated plots, refer to the timestamped files in the `artifacts/` directory. For a full breakdown of theoretical vs empirical measurements across $resnet$ and $vgg$ backbones, see the provided `benchmark_results_measured.md`.
