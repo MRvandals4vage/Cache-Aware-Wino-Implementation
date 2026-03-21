@@ -19,51 +19,46 @@ class CacheAdaptiveAutotiler:
 
     def _estimate_working_set(self, tile_dim, c_in, c_out):
         """
-        Estimate memory working set size of the tile in bytes.
-        Considers transformed input tile, transformed kernel tile, 
-        accumulation tile, and local thread buffers for a channel-group processing.
-        Assuming single thread working set per tile.
+        working_set(r) = transformed_input_bytes(r) + transformed_kernel_bytes(r) + accumulation_bytes(r) + thread_local_overhead
         """
         # Transformed input tile: tile_dim x tile_dim x c_in
-        input_tile_bytes = tile_dim * tile_dim * c_in * self.dtype_size
+        transformed_input_bytes = tile_dim * tile_dim * c_in * self.dtype_size
         
-        # Transformed kernel tile: tile_dim x tile_dim x c_in x c_out (can be large, so we assume blocking over c_out)
-        # Assuming block size over c_out is min(c_out, 16) for typical L1 blocking.
         c_out_block = min(c_out, 16)
-        kernel_tile_bytes = tile_dim * tile_dim * c_in * c_out_block * self.dtype_size
+        transformed_kernel_bytes = tile_dim * tile_dim * c_in * c_out_block * self.dtype_size
         
         # Accumulators / output tile
-        out_tile_bytes = tile_dim * tile_dim * c_out_block * self.dtype_size
+        accumulation_bytes = tile_dim * tile_dim * c_out_block * self.dtype_size
         
-        # Thread local temporary buffers (estimated as 2x tile size matrices for intermediate transforms)
-        temp_buffer_bytes = 2 * tile_dim * tile_dim * self.dtype_size
+        # Thread local temporary buffers
+        thread_local_overhead = 2 * tile_dim * tile_dim * self.dtype_size
         
-        total_bytes = input_tile_bytes + kernel_tile_bytes + out_tile_bytes + temp_buffer_bytes
-        return total_bytes
+        working_set_bytes = transformed_input_bytes + transformed_kernel_bytes + accumulation_bytes + thread_local_overhead
+        return working_set_bytes
 
     def _compute_reuse_score(self, tile_dim, c_in, c_out):
         """
-        Calculate a reuse score to prefer tile shapes that maximize data reuse.
-        reuse_score(r) = (C_out * tile_volume(r)) / cache_lines_used(r)
-        We define tile_volume as m*m. 
+        reuse_score(r) = useful_output_work(r) / estimated_cache_lines_touched(r)
+        useful_output_work(r) is output pixels generated per channel.
         """
         m = tile_dim - 2 # since r=3
-        out_pixels = m * m
-        # Number of loaded elements roughly (tile_dim*tile_dim*c_in). cache lines = total_bytes / line_size
+        useful_output_work = c_out * (m * m)
         total_bytes = self._estimate_working_set(tile_dim, c_in, min(c_out, 16))
-        cache_lines_used = math.ceil(total_bytes / self.line_size)
+        estimated_cache_lines_touched = math.ceil(total_bytes / float(self.line_size))
         
-        # Higher is better: more output pixels generated per cache line loaded
-        return (c_out * out_pixels) / float(cache_lines_used)
+        return useful_output_work / estimated_cache_lines_touched
 
     def select_best_tile(self, c_in, c_out):
         """
-        Evaluate candidate tile configurations and reject those that exceed safe capacity.
-        Returns the best configuration.
+        Evaluate candidate tile options based on formulas:
+        working_set(r) = transformed_input_bytes(r) + transformed_kernel_bytes(r) + accumulation_bytes(r) + thread_local_overhead
+        valid if working_set(r) <= alpha * target_cache_bytes
         """
         best_cand = None
         best_score = -1.0
-        safe_capacity = self.alpha * self.l1_capacity
+        target_cache_bytes = self.l1_capacity
+        safe_capacity = self.alpha * target_cache_bytes
+
         
         for cand in self.candidates:
             tile_dim = cand["tile"]

@@ -67,6 +67,10 @@ def _worker_fused(args):
 def run_microbenchmark():
     np.random.seed(42)
     
+    # We will ensure artifacts directories exist
+    os.makedirs("artifacts/raw", exist_ok=True)
+    os.makedirs("artifacts/processed", exist_ok=True)
+
     configs = {
         "C_in": [32, 128],
         "C_out": [32, 128],
@@ -79,74 +83,102 @@ def run_microbenchmark():
     
     results = []
     
-    # Try perf stat
-    hw_perf = HardwareCounter()
+    # Probe platform
+    probe = RuntimeCacheProbe()
+    probe.save_descriptor("artifacts/platform_descriptor.json")
+    print(f"Platform: {probe.get_info().get('platform', 'unknown')} | CPU: {probe.get_info().get('cpu_model', 'unknown')}")
     
-    # Autotiler for choosing
+    hw_perf = HardwareCounter()
     tiler = CacheAdaptiveAutotiler()
     
     keys, values = zip(*configs.items())
     combinations = [dict(zip(keys, v)) for v in product(*values)]
-    
     baseline_latencies = None
+    
+    # Raw latencies data
+    all_raw_latencies = []
     
     for cfg in combinations:
         c_in, c_out = cfg["C_in"], cfg["C_out"]
         fused, multi = cfg["fused"], cfg["multi_core"]
         
-        # Pick best tile based on autotiler
         tile_cfg = tiler.select_best_tile(c_in, c_out)
-        tile_size = tile_cfg["tile"]
         
-        # We generate a workload of say 100 tiles to simulate a layer
         num_tiles = 100
-        tasks = [generate_data(c_in, c_out, 4, 4) for _ in range(num_tiles)] # Hardcode F23 for evaluation
+        tasks = [generate_data(c_in, c_out, 4, 4) for _ in range(num_tiles)]
         
         scheduler = MulticoreScheduler(mode="multi" if multi else "single", num_threads=4 if multi else 1)
         worker = _worker_fused if fused else _worker_baseline
         
-        # Warmup
         for _ in range(warmup):
             scheduler.execute_tasks(tasks[:10], worker)
             
         latencies = []
         
-        # Full runs
-        for _ in range(runs):
+        hw_perf.start()
+        for i in range(runs):
             t0 = time.perf_counter()
             scheduler.execute_tasks(tasks, worker)
             t1 = time.perf_counter()
-            latencies.append((t1 - t0) * 1000.0) # ms
+            duration_ms = (t1 - t0) * 1000.0
+            latencies.append(duration_ms)
             
+            # Save raw metric
+            all_raw_latencies.append({
+                "C_in": c_in, "C_out": c_out, "Fused": fused, "Multi": multi, 
+                "Run_ID": i, "Latency_ms": duration_ms
+            })
+            
+        perf_output = hw_perf.stop()
+        
         mean_lat = np.mean(latencies)
-        std_lat = np.std(latencies)
+        median_lat = np.median(latencies)
+        std_lat = np.std(latencies, ddof=1)
+        min_lat = np.min(latencies)
+        max_lat = np.max(latencies)
         ci = 1.96 * (std_lat / np.sqrt(runs))
         
         if not fused and not multi:
             baseline_latencies = latencies
-            p_value = 1.0 # vs itself
+            test_used = "N/A"
+            p_value = 1.0
+            effect_direction = "N/A"
         else:
-            if baseline_latencies:
-                _, p_value = stats.ttest_ind(latencies, baseline_latencies, equal_var=False)
+            if baseline_latencies and np.var(latencies) > 0 and np.var(baseline_latencies) > 0:
+                test_used = "Welch t-test"
+                stat_val, p_value = stats.ttest_ind(latencies, baseline_latencies, equal_var=False)
+                effect_direction = "Faster" if mean_lat < np.mean(baseline_latencies) else "Slower"
             else:
+                test_used = "N/A"
                 p_value = 1.0
+                effect_direction = "N/A"
                 
         results.append({
+            "Platform": probe.get_info().get("platform", "Unknown"),
             "C_in": c_in,
             "C_out": c_out,
             "Tile": tile_cfg["name"],
             "Fused": fused,
             "MultiCore": multi,
             "Mean_Latency_ms": mean_lat,
+            "Median_Latency_ms": median_lat,
             "StdDev_ms": std_lat,
             "Conf_Interval_95": ci,
-            "P_Value_vs_Baseline": p_value
+            "Min_ms": min_lat,
+            "Max_ms": max_lat,
+            "Test_Used": test_used,
+            "P_Value_vs_Baseline": p_value,
+            "Effect_Direction": effect_direction,
+            "HW_Perf_Output": "Logged" if perf_output else "Unsupported"
         })
-        print(f"[{c_in}x{c_out} Fused={fused} Multi={multi}] Latency: {mean_lat:.2f}ms ± {ci:.2f}ms (p_val={p_value:.3f})")
+        print(f"[{c_in}x{c_out} Fused={fused} Multi={multi}] Mean: {mean_lat:.2f}ms CI: ±{ci:.2f}ms | p_val: {p_value:.3e}")
         
-    df = pd.DataFrame(results)
-    df.to_csv("microbenchmark_results.csv", index=False)
-    print("Saved microbenchmark_results.csv")
+    df_raw = pd.DataFrame(all_raw_latencies)
+    df_raw.to_csv("artifacts/raw/microbenchmark_raw_latencies.csv", index=False)
+    
+    df_proc = pd.DataFrame(results)
+    df_proc.to_csv("artifacts/processed/microbenchmark_results.csv", index=False)
+    print("Saved datasets to artifacts/raw/ and artifacts/processed/")
 
 if __name__ == "__main__":
     run_microbenchmark()

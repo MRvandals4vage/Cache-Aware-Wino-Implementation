@@ -31,4 +31,5 @@ COPY . /workspace
 # Compile C-ext fallback if applicable
 RUN gcc -shared -o fused_winograd.so -fPIC -O3 -march=native fused_winograd.c || true
 
-CMD ["python3", "-u", "main.py", "--platform", "pi5"]
+# Set default entrypoint
+CMD ["bash", "scripts/run_microbenchmarks.sh"]

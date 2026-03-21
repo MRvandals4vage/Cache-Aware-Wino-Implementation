@@ -1,0 +1,12 @@
+{
+  "l1d_size_bytes": 65536,
+  "l2_size_bytes": 4194304,
+  "line_size_bytes": 128,
+  "l1d_associativity": null,
+  "l2_associativity": null,
+  "num_cores": 12,
+  "platform": "Darwin",
+  "cpu_model": "arm",
+  "date_time": "2026-03-21T22:44:27.555741",
+  "git_commit": "20f82fe5492fa66dddf4ffb810c9065ee26bece7"
+}

@@ -24,4 +24,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . /workspace
 
 # Set default entrypoint
-CMD ["python3", "-u", "main.py", "--platform", "jetson"]
+CMD ["bash", "scripts/run_microbenchmarks.sh"]

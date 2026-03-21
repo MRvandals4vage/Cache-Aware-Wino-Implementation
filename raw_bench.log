@@ -1,0 +1,18 @@
+Platform: Darwin | CPU: arm
+[32x32 Fused=False Multi=False] Mean: 2.94ms CI: ±0.00ms | p_val: 1.000e+00
+[32x32 Fused=False Multi=True] Mean: 4.02ms CI: ±0.02ms | p_val: 0.000e+00
+[32x32 Fused=True Multi=False] Mean: 9.76ms CI: ±0.05ms | p_val: 0.000e+00
+[32x32 Fused=True Multi=True] Mean: 11.34ms CI: ±0.06ms | p_val: 0.000e+00
+[32x128 Fused=False Multi=False] Mean: 7.30ms CI: ±0.05ms | p_val: 1.000e+00
+[32x128 Fused=False Multi=True] Mean: 5.06ms CI: ±0.06ms | p_val: 0.000e+00
+[32x128 Fused=True Multi=False] Mean: 11.31ms CI: ±0.05ms | p_val: 0.000e+00
+[32x128 Fused=True Multi=True] Mean: 12.80ms CI: ±0.13ms | p_val: 0.000e+00
+[128x32 Fused=False Multi=False] Mean: 7.14ms CI: ±0.05ms | p_val: 1.000e+00
+[128x32 Fused=False Multi=True] Mean: 5.06ms CI: ±0.03ms | p_val: 0.000e+00
+[128x32 Fused=True Multi=False] Mean: 15.63ms CI: ±1.00ms | p_val: 2.286e-55
+[128x32 Fused=True Multi=True] Mean: 13.04ms CI: ±0.41ms | p_val: 4.728e-129
+[128x128 Fused=False Multi=False] Mean: 21.31ms CI: ±0.06ms | p_val: 1.000e+00
+[128x128 Fused=False Multi=True] Mean: 8.71ms CI: ±0.08ms | p_val: 0.000e+00
+[128x128 Fused=True Multi=False] Mean: 17.30ms CI: ±0.12ms | p_val: 0.000e+00
+[128x128 Fused=True Multi=True] Mean: 12.69ms CI: ±0.10ms | p_val: 0.000e+00
+Saved datasets to artifacts/raw/ and artifacts/processed/
