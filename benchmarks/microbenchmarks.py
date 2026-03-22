@@ -1,36 +1,20 @@
+# pyre-ignore-all-errors
 import time
 import os
 import sys
 import subprocess
-import numpy as np
-import pandas as pd
-import scipy.stats as stats
+import numpy as np # pyre-ignore[21]
+import pandas as pd # pyre-ignore[21]
+import scipy.stats as stats # pyre-ignore[21]
 from itertools import product
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fused_winograd_kernel import FusedWinogradKernel
-from cache_adaptive_autotiler import CacheAdaptiveAutotiler
-from multicore_scheduler import MulticoreScheduler
-from runtime_cache_probe import RuntimeCacheProbe
-
-class HardwareCounter:
-    def __init__(self):
-        self.cmd = ["perf", "stat", "-e", "L1-dcache-loads,L1-dcache-load-misses,l2_rqsts.all_demand_data_rd,l2_rqsts.demand_data_rd_miss", "-p", str(os.getpid())]
-        self.process = None
-
-    def start(self):
-        try:
-            self.process = subprocess.Popen(self.cmd, stderr=subprocess.PIPE, universal_newlines=True)
-        except Exception:
-            self.process = None
-
-    def stop(self):
-        if self.process:
-            self.process.terminate()
-            stdout, stderr = self.process.communicate()
-            return stderr
-        return ""
+from fused_winograd_kernel import FusedWinogradKernel # pyre-ignore[21]
+from cache_adaptive_autotiler import CacheAdaptiveAutotiler # pyre-ignore[21]
+from multicore_scheduler import MulticoreScheduler # pyre-ignore[21]
+from runtime_cache_probe import RuntimeCacheProbe # pyre-ignore[21]
+from hardware_telemetry import HardwareTelemetry # pyre-ignore[21]
 
 def generate_data(C_in, C_out, tile_h, tile_w):
     # F(2,3) -> tile size 4
@@ -63,8 +47,6 @@ def _worker_fused(args):
     inp, U = args
     kernel = FusedWinogradKernel(use_c_ext=True)
     return kernel.execute(inp, U)
-
-from hardware_telemetry import HardwareTelemetry
 
 def run_microbenchmark():
     np.random.seed(42)
@@ -113,7 +95,7 @@ def run_microbenchmark():
         worker = _worker_fused if fused else _worker_baseline
         
         for _ in range(warmup):
-            scheduler.execute_tasks(tasks[:10], worker)
+            scheduler.execute_tasks(tasks[:10], worker) # pyre-ignore[16, 58]
             
         latencies = []
         

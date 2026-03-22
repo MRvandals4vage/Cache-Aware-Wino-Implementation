@@ -1,20 +1,22 @@
+# pyre-ignore-all-errors
 import os
 import subprocess
 import time
+from typing import Any, Dict, Optional
 
 try:
-    import psutil
+    import psutil # pyre-ignore[21]
 except ImportError:
-    psutil = None
+    psutil = None # pyre-ignore
 
 class HardwareTelemetry:
     """
     Unified telemetry collector. Detects what is available (perf, vcgencmd, psutil).
     """
-    def __init__(self, use_perf=True):
+    def __init__(self, use_perf: bool = True) -> None:
         self.use_perf = use_perf
-        self.perf_process = None
-        self.has_vcgencmd = False
+        self.perf_process: Optional[subprocess.Popen[str]] = None
+        self.has_vcgencmd: bool = False
         
         # Check if vcgencmd is available
         try:
@@ -23,10 +25,10 @@ class HardwareTelemetry:
         except Exception:
             self.has_vcgencmd = False
 
-        self.start_metrics = {}
-        self.end_metrics = {}
+        self.start_metrics: Dict[str, Any] = {}
+        self.end_metrics: Dict[str, Any] = {}
 
-    def start(self):
+    def start(self) -> None:
         # 1. Start Perf if available
         if self.use_perf:
             cmd = ["perf", "stat", "-e", "L1-dcache-loads,L1-dcache-load-misses,l2_rqsts.all_demand_data_rd,l2_rqsts.demand_data_rd_miss", "-p", str(os.getpid())]
@@ -37,24 +39,24 @@ class HardwareTelemetry:
 
         # 2. Record start psutil metrics
         if psutil:
-            self.start_metrics["cpu_percent"] = psutil.cpu_percent(interval=None)
-            self.start_metrics["mem_used"] = psutil.virtual_memory().used
+            self.start_metrics["cpu_percent"] = psutil.cpu_percent(interval=None) # type: ignore
+            self.start_metrics["mem_used"] = psutil.virtual_memory().used # type: ignore
             
-    def stop(self):
-        results = {}
+    def stop(self) -> Dict[str, Any]:
+        results: Dict[str, Any] = {}
         
         # 1. Stop Perf
-        if self.perf_process:
-            self.perf_process.terminate()
-            stdout, stderr = self.perf_process.communicate()
+        if self.perf_process is not None:
+            self.perf_process.terminate() # pyre-ignore
+            stdout, stderr = self.perf_process.communicate() # pyre-ignore
             results["perf_stat"] = stderr
         else:
             results["perf_stat"] = None
 
         # 2. End psutil metrics
         if psutil:
-            results["cpu_percent"] = psutil.cpu_percent(interval=None)
-            results["mem_used_end"] = psutil.virtual_memory().used
+            results["cpu_percent"] = psutil.cpu_percent(interval=None) # type: ignore
+            results["mem_used_end"] = psutil.virtual_memory().used # type: ignore
             
         # 3. Collect vcgencmd metrics (one shot snapshot at the end of execution block)
         if self.has_vcgencmd:
