@@ -48,14 +48,6 @@ def export_latex_table(df, file_path, caption="Auto-generated LaTeX Table"):
         print(f"Failed to generate latex table {file_path}: {e}")
 
 def process_microbenchmarks(raw_dir, out_dir, export_latex):
-<<<<<<< HEAD
-<<<<<<< HEAD
-    csv_files = glob.glob(os.path.join(raw_dir, "micro_runs_*.csv"))
-    if not csv_files:
-        print("No microbenchmark raw files found.")
-=======
-=======
->>>>>>> c253299 (setting up pipeline)
     csv_file = os.path.join(raw_dir, "microbenchmark_raw_latencies.csv")
     if not os.path.exists(csv_file):
         print(f"No microbenchmark raw file found at {csv_file}.")
@@ -107,7 +99,6 @@ def process_microbenchmarks(raw_dir, out_dir, export_latex):
                 base_mean = float(np.mean(base_lats))
                 if len(base_lats) > 1 and len(latencies) > 1:
                     stat_val, p = stats.ttest_ind(latencies, base_lats, equal_var=False)
-<<<<<<< HEAD
                     p_value = "< 1e-10" if p < 1e-10 else float(p)
                     effect_dir = "Faster" if mean_lat < base_mean else "Slower"
                     imp = ((base_mean - mean_lat) / base_mean) * 100.0
@@ -123,158 +114,6 @@ def process_microbenchmarks(raw_dir, out_dir, export_latex):
             "Median_Latency_ms": round(median_lat, 4),
             "StdDev_ms": round(std_lat, 4),
             "CI95_ms": round(ci_95, 4),
-            "P_Value_vs_Baseline": p_value,
-            "Effect_Direction": effect_dir,
-            "Improvement_vs_Baseline_pct": pct_improvement,
-            "Runs": int(n_runs)
-        })
-        
-    if len(processed_data) < 28:
-        print(f"ERROR: Microbenchmark paper table generation failed. Expected 28 total combinations, found {len(processed_data)}.")
-        return False
-        
-    out_df = pd.DataFrame(processed_data).sort_values(by=["C_in", "C_out", "MultiCore", "Fused"])
-    csv_path = os.path.join(out_dir, "paper_table_microbench.csv")
-    out_df.to_csv(csv_path, index=False)
-    
-    if export_latex:
-        tex_path = os.path.join(out_dir, "paper_table_microbench.tex")
-        export_latex_table(out_df, tex_path, "Microbenchmark Custom Winograd Mechanism Evaluation")
-    return True
-
-def process_e2e(raw_dir, out_dir, logs_dir, export_latex):
-    csv_files = glob.glob(os.path.join(raw_dir, "e2e_runs_*.csv"))
-    # Filter out the error dummy file if it exists
-    csv_files = [f for f in csv_files if "e2e_runs_error.csv" not in f]
-    
-    if not csv_files:
-        print("No valid end-to-end raw files found.")
->>>>>>> e528b05 (centralizing outputs)
-        return False
-        
-    df_list = []
-    for rf in csv_files:
-        try:
-            df = pd.read_csv(rf)
-            if not df.empty and "latency_ms" in df.columns:
-                df_list.append(df)
-        except Exception:
-            pass
-            
-    if not df_list:
-        return False
-        
-<<<<<<< HEAD
-    alldf = pd.concat(df_list, ignore_index=True)
-    groups = alldf.groupby(["c_in", "c_out", "tile_dim", "fused", "threads"])
-    
-    # Identify baseline (fused=False, threads=1)
-    baseline_dict = {}
-    for name, group in groups:
-        if not group["fused"].iloc[0] and group["threads"].iloc[0] == 1:
-            baseline_key = (group["c_in"].iloc[0], group["c_out"].iloc[0])
-            baseline_dict[baseline_key] = group["latency_ms"].values
-
-    processed_data = []
-    
-    for name, group in groups:
-        c_in, c_out, tile_dim, fused, threads = name
-        latencies = group["latency_ms"].values
-=======
-    platform_data = {"os": "Unknown"}
-    try:
-        with open(os.path.join(logs_dir, "platform_descriptor.json"), "r") as f:
-            platform_data = json.load(f)
-    except Exception:
-        pass
-        
-    alldf = pd.concat(df_list, ignore_index=True)
-    
-    # Truthfulness Check: ensure exactly 4 models exist
-    unique_models = alldf["model"].unique()
-    if len(unique_models) < 4:
-        print(f"ERROR: End-to-End paper table generation failed. Required 4 models, but only found {len(unique_models)}: {unique_models}. Run with --model all")
-        return False
-        
-    groups = alldf.groupby(["model"])
-    processed_data = []
-    
-    model_name_mapping = {
-        "resnet18": "ResNet-18",
-        "resnet34": "ResNet-34",
-        "alexnet": "AlexNet",
-        "vgg16": "VGG16"
-    }
-    
-    raw_os = platform_data.get("os", "Unknown")
-    cpu_model = str(platform_data.get("cpu_model", "")).lower()
-    
-    # Resolve platform name for paper
-    paper_platform = raw_os
-    if raw_os == "Darwin":
-        paper_platform = "macOS (Apple Silicon)"
-    elif raw_os == "Linux":
-        if "bcm" in cpu_model or "raspberry" in cpu_model:
-            paper_platform = "Raspberry Pi"
-            if "bcm2711" in cpu_model:
-                paper_platform = "Raspberry Pi 4"
-            elif "bcm2712" in cpu_model:
-                paper_platform = "Raspberry Pi 5"
-        elif "tegra" in cpu_model or "cortex-a57" in cpu_model:
-            paper_platform = "Jetson Nano"
-    
-    for name, group in groups:
-        raw_model = name[0]
-        mapped_model = model_name_mapping.get(raw_model, raw_model)
-        
-        latencies = group["latency_ms"].values
-        fps_vals = group["throughput_fps"].values if "throughput_fps" in group.columns else []
->>>>>>> e528b05 (centralizing outputs)
-        n_runs = len(latencies)
-        
-        mean_lat = float(np.mean(latencies))
-        median_lat = float(np.median(latencies))
-        std_lat = float(np.std(latencies, ddof=1)) if n_runs > 1 else 0.0
-        ci_95 = float(1.96 * (std_lat / np.sqrt(n_runs))) if n_runs > 0 else 0.0
-<<<<<<< HEAD
-        
-        p_value = "N/A"
-        effect_dir = "N/A"
-        pct_improvement = "N/A"
-        
-        baseline_key = (c_in, c_out)
-        if fused or threads > 1:
-            if baseline_key in baseline_dict:
-                base_lats = baseline_dict[baseline_key]
-                base_mean = float(np.mean(base_lats))
-                if len(base_lats) > 1 and len(latencies) > 1:
-                    stat_val, p = stats.ttest_ind(latencies, base_lats, equal_var=False)
-                    # Don't print hard 0.0 for p-values underflow
-=======
->>>>>>> c253299 (setting up pipeline)
-                    p_value = "< 1e-10" if p < 1e-10 else float(p)
-                    effect_dir = "Faster" if mean_lat < base_mean else "Slower"
-                    imp = ((base_mean - mean_lat) / base_mean) * 100.0
-                    pct_improvement = round(imp, 2)
-
-        processed_data.append({
-            "C_in": int(c_in),
-            "C_out": int(c_out),
-            "Tile": f"F({int(tile_dim)},3)",
-            "Fused": bool(fused),
-            "MultiCore": bool(threads > 1),
-=======
-        mean_fps = float(np.mean(fps_vals)) if len(fps_vals) > 0 else (1000.0 / mean_lat if mean_lat > 0 else 0.0)
-        
-        processed_data.append({
-            "Model": mapped_model,
-            "Platform": paper_platform,
->>>>>>> e528b05 (centralizing outputs)
-            "Mean_Latency_ms": round(mean_lat, 4),
-            "Median_Latency_ms": round(median_lat, 4),
-            "StdDev_ms": round(std_lat, 4),
-            "CI95_ms": round(ci_95, 4),
-<<<<<<< HEAD
             "P_Value_vs_Baseline": p_value,
             "Effect_Direction": effect_dir,
             "Improvement_vs_Baseline_pct": pct_improvement,
@@ -412,47 +251,7 @@ def process_autotiling(logs_dir, out_dir, export_latex):
             c_out = dec.get("c_out", 0)
             workload = f"C_in={c_in}, C_out={c_out}"
             selected = dec.get("selected_tile", {})
-<<<<<<< HEAD
             
-=======
-            "FPS": round(mean_fps, 2),
-            "Runs": int(n_runs),
-            "Warmup_Runs": 10 # Standard warmup mapped from prompt requirements
-        })
-
-    out_df = pd.DataFrame(processed_data).sort_values(by=["Model"])
-    csv_path = os.path.join(out_dir, "paper_table_end_to_end.csv")
-    out_df.to_csv(csv_path, index=False)
-    
-    if export_latex:
-        tex_path = os.path.join(out_dir, "paper_table_end_to_end.tex")
-        export_latex_table(out_df, tex_path, "End-to-End CNN Workload Characterization")
-        
-    return True
-
-def process_autotiling(logs_dir, out_dir, export_latex):
-    desc_path = os.path.join(logs_dir, "platform_descriptor.json")
-    auto_path = os.path.join(logs_dir, "autotiling_decisions.json")
-    
-    if not os.path.exists(desc_path) or not os.path.exists(auto_path):
-        return False
-        
-    try:
-        with open(desc_path, "r") as f:
-            platform_data = json.load(f)
-        with open(auto_path, "r") as f:
-            auto_data = json.load(f)
-            
-        processed_data = []
-        for dec in auto_data:
-            c_in = dec.get("c_in", 0)
-            c_out = dec.get("c_out", 0)
-            workload = f"C_in={c_in}, C_out={c_out}"
-            selected = dec.get("selected_tile", {})
-            
->>>>>>> e528b05 (centralizing outputs)
-=======
->>>>>>> c253299 (setting up pipeline)
             processed_data.append({
                 "Platform": platform_data.get("os", "Unknown"),
                 "CPU_Model": platform_data.get("cpu_model", "Unknown"),

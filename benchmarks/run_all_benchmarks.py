@@ -50,7 +50,7 @@ def parse_args():
     parser.add_argument("--warmup", type=int, default=3, help="Number of warmup runs")
     parser.add_argument("--model", type=str, default="resnet18", choices=["resnet18", "resnet34", "alexnet", "vgg16", "all"], help="Model to benchmark (for end-to-end mode)")
     parser.add_argument("--out-dir", type=str, default="artifacts", help="Base directory for artifacts output")
-    parser.add_argument("--paper-assets", choices=["all", "tables", "figures", "none"], default="none", help="Generate paper-ready assets")
+    parser.add_argument("--paper-assets", choices=["all", "tables", "figures", "none"], default="all", help="Generate paper-ready assets")
     
     # We use type=str and check lower() to support 'true'/'false' correctly
     parser.add_argument("--export-latex", type=str, choices=["true", "false"], default="true", help="Export LaTeX tables alongside CSVs")
@@ -147,48 +147,6 @@ def run_micro(args, dirs, autotiler, platform_desc):
     out_file = os.path.join(dirs["raw"], "microbenchmark_raw_latencies.csv")
     df.to_csv(out_file, index=False)
     print(f"\nSaved {len(raw_data)} raw samples to {out_file}")
-
-def run_e2e(args, dirs):
-    print(f"Running End-to-End Benchmarks (ONNX Baseline)...")
-    if not ONNX_AVAILABLE:
-        print("ONNX modules not available or failed to import. Ensure torch and onnxruntime are installed.")
-        pd.DataFrame([{"mode": "end-to-end", "status": "unsupported", "reason": "missing_dependencies"}]).to_csv(
-            os.path.join(dirs["raw"], "e2e_runs_error.csv"), index=False
-        )
-        return
-        
-    models_to_test = ["resnet18", "resnet34", "alexnet", "vgg16"] if args.model == "all" else [args.model]
-    
-    # Run export script to ensure .onnx files exist
-    export_models()
-    
-    for model in models_to_test:
-        model_path = f"{model}.onnx"
-        if not os.path.exists(model_path):
-            print(f"Warning: {model_path} not found. Skipping...")
-            continue
-            
-        print(f"Benchmarking {model}...")
-        try:
-            result = run_onnx_inference(model_path, num_iterations=args.runs, num_warmup=args.warmup)
-            
-            raw_data = []
-            for run_id in range(len(result["latencies_ms"])):
-                raw_data.append({
-                    "mode": "end-to-end",
-                    "model": model,
-                    "run_id": run_id,
-                    "latency_ms": result["latencies_ms"][run_id],
-                    "throughput_fps": result["throughputs_fps"][run_id]
-                })
-                
-            df = pd.DataFrame(raw_data)
-            out_file = os.path.join(dirs["raw"], f"e2e_runs_{model}.csv")
-            df.to_csv(out_file, index=False)
-            print(f"Saved {len(raw_data)} e2e samples to {out_file}")
-            
-        except Exception as e:
-            print(f"Failed ONNX execution for {model}: {e}")
 
 def run_e2e(args, dirs):
     print(f"Running End-to-End Benchmarks (ONNX Baseline)...")
