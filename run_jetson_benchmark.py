@@ -10,21 +10,22 @@ Final experimental framework evaluating:
 Measures: Multi-rail Power, Real Energy, Calculated DRAM Traffic, CPU Utilization.
 -----------------
 """
+# pyre-ignore-all-errors[21]
 import os
 import time
-import psutil
-import torch
-import numpy as np
-from export_onnx import export_models
-from onnx_inference import run_onnx_inference
-from power_monitor import JetsonPowerMonitor
-from energy_model import estimate_macs, estimate_compute_energy, estimate_memory_energy
-from memory_trace import MemoryTracer
-from visualization import generate_bench_plots
+import psutil # pyre-ignore[21]
+import torch # pyre-ignore[21]
+import numpy as np # pyre-ignore[21]
+from export_onnx import export_models # pyre-ignore[21]
+from onnx_inference import run_onnx_inference # pyre-ignore[21]
+from power_monitor import JetsonPowerMonitor # pyre-ignore[21]
+from energy_model import estimate_macs, estimate_compute_energy, estimate_memory_energy # pyre-ignore[21]
+from memory_trace import MemoryTracer # pyre-ignore[21]
+from visualization import generate_bench_plots # pyre-ignore[21]
 
 # Optional TVM import
 try:
-    from tvm_compiler import compile_tvm_model, run_tvm_inference
+    from tvm_compiler import compile_tvm_model, run_tvm_inference # pyre-ignore[21]
     TVM_AVAILABLE = True
 except ImportError:
     TVM_AVAILABLE = False
@@ -78,7 +79,7 @@ def main():
         onnx_file = f"{model_name}.onnx"
         
         # We need the torch model for MemoryTracer
-        from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full
+        from cnn_model import get_resnet18_full, get_vgg16_full, get_alexnet_full, get_resnet34_full # pyre-ignore[21]
         if model_name == "resnet18":
             torch_model = get_resnet18_full().eval()
         elif model_name == "vgg16":
@@ -185,7 +186,7 @@ def main():
     generate_bench_plots(all_results, "resnet18")
     
     # Generate Memory Analysis Report (Step 2)
-    from memory_analysis import generate_memory_analysis_report
+    from memory_analysis import generate_memory_analysis_report # pyre-ignore[21]
     generate_memory_analysis_report(all_results)
 
     print(f"\nExperiment complete. Reports and graphs (dram_comparison.png, etc.) generated.")

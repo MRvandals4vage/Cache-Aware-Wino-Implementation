@@ -1,0 +1,5474 @@
+[
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 2624.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  },
+  {
+    "method": "fused",
+    "alloc_count": 3,
+    "alloc_size_bytes": 5184.0,
+    "neon_supported": false
+  }
+]

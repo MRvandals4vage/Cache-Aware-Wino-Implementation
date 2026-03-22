@@ -1,0 +1,13 @@
+{
+  "supported": {
+    "perf": false,
+    "vcgencmd": false,
+    "powermetrics": true
+  },
+  "logs": {
+    "cpu_percent": 10.3,
+    "perf": "Unsupported or not found",
+    "vcgencmd": "Unsupported or not found",
+    "powermetrics": "Skipped (likely requires sudo)"
+  }
+}
