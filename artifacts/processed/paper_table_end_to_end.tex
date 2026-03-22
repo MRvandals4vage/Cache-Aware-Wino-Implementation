@@ -1,0 +1,15 @@
+% End-to-End CNN Workload Characterization
+\begin{table*}[t]
+\centering
+\begin{tabular}{lllllllll}
+\toprule
+Model & Platform & Mean\_Latency\_ms & Median\_Latency\_ms & StdDev\_ms & CI95\_ms & FPS & Runs & Warmup\_Runs \\
+\midrule
+AlexNet & macOS (Apple Silicon) & 3.91 & 3.588 & 0.9034 & 0.2504 & 264.2 & 50 & 10 \\
+ResNet-18 & macOS (Apple Silicon) & 8.306 & 7.558 & 1.514 & 0.4196 & 123.5 & 50 & 10 \\
+ResNet-34 & macOS (Apple Silicon) & 15.77 & 13.61 & 3.466 & 0.9607 & 66.11 & 50 & 10 \\
+VGG16 & macOS (Apple Silicon) & 53.59 & 49.71 & 10.64 & 2.95 & 19.2 & 50 & 10 \\
+\bottomrule
+\end{tabular}
+\caption{End-to-End CNN Workload Characterization}
+\end{table*}
