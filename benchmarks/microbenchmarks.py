@@ -10,10 +10,10 @@ from itertools import product
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fused_winograd_kernel import FusedWinogradKernel # pyre-ignore[21]
-from cache_adaptive_autotiler import CacheAdaptiveAutotiler # pyre-ignore[21]
+from src.fused_winograd_kernel import FusedWinogradKernel # pyre-ignore[21]
+from src.cache_adaptive_autotiler import CacheAdaptiveAutotiler # pyre-ignore[21]
 from multicore_scheduler import MulticoreScheduler # pyre-ignore[21]
-from runtime_cache_probe import RuntimeCacheProbe # pyre-ignore[21]
+from src.runtime_cache_probe import build_platform_descriptor, save_platform_descriptor # pyre-ignore[21]
 from hardware_telemetry import HardwareTelemetry # pyre-ignore[21]
 
 def generate_data(C_in, C_out, tile_h, tile_w):
@@ -45,8 +45,8 @@ def _worker_baseline(args):
 
 def _worker_fused(args):
     inp, U = args
-    kernel = FusedWinogradKernel(use_c_ext=True)
-    return kernel.execute(inp, U)
+    kernel = FusedWinogradKernel()
+    return kernel.run_fused(inp, U)
 
 def run_microbenchmark():
     np.random.seed(42)
@@ -68,9 +68,9 @@ def run_microbenchmark():
     results = []
     
     # Probe platform
-    probe = RuntimeCacheProbe()
-    probe.save_descriptor("artifacts/platform_descriptor.json")
-    print(f"Platform: {probe.get_info().get('platform', 'unknown')} | CPU: {probe.get_info().get('cpu_model', 'unknown')}")
+    platform_info = build_platform_descriptor()
+    save_platform_descriptor(platform_info, "artifacts/platform_descriptor.json")
+    print(f"Platform: {platform_info.get('os', 'unknown')} | CPU: {platform_info.get('cpu_model', 'unknown')}")
     
     hw_perf = HardwareTelemetry(use_perf=True)
     tiler = CacheAdaptiveAutotiler()
@@ -138,10 +138,10 @@ def run_microbenchmark():
                 effect_direction = "N/A"
                 
         results.append({
-            "Platform": probe.get_info().get("platform", "Unknown"),
+            "Platform": platform_info.get("os", "Unknown"),
             "C_in": c_in,
             "C_out": c_out,
-            "Tile": tile_cfg["name"],
+            "Tile": tile_cfg["selected_tile"]["name"] if isinstance(tile_cfg, dict) and "selected_tile" in tile_cfg else getattr(tile_cfg, "name", str(tile_cfg)),
             "Fused": fused,
             "MultiCore": multi,
             "Mean_Latency_ms": mean_lat,

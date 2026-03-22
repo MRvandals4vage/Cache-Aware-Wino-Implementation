@@ -15,6 +15,17 @@ from src.cache_adaptive_autotiler import CacheAdaptiveAutotiler
 from src.fused_winograd_kernel import FusedWinogradKernel
 from src.locality_scheduler import LocalityScheduler
 
+# Import ONNX execution from root
+try:
+    from export_onnx import export_models
+    from onnx_inference import run_onnx_inference
+    ONNX_AVAILABLE = True
+except ImportError:
+    ONNX_AVAILABLE = False
+
+from process_results import run_all as process_paper_results
+from generate_plots import run_all as generate_paper_plots
+
 def generate_random_tasks(scheduler, c_in, c_out, h, w, tile_dim):
     return scheduler.generate_tile_tasks(h, w, tile_dim, c_in, c_out)
 
@@ -37,8 +48,13 @@ def parse_args():
     parser.add_argument("--fused", action="store_true", help="Enable fused execution")
     parser.add_argument("--runs", type=int, default=10, help="Number of measurement runs")
     parser.add_argument("--warmup", type=int, default=3, help="Number of warmup runs")
-    parser.add_argument("--model", type=str, default="resnet18", help="Model to benchmark (for end-to-end mode)")
+    parser.add_argument("--model", type=str, default="resnet18", choices=["resnet18", "resnet34", "alexnet", "vgg16", "all"], help="Model to benchmark (for end-to-end mode)")
     parser.add_argument("--out-dir", type=str, default="artifacts", help="Base directory for artifacts output")
+    parser.add_argument("--paper-assets", choices=["all", "tables", "figures", "none"], default="none", help="Generate paper-ready assets")
+    
+    # We use type=str and check lower() to support 'true'/'false' correctly
+    parser.add_argument("--export-latex", type=str, choices=["true", "false"], default="true", help="Export LaTeX tables alongside CSVs")
+    
     return parser.parse_args()
 
 def run_micro(args, dirs, autotiler, platform_desc):
@@ -115,6 +131,48 @@ def run_micro(args, dirs, autotiler, platform_desc):
     df.to_csv(out_file, index=False)
     print(f"Saved {len(raw_data)} raw samples to {out_file}")
 
+def run_e2e(args, dirs):
+    print(f"Running End-to-End Benchmarks (ONNX Baseline)...")
+    if not ONNX_AVAILABLE:
+        print("ONNX modules not available or failed to import. Ensure torch and onnxruntime are installed.")
+        pd.DataFrame([{"mode": "end-to-end", "status": "unsupported", "reason": "missing_dependencies"}]).to_csv(
+            os.path.join(dirs["raw"], "e2e_runs_error.csv"), index=False
+        )
+        return
+        
+    models_to_test = ["resnet18", "resnet34", "alexnet", "vgg16"] if args.model == "all" else [args.model]
+    
+    # Run export script to ensure .onnx files exist
+    export_models()
+    
+    for model in models_to_test:
+        model_path = f"{model}.onnx"
+        if not os.path.exists(model_path):
+            print(f"Warning: {model_path} not found. Skipping...")
+            continue
+            
+        print(f"Benchmarking {model}...")
+        try:
+            result = run_onnx_inference(model_path, num_iterations=args.runs, num_warmup=args.warmup)
+            
+            raw_data = []
+            for run_id in range(len(result["latencies_ms"])):
+                raw_data.append({
+                    "mode": "end-to-end",
+                    "model": model,
+                    "run_id": run_id,
+                    "latency_ms": result["latencies_ms"][run_id],
+                    "throughput_fps": result["throughputs_fps"][run_id]
+                })
+                
+            df = pd.DataFrame(raw_data)
+            out_file = os.path.join(dirs["raw"], f"e2e_runs_{model}.csv")
+            df.to_csv(out_file, index=False)
+            print(f"Saved {len(raw_data)} e2e samples to {out_file}")
+            
+        except Exception as e:
+            print(f"Failed ONNX execution for {model}: {e}")
+
 def main():
     args = parse_args()
     dirs = setup_directories(args.out_dir)
@@ -131,11 +189,21 @@ def main():
     if args.mode == "micro":
         run_micro(args, dirs, autotiler, platform_desc)
     else:
-        print("End-to-end benchmark mode is a placeholder, only micro is fully supported.")
-        # We simulate writing an empty raw CSV for pipeline compatibility
-        pd.DataFrame([{"mode": "end-to-end", "status": "unsupported"}]).to_csv(
-            os.path.join(dirs["raw"], "e2e_runs.csv"), index=False
-        )
+        run_e2e(args, dirs)
+        
+    export_latex = (args.export_latex.lower() == "true")
+    
+    # 3. Post-Process Paper Assets
+    if args.paper_assets in ["all", "tables"]:
+        print("\n--- Generating Paper Tables ---")
+        process_paper_results(dirs["raw"], dirs["processed"], dirs["logs"], export_latex)
+        
+    if args.paper_assets in ["all", "figures"]:
+        print("\n--- Generating Paper Figures ---")
+        if args.paper_assets == "figures":
+            # If ONLY figures requested, ensure stats exist first by running a quiet process
+            process_paper_results(dirs["raw"], dirs["processed"], dirs["logs"], export_latex=False)
+        generate_paper_plots(dirs["processed"], dirs["plots"])
 
 if __name__ == "__main__":
     main()

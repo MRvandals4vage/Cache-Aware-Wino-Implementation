@@ -9,6 +9,6 @@ echo "Running microbenchmarks..."
 python3 benchmarks/microbenchmarks.py
 
 echo "Generating plots..."
-python3 generate_microbenchmark_plots.py
+python3 benchmarks/generate_plots.py
 
 echo "Microbenchmarking complete. Results saved to artifacts/"

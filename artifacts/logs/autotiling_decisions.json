@@ -24,5 +24,96 @@
     "score": 0.9110320284697508,
     "l1_capacity": 65536,
     "working_set": 35968
+  },
+  {
+    "selected_tile": {
+      "name": "F(4,3)",
+      "m": 4,
+      "r": 3,
+      "tile": 6
+    },
+    "c_in": 16,
+    "c_out": 32,
+    "score": 1.5657492354740061,
+    "l1_capacity": 65536,
+    "working_set": 41760
+  },
+  {
+    "selected_tile": {
+      "name": "F(2,3)",
+      "m": 2,
+      "r": 3,
+      "tile": 4
+    },
+    "c_in": 32,
+    "c_out": 64,
+    "score": 0.9110320284697508,
+    "l1_capacity": 65536,
+    "working_set": 35968
+  },
+  {
+    "selected_tile": {
+      "name": "F(4,3)",
+      "m": 4,
+      "r": 3,
+      "tile": 6
+    },
+    "c_in": 16,
+    "c_out": 32,
+    "score": 1.5657492354740061,
+    "l1_capacity": 65536,
+    "working_set": 41760
+  },
+  {
+    "selected_tile": {
+      "name": "F(2,3)",
+      "m": 2,
+      "r": 3,
+      "tile": 4
+    },
+    "c_in": 32,
+    "c_out": 64,
+    "score": 0.9110320284697508,
+    "l1_capacity": 65536,
+    "working_set": 35968
+  },
+  {
+    "selected_tile": {
+      "name": "F(4,3)",
+      "m": 4,
+      "r": 3,
+      "tile": 6
+    },
+    "c_in": 16,
+    "c_out": 32,
+    "score": 1.5657492354740061,
+    "l1_capacity": 65536,
+    "working_set": 41760
+  },
+  {
+    "selected_tile": {
+      "name": "F(2,3)",
+      "m": 2,
+      "r": 3,
+      "tile": 4
+    },
+    "c_in": 32,
+    "c_out": 64,
+    "score": 0.9110320284697508,
+    "l1_capacity": 65536,
+    "working_set": 35968
+  },
+  {
+    "selected_tile": {
+      "name": "F(4,3)",
+      "m": 4,
+      "r": 3,
+      "tile": 6
+    },
+    "c_in": 16,
+    "c_out": 32,
+    "score": 1.5657492354740061,
+    "l1_capacity": 65536,
+    "working_set": 41760
   }
 ]
