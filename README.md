@@ -34,31 +34,26 @@ docker build -t edge-winograd:rpi -f docker/raspberry-pi.Dockerfile .
 docker run --rm -v $(pwd)/artifacts:/app/artifacts edge-winograd:rpi
 ```
 
-## Running Benchmarks
+## Running Benchmarks (Publication Pipeline)
 
-### 1. Benchmark Execution
-To generate raw data across different configurations, use the orchestrator:
+### 1. Benchmark Execution and Paper Assets
+To generate raw data across different configurations and automatically output paper-facing latex tables and plots, use the orchestrator:
 ```bash
-source venv_winograd/bin/activate
-python3 benchmarks/run_all_benchmarks.py --mode micro --runs 30 --threads 4 --fused
-```
-This writes CSV files into `artifacts/raw/` and logs the autotiler decisions and platform attributes into `artifacts/logs/`.
+# 1. Microbenchmarks (Evaluates Custom Fused Winograd Kernels)
+python3 benchmarks/run_all_benchmarks.py --mode micro --runs 1000 --warmup 20 --paper-assets all
 
-### 2. Processing Results
-Process the raw latencies into structured statistical metrics (means, medians, Welch's t-test p-values):
+# 2. End-to-End ONNX CNN Workloads (ResNet, VGG, AlexNet)
+python3 benchmarks/run_all_benchmarks.py --mode end-to-end --model all --runs 50 --warmup 10 --paper-assets all
+```
+This writes raw datasets into `artifacts/raw/`, processes statistics seamlessly into `artifacts/processed/`, and generates matplotlib publication figures into `artifacts/plots/`.
+
+### 2. Manual Processing / Latex Tuning (Optional)
+If you wish to rerun the generators on existing raw data to toggle latex features or format tables:
 ```bash
-python3 benchmarks/process_results.py
+python3 benchmarks/process_results.py --export-latex true
 ```
-This writes the final dataset to `artifacts/processed/`.
 
-### 3. Generating Plots
-Generate visualizations of latencies and statistical outcomes:
-```bash
-python3 benchmarks/generate_plots.py
-```
-Plots are saved directly to `artifacts/plots/`. No hardcoded dummy data is used.
-
-### 4. Collecting Telemetry
+### 3. Collecting Telemetry
 Collect ad-hoc hardware counters and statistics (e.g., perf, vcgencmd for temperature/clocks):
 ```bash
 python3 benchmarks/collect_counters.py
