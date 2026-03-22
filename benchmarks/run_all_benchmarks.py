@@ -58,11 +58,24 @@ def parse_args():
     return parser.parse_args()
 
 def run_micro(args, dirs, autotiler, platform_desc):
-    print("Running Microbenchmarks...")
+    print("Running Microbenchmarks (All Workloads & Configurations)...")
     
+    # Required workload matrix
     configs = [
         {"c_in": 16, "c_out": 32, "h": 14, "w": 14},
+        {"c_in": 32, "c_out": 16, "h": 14, "w": 14},
+        {"c_in": 32, "c_out": 32, "h": 14, "w": 14},
         {"c_in": 32, "c_out": 64, "h": 14, "w": 14},
+        {"c_in": 64, "c_out": 32, "h": 14, "w": 14},
+        {"c_in": 64, "c_out": 64, "h": 14, "w": 14},
+        {"c_in": 128, "c_out": 128, "h": 14, "w": 14},
+    ]
+    
+    modes = [
+        {"fused": False, "threads": 1, "role": "baseline"},
+        {"fused": False, "threads": 4, "role": "comparison"},
+        {"fused": True, "threads": 1, "role": "comparison"},
+        {"fused": True, "threads": 4, "role": "comparison"}
     ]
     
     kernel = FusedWinogradKernel()
@@ -75,61 +88,107 @@ def run_micro(args, dirs, autotiler, platform_desc):
         
         if args.tile is not None:
             tile_dim = args.tile
-            print(f"Using forced tile size: {tile_dim}")
         else:
             decision = autotiler.select_best_tile(c_in, c_out)
             tile_dim = decision["selected_tile"]["tile"]
             autotiler.save_autotiling_decision(decision, os.path.join(dirs["logs"], "autotiling_decisions.json"))
-            print(f"Autotiler selected tile size {tile_dim} config for {c_in}x{c_out}")
             
+        print(f"\nWorkload {c_in}x{c_out} (Tile: {tile_dim})")
+        
         tasks = generate_random_tasks(scheduler, c_in, c_out, h, w, tile_dim)
         ordered_tasks = scheduler.group_tasks_by_channel_locality(tasks)
-        
-        if args.threads > 1:
-            plan = scheduler.schedule_multi_core(ordered_tasks, num_cores=args.threads)
-        else:
-            plan = scheduler.schedule_single_core(ordered_tasks)
             
         # Provide dummy data
         input_tile = np.random.randn(c_in, 4, 4).astype(np.float32)
         U = np.random.randn(c_out, c_in, 4, 4).astype(np.float32)
         
-        # Warmup
-        for _ in range(args.warmup):
-            for task_item in plan:
-                if args.fused:
-                    kernel.run_fused(input_tile, U)
-                else:
-                    kernel.run_non_fused(input_tile, U)
-                    
-        # Measurement
-        for run_id in range(args.runs):
-            t0 = time.perf_counter()
-            for task_item in plan:
-                if args.fused:
-                    kernel.run_fused(input_tile, U)
-                else:
-                    kernel.run_non_fused(input_tile, U)
-            t1 = time.perf_counter()
+        for mode in modes:
+            fused, threads = mode["fused"], mode["threads"]
             
-            duration_ms = (t1 - t0) * 1000.0
+            if threads > 1:
+                plan = scheduler.schedule_multi_core(ordered_tasks, num_cores=threads)
+            else:
+                plan = scheduler.schedule_single_core(ordered_tasks)
             
-            raw_data.append({
-                "mode": "micro",
-                "c_in": c_in,
-                "c_out": c_out,
-                "h": h, "w": w,
-                "tile_dim": tile_dim,
-                "fused": args.fused,
-                "threads": args.threads,
-                "run_id": run_id,
-                "latency_ms": duration_ms
-            })
-            
+            # Warmup
+            for _ in range(args.warmup):
+                for task_item in plan:
+                    if fused:
+                        kernel.run_fused(input_tile, U)
+                    else:
+                        kernel.run_non_fused(input_tile, U)
+                        
+            # Measurement
+            print(f"  Measuring Fused={fused}, Cores={threads}...")
+            for run_id in range(args.runs):
+                t0 = time.perf_counter()
+                for task_item in plan:
+                    if fused:
+                        kernel.run_fused(input_tile, U)
+                    else:
+                        kernel.run_non_fused(input_tile, U)
+                t1 = time.perf_counter()
+                
+                duration_ms = (t1 - t0) * 1000.0
+                
+                raw_data.append({
+                    "mode": "micro",
+                    "c_in": c_in,
+                    "c_out": c_out,
+                    "h": h, "w": w,
+                    "tile_dim": tile_dim,
+                    "fused": fused,
+                    "threads": threads,
+                    "run_id": run_id,
+                    "latency_ms": duration_ms
+                })
+                
     df = pd.DataFrame(raw_data)
-    out_file = os.path.join(dirs["raw"], f"micro_runs_fused_{args.fused}_th_{args.threads}.csv")
+    out_file = os.path.join(dirs["raw"], "microbenchmark_raw_latencies.csv")
     df.to_csv(out_file, index=False)
-    print(f"Saved {len(raw_data)} raw samples to {out_file}")
+    print(f"\nSaved {len(raw_data)} raw samples to {out_file}")
+
+def run_e2e(args, dirs):
+    print(f"Running End-to-End Benchmarks (ONNX Baseline)...")
+    if not ONNX_AVAILABLE:
+        print("ONNX modules not available or failed to import. Ensure torch and onnxruntime are installed.")
+        pd.DataFrame([{"mode": "end-to-end", "status": "unsupported", "reason": "missing_dependencies"}]).to_csv(
+            os.path.join(dirs["raw"], "e2e_runs_error.csv"), index=False
+        )
+        return
+        
+    models_to_test = ["resnet18", "resnet34", "alexnet", "vgg16"] if args.model == "all" else [args.model]
+    
+    # Run export script to ensure .onnx files exist
+    export_models()
+    
+    for model in models_to_test:
+        model_path = f"{model}.onnx"
+        if not os.path.exists(model_path):
+            print(f"Warning: {model_path} not found. Skipping...")
+            continue
+            
+        print(f"Benchmarking {model}...")
+        try:
+            result = run_onnx_inference(model_path, num_iterations=args.runs, num_warmup=args.warmup)
+            
+            raw_data = []
+            for run_id in range(len(result["latencies_ms"])):
+                raw_data.append({
+                    "mode": "end-to-end",
+                    "model": model,
+                    "run_id": run_id,
+                    "latency_ms": result["latencies_ms"][run_id],
+                    "throughput_fps": result["throughputs_fps"][run_id]
+                })
+                
+            df = pd.DataFrame(raw_data)
+            out_file = os.path.join(dirs["raw"], f"e2e_runs_{model}.csv")
+            df.to_csv(out_file, index=False)
+            print(f"Saved {len(raw_data)} e2e samples to {out_file}")
+            
+        except Exception as e:
+            print(f"Failed ONNX execution for {model}: {e}")
 
 def run_e2e(args, dirs):
     print(f"Running End-to-End Benchmarks (ONNX Baseline)...")

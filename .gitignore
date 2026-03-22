@@ -4,3 +4,12 @@
 # python cache
 __pycache__/
 *.pyc
+<<<<<<< HEAD
+=======
+
+# models
+*.onnx
+# python cache
+__pycache__/
+*.pyc
+>>>>>>> e528b05 (centralizing outputs)

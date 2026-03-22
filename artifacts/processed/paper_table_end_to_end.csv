@@ -1,0 +1,5 @@
+Model,Platform,Mean_Latency_ms,Median_Latency_ms,StdDev_ms,CI95_ms,FPS,Runs,Warmup_Runs
+AlexNet,macOS (Apple Silicon),3.91,3.5884,0.9034,0.2504,264.18,50,10
+ResNet-18,macOS (Apple Silicon),8.3063,7.5584,1.5138,0.4196,123.52,50,10
+ResNet-34,macOS (Apple Silicon),15.774,13.6124,3.466,0.9607,66.11,50,10
+VGG16,macOS (Apple Silicon),53.5892,49.7147,10.6424,2.9499,19.2,50,10
