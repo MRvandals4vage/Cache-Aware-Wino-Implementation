@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
 
 <<<<<<< HEAD
 =======
@@ -22,14 +22,44 @@ def plot_microbenchmarks(processed_csv, out_dir):
         
     df["Config"] = df.apply(lambda row: f"{row['C_in']}x{row['C_out']}", axis=1)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    df["Mode"] = df.apply(lambda row: f"Fused={'Yes' if str(row['Fused']) in ['True', 'Yes'] else 'No'} / Multi={'Yes' if str(row['MultiCore']) in ['True', 'Yes'] else 'No'}", axis=1)
+>>>>>>> c253299 (setting up pipeline)
     
-    # 1. Latency Plot (paper_fig_microbench_latency.png)
+    configs = df["Config"].unique()
+    modes = sorted(df["Mode"].unique())
+    x = np.arange(len(configs))
+    width = 0.8 / len(modes)
+    
+    def extract_data(y_column):
+        data = {m: [] for m in modes}
+        err_data = {m: [] for m in modes}
+        for c in configs:
+            for m in modes:
+                row = df[(df["Config"] == c) & (df["Mode"] == m)]
+                if not row.empty and str(row.iloc[0][y_column]) != "N/A":
+                    data[m].append(float(row.iloc[0][y_column]))
+                    if "CI95_ms" in df.columns:
+                        err_data[m].append(float(row.iloc[0]["CI95_ms"]))
+                    else:
+                        err_data[m].append(0)
+                else:
+                    data[m].append(0.0)
+                    err_data[m].append(0.0)
+        return dict(data), dict(err_data)
+
+    modes_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]
+    
+    # 1. Latency Plot
     plt.figure(figsize=(10, 6))
-    df["Mode"] = df.apply(lambda row: f"Fused={row['Fused']}, Threads={'Multi' if row['MultiCore'] else 'Single'}", axis=1)
+    data_dict, _ = extract_data("Mean_Latency_ms")
+    for i, m in enumerate(modes):
+        plt.bar(x + (i - len(modes)/2 + 0.5) * width, data_dict[m], width, label=m, color=modes_colors[i%len(modes_colors)])
     
-    sns.barplot(data=df, x="Config", y="Mean_Latency_ms", hue="Mode", palette="viridis")
     plt.title("Microbenchmark Configuration Latency")
     plt.ylabel("Mean Latency (ms)")
+<<<<<<< HEAD
     plt.xlabel("Layer Configuration (C_in x C_out)")
     plt.xticks(rotation=45)
 =======
@@ -72,10 +102,16 @@ def plot_microbenchmarks(processed_csv, out_dir):
     plt.xticks(x, configs, rotation=45)
     plt.legend()
 >>>>>>> e528b05 (centralizing outputs)
+=======
+    plt.xlabel("Workload Configuration (C_in x C_out)")
+    plt.xticks(x, configs, rotation=45)
+    plt.legend()
+>>>>>>> c253299 (setting up pipeline)
     plt.tight_layout()
     plt.savefig(os.path.join(out_dir, "paper_fig_microbench_latency.png"), dpi=300)
     plt.close()
     
+<<<<<<< HEAD
     # 2. Improvement Bar Plot (paper_fig_microbench_improvement.png)
 <<<<<<< HEAD
     imp_df = df[df["Improvement_vs_Baseline_pct"] != "N/A"].copy()
@@ -96,6 +132,12 @@ def plot_microbenchmarks(processed_csv, out_dir):
     data_dict, _ = extract_data("Improvement_vs_Baseline_pct")
     for i, m in enumerate(modes):
         # We only plot non-baseline modes which actually have improvements
+=======
+    # 2. Improvement
+    plt.figure(figsize=(10, 6))
+    data_dict, _ = extract_data("Improvement_vs_Baseline_pct")
+    for i, m in enumerate(modes):
+>>>>>>> c253299 (setting up pipeline)
         if any(v != 0.0 for v in data_dict[m]):
             plt.bar(x + (i - len(modes)/2 + 0.5) * width, data_dict[m], width, label=m, color=modes_colors[i%len(modes_colors)])
             
@@ -109,7 +151,11 @@ def plot_microbenchmarks(processed_csv, out_dir):
     plt.savefig(os.path.join(out_dir, "paper_fig_microbench_improvement.png"), dpi=300)
     plt.close()
 
+<<<<<<< HEAD
     # 3. Confidence Interval Error-Bar Plot (paper_fig_microbench_ci.png)
+=======
+    # 3. CI
+>>>>>>> c253299 (setting up pipeline)
     plt.figure(figsize=(10, 6))
     data_dict, err_dict = extract_data("Mean_Latency_ms")
     for i, m in enumerate(modes):
@@ -124,7 +170,10 @@ def plot_microbenchmarks(processed_csv, out_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(out_dir, "paper_fig_microbench_ci.png"), dpi=300)
     plt.close()
+<<<<<<< HEAD
 >>>>>>> e528b05 (centralizing outputs)
+=======
+>>>>>>> c253299 (setting up pipeline)
 
 def plot_e2e(processed_csv, out_dir):
     if not os.path.exists(processed_csv):
@@ -135,10 +184,21 @@ def plot_e2e(processed_csv, out_dir):
     if df.empty:
         return
         
-    # 1. End to End Latency (paper_fig_end_to_end_latency.png)
+    # Check if exactly 4 models exist
+    if len(df["Model"].unique()) < 4:
+        print("Skipping E2E plots; incomplete model set.")
+        return
+        
+    models = df["Model"].tolist()
+    
+    colors = ["#4c72b0", "#dd8452", "#55a868", "#c44e52"]
+    
+    # 1. End to End Latency
     plt.figure(figsize=(8, 5))
-    if not df.empty and "Model" in df.columns:
-        sns.barplot(data=df, x="Model", y="Mean_Latency_ms", hue="Model", palette="Set2", legend=False)
+    latencies = df["Mean_Latency_ms"].tolist()
+    yerr = df["CI95_ms"].tolist() if "CI95_ms" in df.columns else None
+    
+    plt.bar(models, latencies, color=colors, yerr=yerr, capsize=5)
     plt.title("End-to-End Latency by Model")
     plt.ylabel("Mean Latency (ms)")
     plt.xlabel("CNN Architecture")
@@ -146,10 +206,11 @@ def plot_e2e(processed_csv, out_dir):
     plt.savefig(os.path.join(out_dir, "paper_fig_end_to_end_latency.png"), dpi=300)
     plt.close()
     
-    # 2. End to End FPS (paper_fig_end_to_end_fps.png)
-    if "FPS" in df.columns and "Model" in df.columns:
+    # 2. End to End FPS
+    if "FPS" in df.columns:
         plt.figure(figsize=(8, 5))
-        sns.barplot(data=df, x="Model", y="FPS", hue="Model", palette="Set3", legend=False)
+        fps_values = df["FPS"].tolist()
+        plt.bar(models, fps_values, color=colors)
         plt.title("End-to-End Throughput by Model")
         plt.ylabel("Frames Per Second (FPS)")
         plt.xlabel("CNN Architecture")
@@ -167,22 +228,25 @@ def plot_autotiling(processed_csv, out_dir):
         return
         
     plt.figure(figsize=(10, 6))
-    sns.scatterplot(
-        data=df,
-        x="Workload",
-        y="Reuse_Score",
-        size="Selected_Tile",
-        sizes=(100, 500),
-        hue="Selected_Tile",
-        palette="deep",
-        legend="full"
-    )
-    plt.title("Autotiler Policy vs Strategy Reuse Score")
-    plt.ylabel("Reuse Score")
-    plt.xlabel("Workload")
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(os.path.join(out_dir, "paper_fig_autotiling_decisions.png"), dpi=300)
+    
+    # Map selected tile to sizes/colors
+    if "Selected_Tile" in df.columns:
+        tiles = sorted(df["Selected_Tile"].unique())
+        colors_map = {t: c for t, c in zip(tiles, ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"])}
+        
+        for t in tiles:
+            subset = df[df["Selected_Tile"] == t]
+            sizes = [s * 50 for s in subset["Selected_Tile"]]  # arbitrary scaling
+            plt.scatter(subset["Workload"], subset["Reuse_Score"], 
+                        s=sizes, c=colors_map.get(t, "#000"), label=f"Tile {t}", alpha=0.7)
+                        
+        plt.title("Autotiler Policy vs Strategy Reuse Score")
+        plt.ylabel("Reuse Score")
+        plt.xlabel("Workload")
+        plt.xticks(rotation=45)
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(out_dir, "paper_fig_autotiling_decisions.png"), dpi=300)
     plt.close()
 
 def run_all(processed_dir="artifacts/processed", plot_dir="artifacts/plots"):

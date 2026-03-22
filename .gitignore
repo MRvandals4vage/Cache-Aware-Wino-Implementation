@@ -13,3 +13,12 @@ __pycache__/
 __pycache__/
 *.pyc
 >>>>>>> e528b05 (centralizing outputs)
+<<<<<<< HEAD
+=======
+
+# models
+*.onnx
+# python cache
+__pycache__/
+*.pyc
+>>>>>>> c253299 (setting up pipeline)

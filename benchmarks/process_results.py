@@ -49,10 +49,13 @@ def export_latex_table(df, file_path, caption="Auto-generated LaTeX Table"):
 
 def process_microbenchmarks(raw_dir, out_dir, export_latex):
 <<<<<<< HEAD
+<<<<<<< HEAD
     csv_files = glob.glob(os.path.join(raw_dir, "micro_runs_*.csv"))
     if not csv_files:
         print("No microbenchmark raw files found.")
 =======
+=======
+>>>>>>> c253299 (setting up pipeline)
     csv_file = os.path.join(raw_dir, "microbenchmark_raw_latencies.csv")
     if not os.path.exists(csv_file):
         print(f"No microbenchmark raw file found at {csv_file}.")
@@ -104,6 +107,7 @@ def process_microbenchmarks(raw_dir, out_dir, export_latex):
                 base_mean = float(np.mean(base_lats))
                 if len(base_lats) > 1 and len(latencies) > 1:
                     stat_val, p = stats.ttest_ind(latencies, base_lats, equal_var=False)
+<<<<<<< HEAD
                     p_value = "< 1e-10" if p < 1e-10 else float(p)
                     effect_dir = "Faster" if mean_lat < base_mean else "Slower"
                     imp = ((base_mean - mean_lat) / base_mean) * 100.0
@@ -246,6 +250,8 @@ def process_e2e(raw_dir, out_dir, logs_dir, export_latex):
                 if len(base_lats) > 1 and len(latencies) > 1:
                     stat_val, p = stats.ttest_ind(latencies, base_lats, equal_var=False)
                     # Don't print hard 0.0 for p-values underflow
+=======
+>>>>>>> c253299 (setting up pipeline)
                     p_value = "< 1e-10" if p < 1e-10 else float(p)
                     effect_dir = "Faster" if mean_lat < base_mean else "Slower"
                     imp = ((base_mean - mean_lat) / base_mean) * 100.0
@@ -254,7 +260,7 @@ def process_e2e(raw_dir, out_dir, logs_dir, export_latex):
         processed_data.append({
             "C_in": int(c_in),
             "C_out": int(c_out),
-            "Tile": int(tile_dim),
+            "Tile": f"F({int(tile_dim)},3)",
             "Fused": bool(fused),
             "MultiCore": bool(threads > 1),
 =======
@@ -274,6 +280,10 @@ def process_e2e(raw_dir, out_dir, logs_dir, export_latex):
             "Improvement_vs_Baseline_pct": pct_improvement,
             "Runs": int(n_runs)
         })
+        
+    if len(processed_data) < 28:
+        print(f"ERROR: Microbenchmark paper table generation failed. Expected 28 total combinations, found {len(processed_data)}.")
+        return False
         
     out_df = pd.DataFrame(processed_data).sort_values(by=["C_in", "C_out", "MultiCore", "Fused"])
     csv_path = os.path.join(out_dir, "paper_table_microbench.csv")
@@ -304,7 +314,7 @@ def process_e2e(raw_dir, out_dir, logs_dir, export_latex):
             
     if not df_list:
         return False
-        
+
     platform_data = {"os": "Unknown"}
     try:
         with open(os.path.join(logs_dir, "platform_descriptor.json"), "r") as f:
@@ -402,6 +412,7 @@ def process_autotiling(logs_dir, out_dir, export_latex):
             c_out = dec.get("c_out", 0)
             workload = f"C_in={c_in}, C_out={c_out}"
             selected = dec.get("selected_tile", {})
+<<<<<<< HEAD
             
 =======
             "FPS": round(mean_fps, 2),
@@ -440,6 +451,8 @@ def process_autotiling(logs_dir, out_dir, export_latex):
             selected = dec.get("selected_tile", {})
             
 >>>>>>> e528b05 (centralizing outputs)
+=======
+>>>>>>> c253299 (setting up pipeline)
             processed_data.append({
                 "Platform": platform_data.get("os", "Unknown"),
                 "CPU_Model": platform_data.get("cpu_model", "Unknown"),
