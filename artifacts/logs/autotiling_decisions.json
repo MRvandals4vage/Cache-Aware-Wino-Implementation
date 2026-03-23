@@ -1,135 +1,16 @@
 [
   {
     "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-  },
-  {
-    "selected_tile": {
       "name": "F(2,3)",
       "m": 2,
       "r": 3,
       "tile": 4
     },
-    "c_in": 32,
-    "c_out": 64,
-    "score": 0.9110320284697508,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
     "c_in": 16,
     "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-  },
-  {
-    "selected_tile": {
-      "name": "F(2,3)",
-      "m": 2,
-      "r": 3,
-      "tile": 4
-    },
-    "c_in": 32,
-    "c_out": 64,
-    "score": 0.9110320284697508,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-  },
-  {
-    "selected_tile": {
-      "name": "F(2,3)",
-      "m": 2,
-      "r": 3,
-      "tile": 4
-    },
-    "c_in": 32,
-    "c_out": 64,
-    "score": 0.9110320284697508,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-  },
-  {
-    "selected_tile": {
-      "name": "F(2,3)",
-      "m": 2,
-      "r": 3,
-      "tile": 4
-    },
-    "c_in": 32,
-    "c_out": 64,
-    "score": 0.9110320284697508,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-<<<<<<< HEAD
-=======
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
+    "score": 0.4413793103448276,
+    "l1_capacity": 32768,
+    "working_set": 18560
   },
   {
     "selected_tile": {
@@ -140,34 +21,8 @@
     },
     "c_in": 32,
     "c_out": 16,
-    "score": 0.2277580071174377,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(4,3)",
-      "m": 4,
-      "r": 3,
-      "tile": 6
-    },
-    "c_in": 16,
-    "c_out": 32,
-    "score": 1.5657492354740061,
-    "l1_capacity": 65536,
-    "working_set": 41760
-  },
-  {
-    "selected_tile": {
-      "name": "F(2,3)",
-      "m": 2,
-      "r": 3,
-      "tile": 4
-    },
-    "c_in": 32,
-    "c_out": 16,
-    "score": 0.2277580071174377,
-    "l1_capacity": 65536,
+    "score": 0.11387900355871886,
+    "l1_capacity": 32768,
     "working_set": 35968
   },
   {
@@ -179,21 +34,21 @@
     },
     "c_in": 32,
     "c_out": 32,
+    "score": 0.2277580071174377,
+    "l1_capacity": 32768,
+    "working_set": 35968
+  },
+  {
+    "selected_tile": {
+      "name": "F(2,3)",
+      "m": 2,
+      "r": 3,
+      "tile": 4
+    },
+    "c_in": 32,
+    "c_out": 64,
     "score": 0.4555160142348754,
-    "l1_capacity": 65536,
-    "working_set": 35968
-  },
-  {
-    "selected_tile": {
-      "name": "F(2,3)",
-      "m": 2,
-      "r": 3,
-      "tile": 4
-    },
-    "c_in": 32,
-    "c_out": 64,
-    "score": 0.9110320284697508,
-    "l1_capacity": 65536,
+    "l1_capacity": 32768,
     "working_set": 35968
   },
   {
@@ -205,8 +60,8 @@
     },
     "c_in": 64,
     "c_out": 32,
-    "score": 0.2314647377938517,
-    "l1_capacity": 65536,
+    "score": 0.11573236889692586,
+    "l1_capacity": 32768,
     "working_set": 70784
   },
   {
@@ -218,8 +73,8 @@
     },
     "c_in": 64,
     "c_out": 64,
-    "score": 0.4629294755877034,
-    "l1_capacity": 65536,
+    "score": 0.2314647377938517,
+    "l1_capacity": 32768,
     "working_set": 70784
   },
   {
@@ -231,9 +86,8 @@
     },
     "c_in": 128,
     "c_out": 128,
-    "score": 0.4667274384685506,
-    "l1_capacity": 65536,
+    "score": 0.2333637192342753,
+    "l1_capacity": 32768,
     "working_set": 140416
->>>>>>> e528b05 (centralizing outputs)
   }
 ]
