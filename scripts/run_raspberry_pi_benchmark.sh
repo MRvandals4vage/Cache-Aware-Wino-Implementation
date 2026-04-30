@@ -1,33 +1,46 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${ROOT_DIR}"
 
 mkdir -p artifacts/logs
 LOG_FILE="artifacts/logs/raspberry_pi_benchmark.log"
-
 exec > >(tee -a "${LOG_FILE}") 2>&1
-
-echo "========================================"
-echo "Raspberry Pi Benchmark Runner"
-echo "Date: $(date)"
-echo "========================================"
 
 if [ -d "venv" ]; then
     source venv/bin/activate
 fi
 
-# Ensure Python dependencies are found
-export PYTHONPATH=$PYTHONPATH:$(pwd)
+export PYTHONPATH="${ROOT_DIR}:${PYTHONPATH:-}"
 
-echo "Collecting hardware features..."
-python3 runtime_cache_probe.py || echo "Warning: Cache probe failed to initialize completely."
-
-echo "Running Cache-Aware Fused Winograd Microbenchmarks..."
-# This executes the core workload that tests L1 fusion and Pi parameters without strict dependency on PyTorch
-python3 benchmarks/microbenchmarks.py
-
-echo "Generating visualizations using available plotters..."
-python3 generate_microbenchmark_plots.py || echo "Warning: Optional matplotlib dependencies not fully met. Proceeding without plots."
+BACKENDS="${BACKENDS:-project,onnxruntime,tvm,autotvm}"
+if [ -n "${ARMCL_COMMAND:-}" ]; then
+    BACKENDS="${BACKENDS},armcl"
+fi
+COMPARE_ARGS=(
+  --backends "${BACKENDS}"
+  --runs 20
+  --warmup 5
+  --height 4
+  --width 4
+  --tvm-target "llvm -mattr=+neon"
+)
+if [ -n "${ARMCL_COMMAND:-}" ]; then
+    COMPARE_ARGS+=(--armcl-command "${ARMCL_COMMAND}")
+fi
 
 echo "========================================"
-echo "Benchmark Finished. Check artifacts/ processed for metrics."
+echo "Raspberry Pi Benchmark Runner"
+echo "Date: $(date)"
+echo "Repo: ${ROOT_DIR}"
+echo "Backends: ${BACKENDS}"
+echo "========================================"
+
+python3 benchmarks/run_all_benchmarks.py --mode micro --runs 30 --warmup 10 --paper-assets all
+python3 tools/compare_edge_backends.py "${COMPARE_ARGS[@]}"
+
+echo "========================================"
+echo "Raspberry Pi benchmark run finished"
+echo "Artifacts: ${ROOT_DIR}/artifacts"
 echo "========================================"

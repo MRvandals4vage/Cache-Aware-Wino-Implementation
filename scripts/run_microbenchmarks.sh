@@ -1,14 +1,16 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-# Rebuild the C extension natively if possible
-echo "Compiling fused_winograd C extension..."
-gcc -O3 -shared -fPIC -o fused_winograd.so fused_winograd.c || echo "Native compilation failed. Python fallback will be used."
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${ROOT_DIR}"
 
-echo "Running microbenchmarks..."
-python3 benchmarks/microbenchmarks.py
+if [ -d "venv" ]; then
+    source venv/bin/activate
+fi
 
-echo "Generating plots..."
-python3 benchmarks/generate_plots.py
+export PYTHONPATH="${ROOT_DIR}:${PYTHONPATH:-}"
+
+echo "Running unified microbenchmark pipeline..."
+python3 benchmarks/run_all_benchmarks.py --mode micro --runs 30 --warmup 10 --paper-assets all
 
 echo "Microbenchmarking complete. Results saved to artifacts/"
