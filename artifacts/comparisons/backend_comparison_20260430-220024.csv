@@ -1,0 +1,3 @@
+backend,status,avg_latency_ms,std_latency_ms,runs,notes,c_in,c_out,height,width,kernel,platform,architecture,cpu_model
+project,ok,0.17151659994851798,0.020636147327266267,5,"Fused Winograd F(2,3) tile microbenchmark.",64,64,14,14,3,Darwin,arm64,arm
+onnxruntime,ok,0.04408340319059789,0.004519749724038058,5,Single Conv ONNX Runtime CPU benchmark.,64,64,14,14,3,Darwin,arm64,arm

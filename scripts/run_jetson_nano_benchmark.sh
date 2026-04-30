@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT_DIR}"
 
 mkdir -p artifacts/logs
-LOG_FILE="artifacts/logs/raspberry_pi_benchmark.log"
+LOG_FILE="artifacts/logs/jetson_nano_benchmark.log"
 exec > >(tee -a "${LOG_FILE}") 2>&1
 
 if [ -d "venv" ]; then
@@ -24,14 +24,14 @@ COMPARE_ARGS=(
   --warmup 5
   --height 4
   --width 4
-  --tvm-target "llvm -mattr=+neon"
+  --tvm-target "llvm -mtriple=aarch64-linux-gnu -mcpu=cortex-a57 -mattr=+neon"
 )
 if [ -n "${ARMCL_COMMAND:-}" ]; then
     COMPARE_ARGS+=(--armcl-command "${ARMCL_COMMAND}")
 fi
 
 echo "========================================"
-echo "Raspberry Pi Benchmark Runner"
+echo "Jetson Nano Benchmark Runner"
 echo "Date: $(date)"
 echo "Repo: ${ROOT_DIR}"
 echo "Backends: ${BACKENDS}"
@@ -41,6 +41,6 @@ python3 benchmarks/run_all_benchmarks.py --mode micro --runs 30 --warmup 10 --pa
 python3 tools/compare_edge_backends.py "${COMPARE_ARGS[@]}"
 
 echo "========================================"
-echo "Raspberry Pi benchmark run finished"
+echo "Jetson Nano benchmark run finished"
 echo "Artifacts: ${ROOT_DIR}/artifacts"
 echo "========================================"

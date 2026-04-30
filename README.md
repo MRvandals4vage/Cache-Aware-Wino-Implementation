@@ -1,74 +1,80 @@
-# Runtime-Adaptive Cache-Aware Fused Winograd Execution for Edge CPUs
+# Cache-Aware Winograd Edge Benchmark Suite
 
-This repository provides a benchmark suite and reference implementation for **Runtime-Adaptive Cache-Aware Fused Winograd Execution**. The focus of this work is analyzing and maximizing energy efficiency and runtime latency on resource-constrained Edge CPUs (ARM Cortex-A series, Jetson Nano, Raspberry Pi) via L1-cache footprints and dynamic tiling.
+This repository benchmarks a cache-aware fused Winograd implementation on CPU-class edge devices and compares it against optional external backends such as TVM, AutoTVM, and ARM Compute Library.
 
-## Repository Layout
-- `src/`: Core implementation containing the platform probing, autotiler, scheduling logic, and fused Winograd kernel.
-- `benchmarks/`: CLI scripts and logic for executing benchmarks, processing data, collecting hardware counters, and generating plots.
-- `scripts/`: Shell scripts for environment setup, particularly for Raspberry Pi.
-- `docker/`: Dockerfiles for standard reproduction environments, including Raspberry Pi (ARM64).
-- `artifacts/`: Automatically saves the CSV results, telemetry logs, configuration files, and plots.
+## Project Layout
+- `src/`: core cache probing, autotiling, scheduling, and fused Winograd kernel code.
+- `benchmarks/`: microbenchmark pipeline, result processing, and plot generation.
+- `tools/`: executable Python utilities for backend comparison and ONNX export.
+- `scripts/`: install and run scripts for macOS, Jetson Nano, and Raspberry Pi.
+- `docs/`: focused runbooks for setup and the demo flow.
+- `models/onnx/`: exported ONNX models.
+- `artifacts/`: generated raw results, processed tables, plots, logs, and comparison reports.
 
-## Key Contributions
-1. **Cache Adaptive Autotiler (`src/cache_adaptive_autotiler.py`)**: Evaluates Winograd $F(m,r)$ footprints against physical L1 constraints collected at runtime. Falls back dynamically if memory sizes are unknown.
-2. **Fused Winograd Execution (`src/fused_winograd_kernel.py`)**: Minimizes pipeline buffers (DRAM drops) by running transform, element-wise multiplication, and inverse transforms sequentially. Includes working numpy fallback path when compiled C/NEON paths are unavailable.
-3. **Reproducible Benchmarks**: Comprehensive multi-metric evaluations with statistical significance tests against non-fused baselines.
+## What Is Real Today
+- The fused Winograd microbenchmark path is real and locally runnable.
+- The benchmark pipeline under `benchmarks/run_all_benchmarks.py` is real and writes actual artifacts.
+- The direct backend comparison harness under `tools/compare_edge_backends.py` is real.
+- TVM and AutoTVM are optional. If they are not installed, they are reported as skipped instead of being faked.
+- ARMCL is optional. The harness expects a real wrapper command that prints `LATENCY_MS=<value>`.
 
-## Environment Setup and Installation
+## Quick Start
 
-### Raspberry Pi (Recommended ARM Deployment)
-For a straightforward validation on Raspberry Pi, run the custom install script. This installs exclusively lightweight core requirements (NumPy, SciPy, Pandas, Matplotlib) and attempts to compile the C extension natively without requiring massive ML frameworks.
+### macOS
+```bash
+bash scripts/install_macos.sh
+bash scripts/run_mac_benchmark.sh
+```
 
+### Jetson Nano
+```bash
+bash scripts/install_jetson_nano.sh
+bash scripts/run_jetson_nano_benchmark.sh
+```
+
+### Raspberry Pi
 ```bash
 bash scripts/install_raspberry_pi.sh
+bash scripts/run_raspberry_pi_benchmark.sh
 ```
-*Note: This script will create a virtual environment (`venv_winograd`) and install necessary packages gracefully.*
 
-### Dockerized Setup
-We provide Docker containers for specific platform targets:
+## Direct Comparison Harness
+The comparison harness runs a single convolution workload across selected backends and writes CSV, Markdown, and JSON summaries to `artifacts/comparisons/`.
+
 ```bash
-# Build Raspberry Pi ARM64 Image (assuming you are on a compatible host or using buildx)
-docker build -t edge-winograd:rpi -f docker/raspberry-pi.Dockerfile .
-
-# Run the base microbenchmarks automatically
-docker run --rm -v $(pwd)/artifacts:/app/artifacts edge-winograd:rpi
+python3 tools/compare_edge_backends.py \
+  --backends project,onnxruntime \
+  --c-in 64 \
+  --c-out 64 \
+  --height 4 \
+  --width 4 \
+  --runs 20 \
+  --warmup 5
 ```
 
-## Running Benchmarks (Publication Pipeline)
+On Jetson Nano or Raspberry Pi, you can include `tvm`, `autotvm`, and `armcl` in `--backends` if those runtimes are actually installed.
 
-### 1. Benchmark Execution and Paper Assets
-To generate raw data across different configurations and automatically output paper-facing latex tables and plots, use the orchestrator:
+## ARMCL Integration
+ARMCL support is intentionally explicit instead of guessed. Provide a wrapper command that runs your ARM Compute Library benchmark and prints:
+
+```text
+LATENCY_MS=<value>
+```
+
+Example:
 ```bash
-# 1. Microbenchmarks (Evaluates Custom Fused Winograd Kernels)
-python3 benchmarks/run_all_benchmarks.py --mode micro --runs 1000 --warmup 20 --paper-assets all
-
-# 2. End-to-End ONNX CNN Workloads (ResNet, VGG, AlexNet)
-python3 benchmarks/run_all_benchmarks.py --mode end-to-end --model all --runs 50 --warmup 10 --paper-assets all
-```
-This writes raw datasets into `artifacts/raw/`, processes statistics seamlessly into `artifacts/processed/`, and generates matplotlib publication figures into `artifacts/plots/`.
-
-### 2. Manual Processing / Latex Tuning (Optional)
-If you wish to rerun the generators on existing raw data to toggle latex features or format tables:
-```bash
-python3 benchmarks/process_results.py --export-latex true
+export ARMCL_COMMAND='/absolute/path/run_armcl_wrapper.sh {c_in} {c_out} {height} {width} {runs}'
+bash scripts/run_jetson_nano_benchmark.sh
 ```
 
-### 3. Collecting Telemetry
-Collect ad-hoc hardware counters and statistics (e.g., perf, vcgencmd for temperature/clocks):
-```bash
-python3 benchmarks/collect_counters.py
-```
+The placeholders are expanded by `tools/compare_edge_backends.py`.
 
-## Supported Platforms and Limitations
+## Outputs
+- `artifacts/raw/`: raw microbenchmark samples.
+- `artifacts/processed/`: processed CSV and LaTeX tables.
+- `artifacts/plots/`: generated figures.
+- `artifacts/logs/`: platform descriptors, autotiling logs, and run logs.
+- `artifacts/comparisons/`: direct backend comparison summaries.
 
-| Feature | Supported Systems | Limitations & Truthful Disclaimers |
-| :--- | :--- | :--- |
-| **Microbenchmarks (Latency)** | Linux (ARM/x86), macOS | Runs reliably on all devices parsing NumPy. Non-essential architectures use a pure-numpy path. |
-| **Platform Discovery** | Linux `sysfs`/`lscpu`, macOS `sysctl` | Accurately discovers L1/L2 on standard Linux/macOS. Gracefully falls back to 32KB/2MB defaults if permissions or OS fail. |
-| **Hardware Telemetry** | Linux (`perf`), Raspberry Pi (`vcgencmd`) | `perf` requires `linux-perf` and sysctl `kernel.perf_event_paranoid` to be $\le 1$. `vcgencmd` is Pi exclusive. |
-| **End-to-End Inference** | N/A | Current benchmark orchestrator is explicitly restricted to `micro` mode. E2E benchmarks (PyTorch/ONNX) are not supported on resource-constrained Pi loops. |
-| **NEON Intrinsics** | Unsupported in Python | Python implementation measures baseline structural fusion algorithm performance. For true SIMD NEON speedup, the underlying GCC compiled `.so` extension must be loaded. |
-| **Energy Measurement** | Unsupported natively on Pi | Direct hardware power nodes are missing on Pis. We do not fabricate energy metrics programmatically. Requires external power meters. |
-
-## Success Criteria and Artifacts
-The entire pipeline is verifiable: none of the plot generations or resulting data points are hardcoded placeholders. What you see logged in `artifacts/processed` represents actual execution footprints of the local machine.
+## Tomorrow’s Runbook
+Use [docs/tomorrow-demo.md](/Users/ishaanupponi/.codex/worktrees/2ebd/Cache-Aware-Wino-Implementation/docs/tomorrow-demo.md).
