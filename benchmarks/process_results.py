@@ -104,10 +104,14 @@ def process_microbenchmarks(raw_dir, out_dir, export_latex):
                     imp = ((base_mean - mean_lat) / base_mean) * 100.0
                     pct_improvement = round(imp, 2)
 
+        # tile_dim is the input tile size (n = m + r - 1); paper uses F(m,3) notation
+        m = int(tile_dim) - 2  # r = 3
+        tile_label = f"F({m},3)"
         processed_data.append({
             "C_in": int(c_in),
             "C_out": int(c_out),
-            "Tile": f"F({int(tile_dim)},3)",
+            "Tile": tile_label,
+            "Tile_Input_Size": int(tile_dim),
             "Fused": bool(fused),
             "MultiCore": bool(threads > 1),
             "Mean_Latency_ms": round(mean_lat, 4),
@@ -252,14 +256,18 @@ def process_autotiling(logs_dir, out_dir, export_latex):
             workload = f"C_in={c_in}, C_out={c_out}"
             selected = dec.get("selected_tile", {})
             
+            tile_val = int(selected.get("tile", 0))
+            m_val = tile_val - 2  # r = 3, tile = m + r - 1
+            tile_label = f"F({m_val},3)"
             processed_data.append({
                 "Platform": platform_data.get("os", "Unknown"),
                 "CPU_Model": platform_data.get("cpu_model", "Unknown"),
                 "L1D_Bytes": platform_data.get("l1d_size_bytes", "Unknown"),
                 "L2_Bytes": platform_data.get("l2_size_bytes", "Unknown"),
                 "Workload": workload,
-                "Candidate_Tiles": "4, 6, 8",
-                "Selected_Tile": int(selected.get("tile", 0)),
+                "Candidate_Tiles": "F(2,3), F(4,3), F(6,3)",
+                "Selected_Tile": tile_label,
+                "Tile_Input_Size": tile_val,
                 "Alpha": 0.7,
                 "Target_Cache": int(dec.get("l1_capacity", 0)),
                 "Estimated_Working_Set_Bytes": int(dec.get("working_set", 0)),

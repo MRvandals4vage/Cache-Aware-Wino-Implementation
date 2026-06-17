@@ -1,0 +1,5 @@
+backend,status,avg_latency_ms,std_latency_ms,runs,notes,c_in,c_out,height,width,kernel,platform,architecture,cpu_model
+project,ok,0.1807,0.0150,20,"Fused Winograd F(2,3) tile microbenchmark. Overhead-dominated regime; Winograd transform cost dominates on 4x4 input.",64,64,4,4,3,Darwin,arm64,arm
+onnxruntime,ok,0.0164,0.0010,20,"Single Conv ONNX Runtime CPU benchmark. Direct convolution is optimal on micro-inputs.",64,64,4,4,3,Darwin,arm64,arm
+project,ok,0.2736,0.0644,30,"Fused Winograd F(2,3) tile microbenchmark. Arithmetic-dominated regime; fused path dominates on large tiles.",128,128,128,128,3,Darwin,arm64,arm
+onnxruntime,ok,5.9723,0.3014,30,"Single Conv ONNX Runtime CPU benchmark.",128,128,128,128,3,Darwin,arm64,arm
