@@ -1,0 +1,3 @@
+config,regime,policy_mode,policy_mean_ms,best_mode,best_mean_ms,policy_is_optimal,p_value,working_set,gamma
+"(64,64)",memory_bound,unfused_4T,12.0217,policy,12.0217,True,N/A (policy IS best),70784,0.7
+"(128,128)",memory_bound,unfused_4T,76.2823,policy,76.2823,True,N/A (policy IS best),140416,0.7

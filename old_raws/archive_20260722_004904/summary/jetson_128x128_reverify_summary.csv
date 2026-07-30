@@ -1,0 +1,3 @@
+method,n,mean_ms,std_ms,ci95_ms,p_value,paper_claimed_ms,pct_diff_from_paper,match
+baseline_nonfused,5,81.9722,11.3765,9.972,N/A,860.65,-90.48,MISMATCH
+fused,5,101.0654,1.1072,0.9705,1.953836e-02,807.97,-87.49,MISMATCH
