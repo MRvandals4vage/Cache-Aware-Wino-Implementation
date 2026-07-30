@@ -36,9 +36,9 @@ INA3221_POWER = "in_power0_input"
 
 def check_perf():
     try:
-        r = subprocess.run(["perf", "--version"], capture_output=True, text=True)
+        r = subprocess.run(["perf", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         return r.returncode == 0
-    except FileNotFoundError:
+    except (FileNotFoundError, OSError):
         return False
 
 

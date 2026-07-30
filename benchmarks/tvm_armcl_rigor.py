@@ -158,7 +158,7 @@ def benchmark_armcl(c_in, c_out, h, w, n_runs, warmup, armcl_command=None):
         cmd = armcl_command.format(c_in=c_in, c_out=c_out, height=h, width=w,
                                     kernel=KERNEL_SIZE, runs=1, warmup=warmup if run_id == 0 else 0)
         try:
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+            result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=60)
             match = re.search(r"LATENCY_MS\s*=\s*([0-9]+(?:\.[0-9]+)?)", result.stdout + result.stderr)
             if match:
                 latencies.append(float(match.group(1)))

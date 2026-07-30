@@ -14,7 +14,7 @@ SUMMARY   := summary
 ARTIFACTS := artifacts
 PLOTS     := $(ARTIFACTS)/plots
 
-.PHONY: help dirs preflight preflight-backup smoke-test \
+.PHONY: help dirs doctor preflight preflight-backup clean-safe reset smoke-test \
         taskA taskB taskC taskD taskE taskF taskG taskH taskI taskJ taskK taskL \
         taskM taskN taskO taskP \
         derived-tables plots report verify-all \
@@ -24,8 +24,11 @@ PLOTS     := $(ARTIFACTS)/plots
 help:
 	@echo "CacheWinograd Full Experiment Suite"
 	@echo ""
-	@echo "PRE-FLIGHT (run first on every device):"
+	@echo "PRE-FLIGHT & ENVIRONMENT:"
+	@echo "  make doctor            — Health check environment, dependencies & tools (Task 14)"
 	@echo "  make preflight-backup  — Copy raw_logs/ -> raw_logs_prior/, summary/ -> summary_prior/"
+	@echo "  make clean-safe        — Clean build artifacts, keeping raw_logs and summary (Task 5)"
+	@echo "  make reset             — Reset build & compile C extension from scratch (Task 5)"
 	@echo "  make smoke-test        — n=5 sanity check (Jetson Nano)"
 	@echo ""
 	@echo "JETSON NANO TASKS:"
@@ -57,8 +60,21 @@ help:
 	@echo "RPI4 SUITE:    make verify-rpi4"
 
 dirs:
-	@mkdir -p $(RAW_LOGS) $(SUMMARY) $(ARTIFACTS)/raw $(ARTIFACTS)/processed $(PLOTS) \
-	          $(ARTIFACTS)/logs raw_logs_prior summary_prior
+	@mkdir -p $(RAW_LOGS) $(SUMMARY) build tmp results $(ARTIFACTS)/raw $(ARTIFACTS)/processed $(PLOTS) \
+	          $(ARTIFACTS)/logs logs raw_logs_prior summary_prior
+
+doctor: dirs
+	$(PYTHON) scripts/doctor.py
+
+clean-safe:
+	rm -rf build tmp results *.so __pycache__ benchmarks/__pycache__ src/__pycache__ scripts/__pycache__ tools/__pycache__
+	@echo "Cleaned build artifacts, temporary files, and compiled extension. Preserved raw_logs and summary."
+
+reset: clean-safe dirs
+	@echo "Resetting environment & rebuilding C extension..."
+	$(PYTHON) -c "from src.benchmark_utils import ensure_c_extension; ensure_c_extension()"
+	$(PYTHON) scripts/doctor.py --fix
+	@echo "Reset complete."
 
 # ============================================================================
 # Pre-flight
