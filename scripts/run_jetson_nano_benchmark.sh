@@ -1,5 +1,13 @@
-#!/bin/bash
-set -euo pipefail
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+cleanup() {
+    local exit_code=$?
+    if [ "$exit_code" -ne 0 ]; then
+        echo "[ERROR] run_jetson_nano_benchmark.sh failed with exit code $exit_code" >&2
+    fi
+}
+trap cleanup EXIT
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT_DIR}"
@@ -37,7 +45,7 @@ echo "Repo: ${ROOT_DIR}"
 echo "Backends: ${BACKENDS}"
 echo "========================================"
 
-python3 benchmarks/run_all_benchmarks.py --mode micro --runs 30 --warmup 10 --paper-assets all
+python3 benchmarks/run_all_benchmarks.py --mode micro --runs 40 --warmup 10 --paper-assets all
 python3 tools/compare_edge_backends.py "${COMPARE_ARGS[@]}"
 
 echo "========================================"

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import argparse
 import csv
@@ -12,9 +11,14 @@ import subprocess
 import sys
 import tempfile
 import time
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Optional, Union
+
+try:
+    from dataclasses import dataclass
+except ImportError:
+    def dataclass(cls):
+        return cls
 
 import numpy as np
 import onnx
@@ -34,8 +38,8 @@ from src.runtime_cache_probe import build_platform_descriptor
 class BenchmarkResult:
     backend: str
     status: str
-    avg_latency_ms: float | None
-    std_latency_ms: float | None
+    avg_latency_ms: Optional[float]
+    std_latency_ms: Optional[float]
     runs: int
     notes: str = ""
 
@@ -298,7 +302,7 @@ def benchmark_armcl(args: argparse.Namespace) -> BenchmarkResult:
         runs=args.runs,
         warmup=args.warmup,
     )
-    completed = subprocess.run(command, shell=True, capture_output=True, text=True)
+    completed = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     combined_output = "\n".join(part for part in [completed.stdout.strip(), completed.stderr.strip()] if part)
     if completed.returncode != 0:
         return BenchmarkResult("armcl", "error", None, None, 0, combined_output or f"Command failed: {command}")

@@ -41,12 +41,12 @@ def _compile_kernel(source_path, output_path, extra_flags=None):
 
     cmd = ["gcc"] + flags + [source_path, "-o", output_path, "-lm"]
     print(f"  Compiling: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     if result.returncode != 0:
         # Try clang
         cmd[0] = "clang"
         print(f"  gcc failed, trying clang: {' '.join(cmd)}")
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         if result.returncode != 0:
             print(f"  Compilation failed: {result.stderr}")
             return False
@@ -58,7 +58,7 @@ def _count_stack_spills_objdump(binary_path):
     try:
         result = subprocess.run(
             ["objdump", "-d", binary_path],
-            capture_output=True, text=True, timeout=30
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30
         )
         if result.returncode != 0:
             print(f"  objdump failed: {result.stderr}")
@@ -68,14 +68,14 @@ def _count_stack_spills_objdump(binary_path):
         try:
             result = subprocess.run(
                 ["llvm-objdump", "-d", binary_path],
-                capture_output=True, text=True, timeout=30
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30
             )
         except FileNotFoundError:
             # macOS: use otool
             try:
                 result = subprocess.run(
                     ["otool", "-tV", binary_path],
-                    capture_output=True, text=True, timeout=30
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30
                 )
             except FileNotFoundError:
                 print("  No disassembler found (objdump, llvm-objdump, otool)")
@@ -140,8 +140,8 @@ def _run_perf_spill_counters(c_in=128, c_out=128):
     """Run perf stat to collect spill-related hardware counters."""
     # Check if perf is available
     try:
-        subprocess.run(["perf", "--version"], capture_output=True, check=True)
-    except (FileNotFoundError, subprocess.CalledProcessError):
+        subprocess.run(["perf", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    except (FileNotFoundError, OSError, subprocess.CalledProcessError):
         print("  perf not available, skipping runtime spill counters")
         return None
 
@@ -178,7 +178,7 @@ int main() {{
 
         # Compile
         cmd = ["gcc", "-O2", "-g", driver_path, kernel_path, "-o", binary_path, "-lm"]
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         if result.returncode != 0:
             print(f"  Driver compilation failed: {result.stderr}")
             return None
@@ -187,7 +187,7 @@ int main() {{
         events = "L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,instructions,cycles"
         perf_cmd = ["perf", "stat", "-e", events, binary_path]
         try:
-            result = subprocess.run(perf_cmd, capture_output=True, text=True, timeout=30)
+            result = subprocess.run(perf_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30)
         except subprocess.TimeoutExpired:
             return None
 

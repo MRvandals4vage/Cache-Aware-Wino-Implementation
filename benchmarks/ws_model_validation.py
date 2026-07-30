@@ -37,10 +37,10 @@ PAPER_WS = {
 
 def check_perf():
     try:
-        r = subprocess.run(["perf", "--version"], capture_output=True, text=True)
+        r = subprocess.run(["perf", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         if r.returncode == 0:
             return True
-    except FileNotFoundError:
+    except (FileNotFoundError, OSError):
         pass
     print("\nBLOCKER [Task B]: `perf` not found.")
     print("Install steps:")
@@ -57,8 +57,8 @@ def run_perf_cache_miss(binary, events="cache-misses,cache-references,instructio
     for i in range(n):
         cmd = ["perf", "stat", "-e", events, "--", binary]
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-            perf_out = r.stderr + r.stdout
+            r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=60)
+            perf_out = (r.stderr or "") + (r.stdout or "")
             row = {}
             for event in events.split(","):
                 m = re.search(r'([\d,]+)\s+' + re.escape(event), perf_out)
@@ -111,10 +111,10 @@ int main() {{
         cmd = ["gcc"] + flags + [driver, "-o", binary, "-lm"]
     else:
         cmd = ["gcc"] + flags + [driver, kernel_src, "-o", binary, "-lm"]
-    r = subprocess.run(cmd, capture_output=True, text=True)
+    r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     if r.returncode != 0:
         cmd[0] = "clang"
-        r = subprocess.run(cmd, capture_output=True, text=True)
+        r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     if r.returncode != 0:
         print(f"  Compilation failed: {r.stderr[:200]}")
         return None

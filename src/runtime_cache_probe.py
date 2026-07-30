@@ -99,21 +99,50 @@ def detect_platform():
         "l2_associativity": None,
         "is_raspberry_pi": False,
         "pi_model": None,
+        "is_jetson": False,
+        "jetson_model": None,
+        "tegra_release": None,
         "has_neon": False
     }
     
     # OS specific detection
     if info["os"] == "Linux":
-        # Raspberry Pi / ARM checking
+        # Check /proc/device-tree/model
         if os.path.exists("/proc/device-tree/model"):
             try:
                 with open("/proc/device-tree/model", "r") as f:
                     model = f.read().strip('\x00').strip()
-                    info["pi_model"] = model
                     if "Raspberry Pi" in model:
                         info["is_raspberry_pi"] = True
+                        info["pi_model"] = model
+                    elif "Tegra" in model or "Jetson" in model:
+                        info["is_jetson"] = True
+                        info["jetson_model"] = model
             except Exception:
                 pass
+
+        # Check /etc/nv_tegra_release for JetPack / Tegra version
+        if os.path.exists("/etc/nv_tegra_release"):
+            info["is_jetson"] = True
+            try:
+                with open("/etc/nv_tegra_release", "r") as f:
+                    info["tegra_release"] = f.read().strip()
+            except Exception:
+                pass
+            if not info["jetson_model"]:
+                info["jetson_model"] = "NVIDIA Jetson / Tegra Device"
+
+        # Differentiate Jetson models if generic
+        if info["is_jetson"] and info["jetson_model"]:
+            jm = info["jetson_model"].lower()
+            if "nano" in jm:
+                info["jetson_series"] = "Jetson Nano"
+            elif "xavier" in jm:
+                info["jetson_series"] = "Jetson Xavier"
+            elif "orin" in jm:
+                info["jetson_series"] = "Jetson Orin"
+            else:
+                info["jetson_series"] = "Generic Jetson"
                 
         if os.path.exists("/proc/cpuinfo"):
             try:

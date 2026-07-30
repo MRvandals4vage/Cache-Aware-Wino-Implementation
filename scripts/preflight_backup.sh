@@ -5,8 +5,17 @@
 # Run this FIRST, before any benchmarks, to preserve old results.
 # Constraint #2: never overwrite prior data.
 # ==============================================================================
-set -euo pipefail
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}"}/.." && pwd)"
+set -Eeuo pipefail
+
+cleanup() {
+    local exit_code=$?
+    if [ "$exit_code" -ne 0 ]; then
+        echo "[ERROR] preflight_backup.sh failed with exit code $exit_code" >&2
+    fi
+}
+trap cleanup EXIT
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT_DIR}"
 
 echo "=== Pre-flight backup ==="
