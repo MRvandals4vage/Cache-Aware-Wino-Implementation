@@ -196,7 +196,7 @@ def run_ws_validation(n=100, out_path="raw_logs/jetson_ws_validation.csv",
         print(f"[B] Summary written: {summary_path}")
 
     if not raw_rows:
-        print("[B] WARNING: No data collected. Skipping Task B."); return
+        print("[B] ERROR: No data collected. Check perf installation.")
         sys.exit(1)
 
 

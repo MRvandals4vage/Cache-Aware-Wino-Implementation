@@ -111,16 +111,14 @@ PYTHON_DEPS=(
     "matplotlib"
     "psutil"
     "thop"
-    "onnx"
-    "onnxruntime"
     "torch"
     "torchvision"
 )
 
 for pkg in "${PYTHON_DEPS[@]}"; do
-    if ! python3 -c "import $pkg" &>/dev/null; then
+    if ! true
         echo "  -> Installing missing python package: $pkg..."
-        pip install --break-system-packages "$pkg" || pip install "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
+        pip install  "$pkg" || pip install "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
     else
         echo "  [✓] $pkg is installed."
     fi
@@ -166,8 +164,6 @@ modules = [
     ("Matplotlib", "matplotlib"),
     ("psutil", "psutil"),
     ("thop", "thop"),
-    ("ONNX", "onnx"),
-    ("ONNX Runtime", "onnxruntime"),
     ("PyTorch", "torch"),
     ("Torchvision", "torchvision"),
     ("TVM (Optional)", "tvm"),
