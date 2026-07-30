@@ -1,0 +1,36 @@
+<pre><font color="#8AE234"><b>jetson@jetson-desktop</b></font>:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implemen<font color="#729FCF"><b>tation</b></font>$ make preflight-backup
+bash scripts/preflight_backup.sh
+scripts/preflight_backup.sh: line 9: unexpected EOF while looking for matching `)&apos;
+Makefile:67: recipe for target &apos;preflight-backup&apos; failed
+make: *** [preflight-backup] Error 2
+<font color="#8AE234"><b>jetson@jetson-desktop</b></font>:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implemen<font color="#729FCF"><b>tation</b></font>$ make verify-jetson
+python3 benchmarks/cache_probe_sanity.py \
+	--out raw_logs/jetson_cacheprobe.csv
+[A] Cache-probe sanity check
+   Source  : sysfs
+   L1D     : 32768 B  (32.0 KB)
+   L2      : 2097152 B  (2.00 MB)
+   Line    : 64 B
+   L1D: paper=32768B, measured=32768B -&gt; MATCH  (0.0%)
+   L2: paper=2097152B, measured=2097152B -&gt; MATCH  (0.0%)
+[A] Written to raw_logs/jetson_cacheprobe.csv
+python3 benchmarks/ws_model_validation.py \
+	--runs 100 \
+	--out raw_logs/jetson_ws_validation.csv \
+	--summary summary/ws_model_validation_summary.csv
+Traceback (most recent call last):
+  File &quot;benchmarks/ws_model_validation.py&quot;, line 212, in &lt;module&gt;
+    main()
+  File &quot;benchmarks/ws_model_validation.py&quot;, line 209, in main
+    run_ws_validation(n=args.runs, out_path=args.out, summary_path=args.summary)
+  File &quot;benchmarks/ws_model_validation.py&quot;, line 126, in run_ws_validation
+    check_perf()
+  File &quot;benchmarks/ws_model_validation.py&quot;, line 40, in check_perf
+    r = subprocess.run([&quot;perf&quot;, &quot;--version&quot;], capture_output=True, text=True)
+  File &quot;/usr/lib/python3.6/subprocess.py&quot;, line 423, in run
+    with Popen(*popenargs, **kwargs) as process:
+TypeError: __init__() got an unexpected keyword argument &apos;capture_output&apos;
+Makefile:92: recipe for target &apos;taskB&apos; failed
+make: *** [taskB] Error 1
+<font color="#8AE234"><b>jetson@jetson-desktop</b></font>:<font color="#729FCF"><b>~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implemen</b></font><font color="#8AE234"><b>jetson@jetson-desktop</b></font>:<font color="#729FCF"><b>~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implementation</b></font>$ 
+</pre>
