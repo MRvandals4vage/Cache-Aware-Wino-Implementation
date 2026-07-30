@@ -2,317 +2,535 @@
 """
 Generate reproducibility_report.md
 
-For every metric from the paper, lists:
-  - Paper's claimed value
-  - Freshly measured value (with n, CI95, p-value if applicable)
-  - MATCH or MISMATCH (with %diff)
-  - Path to the raw log file backing it
+Compares (a) prior logged value from raw_logs_prior/summary_prior/,
+(b) fresh measured value from raw_logs/summary/,
+(c) MATCH/MISMATCH with %diff, for every metric/table in the paper.
 
-Exits non-zero if any required raw log is missing.
+Constraint #5: Do NOT edit paper's claimed numbers. Only report diffs.
+Constraint #6: CacheWinograd E2E is layer-time aggregate — explicitly stated.
+Constraint #7: sys.exit(1) if any REQUIRED log is missing when called by verify-all.
 """
-import os
-import sys
-import csv
-import json
-import datetime
+import os, sys, csv, json, datetime, argparse
 
-import numpy as np
+OUT_FILE = "reproducibility_report.md"
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
-# ---------------------------------------------------------------------------
-# Paper-claimed values
-# ---------------------------------------------------------------------------
-PAPER_METRICS = {
-    # Microbenchmarks (Jetson Nano)
-    "JN_64x64_1T_fused_improvement": {"value": 43.12, "unit": "%", "desc": "Jetson Nano (64,64) 1-thread fused improvement"},
-    "RPi4_128x128_m4_improvement": {"value": 63.91, "unit": "%", "desc": "RPi4 (128,128) m=4 fused improvement"},
-    "JN_64x64_4T_fused_vs_unfused": {"value": 33.11, "unit": "%", "desc": "JN (64,64) 4-thread fused vs 4-thread unfused"},
-    "VGG16_JN_energy_improvement": {"value": 5.5, "unit": "%", "desc": "End-to-end energy improvement VGG16 JN"},
-    "vs_TVM_AutoTVM": {"value": 29.5, "unit": "%", "desc": "CacheWinograd vs TVM/AutoTVM improvement"},
-    "vs_ArmCL": {"value": 32.1, "unit": "%", "desc": "CacheWinograd vs ArmCL improvement"},
-    "RPi4_32x16_max_regression_avoided": {"value": 107.18, "unit": "%", "desc": "Max regression avoided (RPi4 32x16)"},
-    "scheduling_overhead_us": {"value": 20, "unit": "μs", "desc": "Scheduling overhead"},
-    "scheduling_overhead_per_tile_ns": {"value": 5, "unit": "ns", "desc": "Per-tile scheduling overhead"},
-    # (128,128) re-verification
-    "JN_128x128_baseline_ms": {"value": 860.65, "unit": "ms", "desc": "JN (128,128) baseline non-fused"},
-    "JN_128x128_fused_ms": {"value": 807.97, "unit": "ms", "desc": "JN (128,128) fused"},
-    "JN_128x128_improvement": {"value": -6.52, "unit": "%", "desc": "JN (128,128) improvement (regression)"},
-}
-
-# Required raw log files (verify-all fails loudly if any are missing)
+# Required logs for verify-all (non-zero exit if missing)
 REQUIRED_LOGS = {
-    "T2": "raw_logs/jetson_128x128_reverify.csv",
-    "T3": "raw_logs/tvm_armcl_full_traces.csv",
-    "T4": "raw_logs/rpi4_adaptive_m_sweep.csv",
-    "T5_e2e": "summary/e2e_comparison_table.csv",
-    "T6": "raw_logs/register_spill_128x128.csv",
-    "T7": "raw_logs/energy_per_run_vgg16.csv",
-    "microbench": "artifacts/raw/microbenchmark_raw_latencies.csv",
+    "A_cache_probe":          "raw_logs/jetson_cacheprobe.csv",
+    "B_ws_validation":        "raw_logs/jetson_ws_validation.csv",
+    "C_jetson_microbench":    "raw_logs/jetson_main_microbench.csv",
+    "D_tvm_armcl":            "raw_logs/tvm_armcl_full_traces.csv",
+    "E_ablation":             "raw_logs/jetson_ablation.csv",
+    "F_l2_macsj":             "raw_logs/jetson_l2_macsj.csv",
+    "G_fallback_heldout":     "raw_logs/jetson_fallback_heldout.csv",
+    "H_scheduling_overhead":  "raw_logs/jetson_scheduling_overhead.csv",
+    "I_register_spill":       "raw_logs/register_spill_128x128.csv",
+    "J_energy_per_run":       "raw_logs/energy_per_run_vgg16.csv",
+    "K_e2e_jetson":           "summary/e2e_comparison_table.csv",
+    "M_rpi4_microbench":      "raw_logs/rpi4_main_microbench.csv",
+    "N_adaptive_m":           "raw_logs/rpi4_adaptive_m_sweep.csv",
+    "O_e2e_rpi4":             "summary/e2e_comparison_table.csv",
 }
 
-# Optional raw log files (reported as MISSING but do NOT cause non-zero exit)
 OPTIONAL_LOGS = {
-    "T8 (optional)": "raw_logs/combined_policy.csv",
+    "L_combined_policy":      "raw_logs/combined_policy.csv",
+    "P_apple_silicon":        "raw_logs/e2e_alexnet_macos_apple_silicon.csv",
 }
 
 
-def _read_csv(path):
-    """Read CSV and return list of dicts."""
-    if not os.path.exists(path):
-        return None
-    with open(path, "r") as f:
-        reader = csv.DictReader(f)
-        return list(reader)
+def _csv(path):
+    if not path or not os.path.exists(path):
+        return []
+    try:
+        with open(path) as f:
+            return list(csv.DictReader(f))
+    except Exception:
+        return []
 
 
-def _match_status(paper_val, measured_val, threshold_pct=5.0):
-    """Determine MATCH/MISMATCH status."""
-    if paper_val == 0:
-        return "MATCH" if abs(measured_val) < 0.01 else "MISMATCH", 0.0
-    pct_diff = ((measured_val - paper_val) / abs(paper_val)) * 100.0
-    status = "MATCH" if abs(pct_diff) < threshold_pct else "MISMATCH"
-    return status, pct_diff
+def _prior(subpath):
+    """Get prior version of a file (from raw_logs_prior/ or summary_prior/)."""
+    p = subpath.replace("raw_logs/", "raw_logs_prior/").replace("summary/", "summary_prior/")
+    return p
 
 
-def generate_report():
-    """Generate the reproducibility report."""
+def _pct_diff(fresh, prior):
+    """Return %diff string between two numeric strings."""
+    try:
+        a, b = float(fresh), float(prior)
+        diff = (a - b) / abs(b) * 100.0
+        return f"{diff:+.2f}%"
+    except Exception:
+        return "N/A"
+
+
+def _match(pct_diff_str, threshold_pct=5.0):
+    try:
+        v = float(pct_diff_str.replace("%", ""))
+        return "✓ MATCH" if abs(v) <= threshold_pct else "✗ MISMATCH"
+    except Exception:
+        return "—"
+
+
+def section(lines, title):
+    lines.append(f"\n---\n\n## {title}\n")
+
+
+def subsection(lines, title):
+    lines.append(f"\n### {title}\n")
+
+
+def table_row(lines, cols):
+    lines.append("| " + " | ".join(str(c) for c in cols) + " |")
+
+
+def table_header(lines, cols):
+    lines.append("| " + " | ".join(str(c) for c in cols) + " |")
+    lines.append("| " + " | ".join(":---" for _ in cols) + " |")
+
+
+def generate_report(verify_mode=False):
+    ts = datetime.datetime.now().isoformat()
     lines = []
-    lines.append("# Reproducibility Report")
-    lines.append(f"\nGenerated: {datetime.datetime.now().isoformat()}")
-    lines.append(f"\n---\n")
-
     missing_logs = []
-    all_results = []
 
-    # ---------------------------------------------------------------------------
-    # Check required logs
-    # ---------------------------------------------------------------------------
-    lines.append("## Required Raw Log Files\n")
-    lines.append("| Task | File | Status |")
-    lines.append("| :--- | :--- | :----: |")
+    lines.append(f"# CacheWinograd Reproducibility Report")
+    lines.append(f"\nGenerated: {ts}")
+    lines.append("\n> **METHODOLOGY NOTE (Constraint #6):** CacheWinograd end-to-end latency "
+                 "is a **layer-time aggregate** of isolated per-layer kernel measurements, "
+                 "NOT a single fused end-to-end trace. Baseline end-to-end numbers "
+                 "(ORT, TVM, ArmCL) ARE true single-process runs. This asymmetry is "
+                 "stated explicitly and not hidden in any table below.\n")
+    lines.append("\n> **Column definitions:**\n"
+                 "> - **Prior**: last value from `raw_logs_prior/` / `summary_prior/`\n"
+                 "> - **Fresh**: value measured today on-device\n"
+                 "> - **%Diff**: (fresh − prior) / |prior| × 100\n"
+                 "> - **Match**: ✓ if |%diff| ≤ 5%, ✗ otherwise\n")
+
+    # =========================================================================
+    # Section 0: Log file inventory
+    # =========================================================================
+    section(lines, "0. Log File Inventory")
+    table_header(lines, ["Task", "File", "Status", "Prior File", "Prior Status"])
     for task, path in sorted(REQUIRED_LOGS.items()):
-        exists = os.path.exists(path)
-        status = "✓ FOUND" if exists else "✗ MISSING"
-        lines.append(f"| {task} | `{path}` | {status} |")
-        if not exists:
+        fresh_ok = "✓ FOUND" if os.path.exists(path) else "✗ MISSING (REQUIRED)"
+        if not os.path.exists(path):
             missing_logs.append((task, path))
+        prior_path = _prior(path)
+        prior_ok = "✓ FOUND" if os.path.exists(prior_path) else "⚠ MISSING"
+        table_row(lines, [task, f"`{path}`", fresh_ok, f"`{prior_path}`", prior_ok])
     for task, path in sorted(OPTIONAL_LOGS.items()):
-        exists = os.path.exists(path)
-        status = "✓ FOUND" if exists else "⚠️ OPTIONAL/MISSING"
-        lines.append(f"| {task} | `{path}` | {status} |")
+        fresh_ok = "✓ FOUND" if os.path.exists(path) else "⚠ OPTIONAL"
+        prior_path = _prior(path)
+        prior_ok = "✓ FOUND" if os.path.exists(prior_path) else "⚠ MISSING"
+        table_row(lines, [task, f"`{path}`", fresh_ok, f"`{prior_path}`", prior_ok])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T2: Jetson Nano (128,128) re-verification
-    # ---------------------------------------------------------------------------
-    lines.append("## T2: Jetson Nano (128,128) Re-verification\n")
-    t2_summary = _read_csv("summary/jetson_128x128_reverify_summary.csv")
-    if t2_summary:
-        lines.append("| Method | Paper (ms) | Measured (ms) | n | CI95 | p-value | Status | %diff | Raw Log |")
-        lines.append("| :----- | ---------: | ------------: | -: | ---: | :------ | :----: | ----: | :------ |")
-        for row in t2_summary:
-            lines.append(f"| {row['method']} | {row['paper_claimed_ms']} | {row['mean_ms']} | "
-                          f"{row['n']} | ±{row['ci95_ms']} | {row['p_value']} | "
-                          f"{row['match']} | {row['pct_diff_from_paper']}% | `raw_logs/jetson_128x128_reverify.csv` |")
+    # =========================================================================
+    # Section A: Cache params
+    # =========================================================================
+    section(lines, "A. Cache Parameters")
+    fresh_rows = _csv("raw_logs/jetson_cacheprobe.csv")
+    prior_rows = _csv("raw_logs_prior/jetson_cacheprobe.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskA` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/jetson_128x128_reverify.py` on Jetson Nano")
+        table_header(lines, ["Cache", "Paper (bytes)", "Prior (bytes)", "Fresh (bytes)",
+                              "%Diff Prior→Fresh", "Paper Match", "Prior→Fresh Match"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r["cache_level"] == row["cache_level"]), None)
+            prior_val = prior["measured_bytes"] if prior else "N/A"
+            pd = _pct_diff(row["measured_bytes"], prior_val)
+            table_row(lines, [
+                row["cache_level"], row["paper_bytes"], prior_val,
+                row["measured_bytes"], pd, row["status"], _match(pd),
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T3: TVM/ArmCL Statistical Rigor
-    # ---------------------------------------------------------------------------
-    lines.append("## T3: TVM/ArmCL Statistical Rigor\n")
-    t3_summary = _read_csv("summary/tvm_armcl_significance.csv")
-    if t3_summary:
-        lines.append("| Config | Baseline | n | Mean (ms) | CI95 | p-value | CW Mean | %Improvement | Status |")
-        lines.append("| :----- | :------- | -: | --------: | ---: | :------ | ------: | -----------: | :----: |")
-        for row in t3_summary:
-            lines.append(f"| {row['config']} | {row['baseline']} | {row['n']} | {row['mean_ms']} | "
-                          f"±{row['ci95_ms']} | {row['p_value']} | {row['cw_mean_ms']} | "
-                          f"{row['pct_improvement']} | {row['status']} |")
+    # =========================================================================
+    # Section B: Working-set model validation
+    # =========================================================================
+    section(lines, "B. Working-Set Model Validation")
+    fresh_rows = _csv("summary/ws_model_validation_summary.csv")
+    prior_rows = _csv("summary_prior/ws_model_validation_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskB` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/tvm_armcl_rigor.py` on Jetson Nano")
+        table_header(lines, ["Config", "WS Model (B)", "Paper WS_base", "Paper WS_ext",
+                              "Miss Rate % (fresh)", "Miss Rate % (prior)", "%Diff"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r["config"] == row["config"]), None)
+            prior_miss = prior["cache_miss_rate_pct"] if prior else "N/A"
+            pd = _pct_diff(row["cache_miss_rate_pct"], prior_miss)
+            table_row(lines, [
+                row["config"], row["ws_model_bytes"],
+                row.get("paper_ws_base", "N/A"), row.get("paper_ws_ext", "N/A"),
+                row["cache_miss_rate_pct"], prior_miss, pd,
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T4: RPi4 Adaptive-m Sweep
-    # ---------------------------------------------------------------------------
-    lines.append("## T4: RPi4 Adaptive-m Sweep\n")
-    t4_summary = _read_csv("summary/rpi4_adaptive_m_verification.csv")
-    if t4_summary:
-        lines.append("| Config | Policy m | Empirical Best m | m=2 Mean | m=2 CI95 | m=6 Mean | m=6 CI95 | p(m2 vs m6) | Match |")
-        lines.append("| :----- | -------: | ---------------: | -------: | -------: | -------: | -------: | :---------- | :---: |")
-        for row in t4_summary:
-            match = "✓" if row.get("policy_matches_empirical", "").lower() == "true" else "✗"
-            lines.append(f"| {row['config']} | {row['policy_m']} | {row['empirical_best_m']} | "
-                          f"{row['m2_mean_ms']}ms | ±{row.get('m2_ci95_ms','N/A')} | "
-                          f"{row['m6_mean_ms']}ms | ±{row.get('m6_ci95_ms','N/A')} | "
-                          f"{row.get('p_value_m2_vs_m6','N/A')} | {match} |")
+    # =========================================================================
+    # Section C: Jetson Nano main microbenchmark — ALL 7 configs
+    # =========================================================================
+    section(lines, "C. Jetson Nano Main Microbenchmark (All 7 Configs)")
+    fresh_rows = _csv("summary/jetson_main_microbench_summary.csv")
+    prior_rows = _csv("summary_prior/jetson_main_microbench_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskC` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/rpi4_adaptive_m_sweep.py` on Raspberry Pi 4")
+        table_header(lines, [
+            "Config", "Prior Baseline ms", "Fresh Baseline ms", "Prior Fused ms",
+            "Fresh Fused ms", "Prior Imp%", "Fresh Imp%", "%Diff Imp",
+            "Paper Imp%", "Paper Match", "p-value", "Sig",
+        ])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r["config"] == row["config"]), None)
+            p_bl  = prior["baseline_mean_ms"] if prior else "N/A"
+            p_fu  = prior["fused_mean_ms"]    if prior else "N/A"
+            p_imp = prior["improvement_pct"]  if prior else "N/A"
+            pd = _pct_diff(row["improvement_pct"], p_imp)
+            table_row(lines, [
+                row["config"], p_bl, row["baseline_mean_ms"],
+                p_fu, row["fused_mean_ms"],
+                p_imp, row["improvement_pct"], pd,
+                row.get("paper_improvement_pct", "N/A"),
+                row.get("match", "—"),
+                row.get("p_value", "N/A"),
+                row.get("significance", "N/A"),
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T5: End-to-End Comparison
-    # ---------------------------------------------------------------------------
-    lines.append("## T5: End-to-End Comparison\n")
-    lines.append("> **METHODOLOGY NOTE (constraint #5):** CacheWinograd end-to-end latency is a "
-                  "**layer-time aggregate** of isolated per-layer kernel measurements, NOT a single "
-                  "fused end-to-end trace. Baseline end-to-end numbers (ORT, TVM, ArmCL) ARE true "
-                  "single-process runs. This asymmetry is stated explicitly and not hidden.\n")
-    t5_summary = _read_csv("summary/e2e_comparison_table.csv")
-    if t5_summary:
-        lines.append("| Model | Platform | Baseline | Mean (ms) | CI95 | p-value | %Improvement |")
-        lines.append("| :---- | :------- | :------- | --------: | ---: | :------ | -----------: |")
-        for row in t5_summary:
-            lines.append(f"| {row['model']} | {row['platform']} | {row['baseline']} | "
-                          f"{row['mean_ms']} | ±{row['CI95']} | {row['p_value']} | "
-                          f"{row['pct_improvement']} |")
+    # =========================================================================
+    # Section D: TVM/AutoTVM + ArmCL statistical rigor
+    # =========================================================================
+    section(lines, "D. TVM / AutoTVM / ArmCL Statistical Rigor")
+    fresh_rows = _csv("summary/tvm_armcl_significance.csv")
+    prior_rows = _csv("summary_prior/tvm_armcl_significance.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskD` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/e2e_benchmark.py` on target device")
+        table_header(lines, ["Config", "Backend", "Fresh Mean ms", "Fresh CI95",
+                              "Prior Mean ms", "%Diff", "p-value", "Significant?"])
+        for row in fresh_rows:
+            key = (row.get("config", ""), row.get("backend", ""))
+            prior = next((r for r in prior_rows
+                          if r.get("config") == key[0] and r.get("backend") == key[1]), None)
+            p_mean = prior["mean_ms"] if prior else "N/A"
+            pd = _pct_diff(row.get("mean_ms", "N/A"), p_mean)
+            table_row(lines, [
+                row.get("config"), row.get("backend"),
+                row.get("mean_ms"), row.get("ci95"),
+                p_mean, pd,
+                row.get("p_value", "N/A"), row.get("status", "N/A"),
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T6: Register Spill
-    # ---------------------------------------------------------------------------
-    lines.append("## T6: Register-Spill Instrumentation\n")
-    t6_data = _read_csv("raw_logs/register_spill_128x128.csv")
-    if t6_data:
-        for row in t6_data:
-            method = row.get("method", "unknown")
-            lines.append(f"### Method: {method}\n")
-            for k, v in sorted(row.items()):
-                if k not in ("timestamp", "method"):
-                    lines.append(f"- **{k}**: {v}")
-            lines.append("")
+    # =========================================================================
+    # Section E: Ablation
+    # =========================================================================
+    section(lines, "E. Multi-Core / Fusion × Threading Ablation")
+    fresh_rows = _csv("summary/jetson_ablation_summary.csv")
+    prior_rows = _csv("summary_prior/jetson_ablation_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskE` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/register_spill_instrument.py`")
+        table_header(lines, ["Config", "Mode", "Fresh Mean ms", "Fresh CI95",
+                              "Prior Mean ms", "%Diff", "Paper Imp%", "Match"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows
+                          if r.get("config") == row.get("config")
+                          and r.get("mode") == row.get("mode")), None)
+            p_mean = prior["mean_ms"] if prior else "N/A"
+            pd = _pct_diff(row.get("mean_ms"), p_mean)
+            table_row(lines, [
+                row.get("config"), row.get("mode"),
+                row.get("mean_ms"), row.get("ci95_ms"),
+                p_mean, pd,
+                row.get("paper_fused_4T_vs_unfused_4T_pct", "N/A"),
+                row.get("match", "—"),
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T7: Energy Per-Run
-    # ---------------------------------------------------------------------------
-    lines.append("## T7: Energy Per-Run Distribution (VGG16)\n")
-    t7_summary = _read_csv("summary/energy_vgg16_summary.csv")
-    if t7_summary:
-        for row in t7_summary:
-            lines.append(f"- **Model**: {row['model']}")
-            lines.append(f"- **n**: {row['n']}")
-            lines.append(f"- **Mean Energy**: {row['mean_energy_mj']} mJ")
-            lines.append(f"- **CI95 Energy**: ±{row['ci95_energy_mj']} mJ")
-            lines.append(f"- **Mean Latency**: {row['mean_latency_ms']} ms")
-            lines.append(f"- **Mean Power**: {row['mean_power_mw']} mW")
-            lines.append(f"- **On Jetson (INA3221)**: {row['is_jetson']}")
+    # =========================================================================
+    # Section F: L2 hit rate + MACs/Joule
+    # =========================================================================
+    section(lines, "F. L2 Hit Rate + MACs/Joule")
+    fresh_rows = _csv("summary/jetson_l2_macsj_summary.csv")
+    prior_rows = _csv("summary_prior/jetson_l2_macsj_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskF` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/energy_per_run.py` on Jetson Nano")
+        table_header(lines, ["Config", "Method", "Fresh Mean ms", "MACs/J (fresh)",
+                              "Prior MACs/J", "%Diff MACs/J"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows
+                          if r.get("config") == row.get("config")
+                          and r.get("method") == row.get("method")), None)
+            p_mj = prior["macs_per_joule"] if prior else "N/A"
+            pd = _pct_diff(row.get("macs_per_joule", "N/A"), p_mj)
+            table_row(lines, [
+                row.get("config"), row.get("method"),
+                row.get("mean_ms"), row.get("macs_per_joule"), p_mj, pd,
+            ])
 
-    lines.append(f"\n---\n")
-
-    # ---------------------------------------------------------------------------
-    # T8: Combined Policy
-    # ---------------------------------------------------------------------------
-    lines.append("## T8: Combined Fusion+Parallelism Policy\n")
-    t8_summary = _read_csv("summary/combined_policy_summary.csv")
-    if t8_summary:
-        lines.append("| Config | Regime | Policy Mode | Policy Mean (ms) | Best Mode | Best Mean (ms) | Optimal | p-value |")
-        lines.append("| :----- | :----- | :---------- | ---------------: | :-------- | -------------: | :-----: | :------ |")
-        for row in t8_summary:
-            optimal = "✓" if row.get("policy_is_optimal", "").lower() == "true" else "✗"
-            lines.append(f"| {row['config']} | {row['regime']} | {row['policy_mode']} | "
-                          f"{row['policy_mean_ms']} | {row['best_mode']} | {row['best_mean_ms']} | "
-                          f"{optimal} | {row['p_value']} |")
+    # =========================================================================
+    # Section G: Fallback-guard verification (all 8 rows = 6 from C + 2 from G)
+    # =========================================================================
+    section(lines, "G. Fallback-Guard Verification Table (All 8 Rows)")
+    subsection(lines, "G1. Standard configs (from Task C data)")
+    lines.append("*(Rows for (16,32),(32,16),(32,32),(32,64),(64,32),(64,64) "
+                 "come from Section C above — see there for details)*\n")
+    subsection(lines, "G2. Held-out configs")
+    fresh_rows = _csv("summary/jetson_fallback_heldout_summary.csv")
+    prior_rows = _csv("summary_prior/jetson_fallback_heldout_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskG` on Jetson Nano\n")
     else:
-        lines.append("> **NOT RUN** — Execute `python benchmarks/combined_policy.py`")
+        table_header(lines, ["Config", "Fallback?", "Tile", "WS (B)", "L1 (B)",
+                              "Fresh Imp%", "Prior Imp%", "%Diff", "p-value", "Sig"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r.get("config") == row.get("config")), None)
+            p_imp = prior["improvement_pct"] if prior else "N/A"
+            pd = _pct_diff(row.get("improvement_pct"), p_imp)
+            table_row(lines, [
+                row.get("config"), row.get("fallback_triggered"),
+                row.get("tile"), row.get("working_set_bytes"), row.get("l1_capacity_bytes"),
+                row.get("improvement_pct"), p_imp, pd,
+                row.get("p_value"), row.get("significance"),
+            ])
 
-    lines.append(f"\n---\n")
+    # =========================================================================
+    # Section H: Scheduling overhead
+    # =========================================================================
+    section(lines, "H. Scheduling Overhead — Measured vs Architectural Estimate")
+    fresh_rows = _csv("summary/jetson_scheduling_overhead_summary.csv")
+    prior_rows = _csv("summary_prior/jetson_scheduling_overhead_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskH` on Jetson/any Linux\n")
+    else:
+        table_header(lines, ["Phase", "Config", "Paper Claim", "Prior (μs)",
+                              "Fresh (μs)", "CI95 (μs)", "%Diff", "Match"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r.get("phase") == row.get("phase")
+                          and r.get("config") == row.get("config")), None)
+            p_us = prior["mean_us"] if prior else "N/A"
+            pd = _pct_diff(row.get("mean_us"), p_us)
+            paper = row.get("paper_claim_us", row.get("paper_claim_ns", "N/A"))
+            table_row(lines, [
+                row.get("phase"), row.get("config"), paper, p_us,
+                row.get("mean_us"), row.get("ci95_us"), pd, row.get("match", "—"),
+            ])
 
-    # ---------------------------------------------------------------------------
-    # Global Verification Pass
-    # ---------------------------------------------------------------------------
-    lines.append("## Global Verification Pass\n")
-    lines.append("| Metric | Paper Value | Measured Value | n | CI95 | Status | %Diff | Raw Log |")
-    lines.append("| :----- | ----------: | -------------: | -: | ---: | :----: | ----: | :------ |")
+    # =========================================================================
+    # Section I: Register-spill
+    # =========================================================================
+    section(lines, "I. Register-Spill Instrumentation (128,128)")
+    fresh_rows = _csv("raw_logs/register_spill_128x128.csv")
+    prior_rows = _csv("raw_logs_prior/register_spill_128x128.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskI` on Jetson Nano\n")
+    else:
+        row = fresh_rows[-1]  # most recent
+        prior = prior_rows[-1] if prior_rows else None
+        p_count = prior.get("spill_count", "N/A") if prior else "N/A"
+        pd = _pct_diff(row.get("spill_count", "N/A"), p_count)
+        table_header(lines, ["Method", "Spill Count (fresh)", "Spill Count (prior)", "%Diff",
+                              "Over-sub Ratio", "Hypothesis"])
+        table_row(lines, [
+            row.get("method", "N/A"), row.get("spill_count", "N/A"), p_count, pd,
+            row.get("over_sub_ratio", "N/A"), row.get("hypothesis", "N/A"),
+        ])
 
-    # Process existing microbenchmark data
-    microbench = _read_csv("artifacts/processed/paper_table_microbench.csv")
-    if microbench:
-        for row in microbench:
-            c_in, c_out = row.get("C_in", ""), row.get("C_out", "")
-            fused = row.get("Fused", "")
-            mc = row.get("MultiCore", "")
-            imp = row.get("Improvement_vs_Baseline_pct", "N/A")
-            if imp != "N/A":
-                lines.append(f"| ({c_in},{c_out}) F={fused} T={'4' if mc=='True' else '1'} | "
-                              f"(see paper) | {row.get('Mean_Latency_ms', 'N/A')}ms / {imp}% | "
-                              f"{row.get('Runs', 'N/A')} | ±{row.get('CI95_ms', 'N/A')} | "
-                              f"MEASURED | — | `artifacts/raw/microbenchmark_raw_latencies.csv` |")
+    # =========================================================================
+    # Section J: Energy per-run VGG16
+    # =========================================================================
+    section(lines, "J. Energy Per-Run Distribution — VGG16")
+    fresh_rows = _csv("raw_logs/energy_per_run_vgg16.csv")
+    prior_rows = _csv("raw_logs_prior/energy_per_run_vgg16.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskJ` on Jetson Nano\n")
+    else:
+        import statistics, math
+        vals = [float(r["energy_mj"]) for r in fresh_rows
+                if r.get("energy_mj") not in (None, "N/A", "")]
+        if vals:
+            n = len(vals)
+            mean = statistics.mean(vals)
+            sd = statistics.stdev(vals)
+            ci95 = 1.96 * sd / math.sqrt(n)
+            pvals = [float(r["energy_mj"]) for r in prior_rows
+                     if r.get("energy_mj") not in (None, "N/A", "")]
+            prior_mean = statistics.mean(pvals) if pvals else None
+            pd = _pct_diff(mean, prior_mean) if prior_mean else "N/A"
+            lines.append(f"| Metric | Prior | Fresh | %Diff |\n|:---|---:|---:|---:|")
+            lines.append(f"| Mean energy (mJ) | {round(prior_mean,4) if prior_mean else 'N/A'} "
+                         f"| {round(mean,4)} | {pd} |")
+            lines.append(f"| CI95 (mJ)        | N/A | ±{round(ci95,4)} | N/A |")
+            lines.append(f"| n                | {len(pvals)} | {n} | — |")
+            lines.append(f"\n> Paper claims 5.5% energy improvement. "
+                         f"Compare fused vs baseline rows in the raw CSV.\n")
+        else:
+            lines.append("> Energy data present but no numeric energy_mj values found.\n")
 
-    # Add paper metrics that need on-device verification
-    for key, info in PAPER_METRICS.items():
-        measured = "PENDING"
-        n = "—"
-        ci95 = "—"
-        status = "PENDING"
-        pct_diff = "—"
-        raw_log = "—"
+    # =========================================================================
+    # Section K/O: End-to-end inference (Jetson + RPi4)
+    # =========================================================================
+    section(lines, "K/O. End-to-End Inference (Jetson Nano + Raspberry Pi 4)")
+    lines.append("\n> **METHODOLOGY (Constraint #6):** CacheWinograd E2E = layer-time aggregate. "
+                 "ORT / TVM / ArmCL = true single-process runs.\n")
+    fresh_rows = _csv("summary/e2e_comparison_table.csv")
+    prior_rows = _csv("summary_prior/e2e_comparison_table.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskK` (Jetson) and `make taskO` (RPi4)\n")
+    else:
+        table_header(lines, ["Model", "Platform", "Baseline", "Prior Mean ms", "Fresh Mean ms",
+                              "CI95", "%Diff", "Fresh Imp%", "p-value", "Sig", "Match"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows
+                          if r.get("model") == row.get("model")
+                          and r.get("platform") == row.get("platform")
+                          and r.get("baseline") == row.get("baseline")), None)
+            p_mean = prior["mean_ms"] if prior else "N/A"
+            pd = _pct_diff(row.get("mean_ms"), p_mean)
+            table_row(lines, [
+                row.get("model"), row.get("platform"), row.get("baseline"),
+                p_mean, row.get("mean_ms"), row.get("CI95"),
+                pd, row.get("pct_improvement"), row.get("p_value"), row.get("significance"),
+                _match(pd),
+            ])
 
-        # Try to match from existing data
-        if "128x128" in key and t2_summary:
-            for row in t2_summary:
-                if "baseline" in key.lower() and row["method"] == "baseline_nonfused":
-                    measured = f"{row['mean_ms']}ms"
-                    n = row["n"]
-                    ci95 = f"±{row['ci95_ms']}"
-                    status = row["match"]
-                    pct_diff = f"{row['pct_diff_from_paper']}%"
-                    raw_log = "`raw_logs/jetson_128x128_reverify.csv`"
-                elif "fused" in key.lower() and "baseline" not in key.lower() and row["method"] == "fused":
-                    measured = f"{row['mean_ms']}ms"
-                    n = row["n"]
-                    ci95 = f"±{row['ci95_ms']}"
-                    status = row["match"]
-                    pct_diff = f"{row['pct_diff_from_paper']}%"
-                    raw_log = "`raw_logs/jetson_128x128_reverify.csv`"
+    # =========================================================================
+    # Section M: RPi4 main microbenchmark
+    # =========================================================================
+    section(lines, "M. Raspberry Pi 4 Main Microbenchmark (All 7 Configs, m=4)")
+    fresh_rows = _csv("summary/rpi4_main_microbench_summary.csv")
+    prior_rows = _csv("summary_prior/rpi4_main_microbench_summary.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskM` on Raspberry Pi 4\n")
+    else:
+        table_header(lines, ["Config", "Prior Baseline ms", "Fresh Baseline ms",
+                              "Prior Fused ms", "Fresh Fused ms", "Prior Imp%",
+                              "Fresh Imp%", "%Diff Imp", "Paper Imp%", "Match", "p-value"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r.get("config") == row.get("config")), None)
+            p_bl  = prior["baseline_mean_ms"] if prior else "N/A"
+            p_fu  = prior["fused_mean_ms"]    if prior else "N/A"
+            p_imp = prior["improvement_pct"]  if prior else "N/A"
+            pd = _pct_diff(row.get("improvement_pct"), p_imp)
+            table_row(lines, [
+                row.get("config"), p_bl, row.get("baseline_mean_ms"),
+                p_fu, row.get("fused_mean_ms"), p_imp, row.get("improvement_pct"), pd,
+                row.get("paper_improvement_pct", "N/A"), row.get("match", "—"),
+                row.get("p_value", "N/A"),
+            ])
 
-        lines.append(f"| {info['desc']} | {info['value']}{info['unit']} | {measured} | "
-                      f"{n} | {ci95} | {status} | {pct_diff} | {raw_log} |")
+    # =========================================================================
+    # Section N: Adaptive-m selection correctness
+    # =========================================================================
+    section(lines, "N. Adaptive-m Selection — RPi4 All 7 Configs at m∈{2,4,6}")
+    fresh_rows = _csv("summary/rpi4_adaptive_m_verification.csv")
+    prior_rows = _csv("summary_prior/rpi4_adaptive_m_verification.csv")
+    if not fresh_rows:
+        lines.append("> **NOT RUN** — Execute `make taskN` on Raspberry Pi 4\n")
+    else:
+        table_header(lines, ["Config", "Policy m", "Empirical Best m", "m=2 ms", "m=6 ms",
+                              "p(m2 vs m6)", "Match?", "Prior Match?"])
+        for row in fresh_rows:
+            prior = next((r for r in prior_rows if r.get("config") == row.get("config")), None)
+            p_match = prior.get("policy_matches_empirical", "N/A") if prior else "N/A"
+            table_row(lines, [
+                row.get("config"), row.get("policy_m"), row.get("empirical_best_m"),
+                f"{row.get('m2_mean_ms')}±{row.get('m2_ci95_ms')}",
+                f"{row.get('m6_mean_ms')}±{row.get('m6_ci95_ms')}",
+                row.get("p_value_m2_vs_m6", "N/A"),
+                row.get("policy_matches_empirical"), p_match,
+            ])
 
-    lines.append(f"\n---\n")
+    # =========================================================================
+    # Derived tables
+    # =========================================================================
+    section(lines, "R. R_min Sensitivity Table (Recomputed)")
+    fresh_rows = _csv("summary/rmin_sensitivity.csv")
+    if not fresh_rows:
+        lines.append("> **NOT COMPUTED** — Execute `make derived-tables`\n")
+    else:
+        table_header(lines, ["R_min", "Config", "Selected Tile", "Jetson Imp%", "RPi4 Imp%"])
+        for row in fresh_rows:
+            table_row(lines, [row.get("r_min"), row.get("c_in") + "," + row.get("c_out"),
+                               row.get("selected_tile"),
+                               row.get("jetson_improvement_pct", "N/A"),
+                               row.get("rpi4_improvement_pct", "N/A")])
 
-    # ---------------------------------------------------------------------------
-    # Missing logs warning
-    # ---------------------------------------------------------------------------
+    section(lines, "S. Cross-Platform Comparison Table (Recomputed)")
+    fresh_rows = _csv("summary/cross_platform_comparison.csv")
+    if not fresh_rows:
+        lines.append("> **NOT COMPUTED** — Execute `make derived-tables`\n")
+    else:
+        table_header(lines, ["Config", "Jetson Baseline ms", "Jetson Fused ms", "Jetson Imp%",
+                              "RPi4 Baseline ms", "RPi4 Fused ms", "RPi4 Imp%"])
+        for row in fresh_rows:
+            table_row(lines, [
+                f"({row['c_in']},{row['c_out']})",
+                row["jetson_baseline_ms"], row["jetson_fused_ms"], row["jetson_improvement"],
+                row["rpi4_baseline_ms"],   row["rpi4_fused_ms"],   row["rpi4_improvement"],
+            ])
+
+    section(lines, "T. Roofline Table (Recomputed)")
+    fresh_rows = _csv("summary/roofline_table.csv")
+    if not fresh_rows:
+        lines.append("> **NOT COMPUTED** — Execute `make derived-tables`\n")
+    else:
+        table_header(lines, ["Config", "MACs", "AI (FLOP/B)", "Ridge (FLOP/B)",
+                              "Bounded By", "Measured GFLOPS", "Note"])
+        for row in fresh_rows:
+            table_row(lines, [
+                f"({row['c_in']},{row['c_out']})", row["macs"],
+                row["arithmetic_intensity_flop_byte"], row["ridge_point_flop_byte"],
+                row["bounded_by"], row["measured_gflops"], row.get("note", "")[:60],
+            ])
+
+    section(lines, "U. Fusion DRAM Savings Table (Recomputed)")
+    fresh_rows = _csv("summary/fusion_dram_savings.csv")
+    if not fresh_rows:
+        lines.append("> **NOT COMPUTED** — Execute `make derived-tables`\n")
+    else:
+        table_header(lines, ["Config", "Tile", "Transform Bytes Eliminated",
+                              "Total Non-fused DRAM", "Savings %"])
+        for row in fresh_rows:
+            table_row(lines, [
+                f"({row['c_in']},{row['c_out']})", row["tile_name"],
+                row["transform_bytes_eliminated"], row["total_nonfused_dram_bytes"],
+                row["dram_savings_pct"],
+            ])
+
+    # =========================================================================
+    # Missing log summary
+    # =========================================================================
+    section(lines, "Z. Summary of Missing Logs")
     if missing_logs:
-        lines.append("## ⚠️ Missing Required Logs\n")
-        lines.append("The following raw log files are required but missing:\n")
+        lines.append(f"> **{len(missing_logs)} REQUIRED log(s) missing:**\n")
         for task, path in missing_logs:
-            lines.append(f"- **{task}**: `{path}`")
-        lines.append("\nRun `make verify-all` on the target devices to collect all data.")
+            lines.append(f"> - `{task}`: `{path}`")
+        lines.append("")
+    else:
+        lines.append("> ✓ All required logs present.\n")
 
     # Write report
-    report_path = "reproducibility_report.md"
-    with open(report_path, "w") as f:
-        f.write("\n".join(lines) + "\n")
+    with open(OUT_FILE, "w") as f:
+        f.write("\n".join(lines))
+    print(f"\nReport written to: {OUT_FILE}")
 
-    print(f"[Report] Written to {report_path}")
-    print(f"         {len(missing_logs)} required log(s) missing")
+    # Constraint #7
+    if verify_mode and missing_logs:
+        print(f"\nERROR: {len(missing_logs)} required log(s) missing. "
+              "Cannot certify full reproducibility.")
+        for task, path in missing_logs:
+            print(f"  MISSING: {path}  (task {task})")
+        sys.exit(1)
 
-    if missing_logs:
-        print("\nERROR: Missing required raw logs. Exit code 1.")
-        return 1
-    return 0
+    return missing_logs
 
 
 def main():
-    sys.exit(generate_report())
-
+    p = argparse.ArgumentParser()
+    p.add_argument("--verify", action="store_true",
+                   help="Exit non-zero if any required log is missing (for make verify-all)")
+    args = p.parse_args()
+    generate_report(verify_mode=args.verify)
 
 if __name__ == "__main__":
     main()
