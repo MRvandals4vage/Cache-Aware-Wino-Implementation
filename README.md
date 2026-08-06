@@ -145,3 +145,65 @@ python3 benchmarks/jetson_main_microbench.py \
   Config (64,64):
       baseline_nonfused: mean=2736.3290ms CI95=±14.3341ms
 
+___________________________________________________________________________
+
+jetson@jetson-desktop:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implementation$ make taskC
+python3 benchmarks/jetson_main_microbench.py \
+	--runs 1000 --warmup 20 --height 56 --width 56 \
+	--raw raw_logs/jetson_main_microbench.csv \
+	--summary summary/jetson_main_microbench_summary.csv
+[C] Jetson Nano Main Microbenchmark — ALL 7 configs
+    n=1000, warmup=20, H'=56, W'=56
+
+  Config (16,32):
+      baseline_nonfused: mean=375.8624ms CI95=±1.4305ms
+      fused: mean=534.2509ms CI95=±1.6673ms
+    improvement=-42.14% | paper=None% | NO_PAPER_CLAIM
+
+  Config (32,16):
+      baseline_nonfused: mean=200.1063ms CI95=±1.2176ms
+      fused: mean=305.5371ms CI95=±2.3983ms
+    improvement=-52.69% | paper=None% | NO_PAPER_CLAIM
+
+  Config (32,32):
+      baseline_nonfused: mean=508.0220ms CI95=±1.3310ms
+      fused: mean=595.9191ms CI95=±1.0513ms
+    improvement=-17.30% | paper=None% | NO_PAPER_CLAIM
+
+  Config (32,64):
+      baseline_nonfused: mean=1548.0921ms CI95=±2.6943ms
+      fused: mean=1426.6242ms CI95=±0.3885ms
+    improvement=7.85% | paper=None% | NO_PAPER_CLAIM
+
+  Config (64,32):
+      baseline_nonfused: mean=781.7652ms CI95=±1.5058ms
+      fused: mean=713.5873ms CI95=±0.4984ms
+    improvement=8.72% | paper=None% | NO_PAPER_CLAIM
+
+  Config (64,64):
+      baseline_nonfused: mean=2543.5260ms CI95=±4.4194ms
+      fused: mean=1786.3426ms CI95=±1.4440ms
+    improvement=29.77% | paper=None% | NO_PAPER_CLAIM
+
+^CTraceback (most recent call last):
+  File "benchmarks/jetson_main_microbench.py", line 173, in <module>
+    main()
+  File "benchmarks/jetson_main_microbench.py", line 170, in main
+    raw_path=args.raw, summary_path=args.summary)
+  File "benchmarks/jetson_main_microbench.py", line 108, in run_suite
+    c_in, c_out, h, w, n_runs, warmup, ts)
+  File "benchmarks/jetson_main_microbench.py", line 72, in run_config
+    run_fn(input_tile, U)
+  File "benchmarks/../src/fused_winograd_kernel.py", line 51, in run_non_fused
+    M_sum = np.sum(M, axis=1) # (c_out, 4, 4)
+  File "<__array_function__ internals>", line 6, in sum
+  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 2242, in sum
+    initial=initial, where=where)
+  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 87, in _wrapreduction
+    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+KeyboardInterrupt
+Makefile:117: recipe for target 'taskC' failed
+make: *** [taskC] Error 1
+
+
+
