@@ -22,3 +22,9 @@ __pycache__/
 __pycache__/
 *.pyc
 >>>>>>> c253299 (setting up pipeline)
+
+venv/
+raw_logs/.~lock*
+
+venv/
+raw_logs/.~lock*
