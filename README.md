@@ -206,4 +206,62 @@ Makefile:117: recipe for target 'taskC' failed
 make: *** [taskC] Error 1
 
 
+jetson@jetson-desktop:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implementation$ make taskD
+python3 benchmarks/tvm_armcl_rigor.py --runs 1000 --warmup 20
+
+[T3] Config (32,64), H=56, W=56
+     CacheWinograd: mean=1562.09ms
+     [tvm] TVM not available, skipping.
+     tvm: SKIPPED (not available)
+     [autotvm] TVM not available, skipping.
+     autotvm: SKIPPED (not available)
+     [armcl] No ARMCL_COMMAND set, skipping.
+     armcl: SKIPPED (not available)
+
+[T3] Config (64,32), H=56, W=56
+     CacheWinograd: mean=792.19ms
+     [tvm] TVM not available, skipping.
+     tvm: SKIPPED (not available)
+     [autotvm] TVM not available, skipping.
+     autotvm: SKIPPED (not available)
+     [armcl] No ARMCL_COMMAND set, skipping.
+     armcl: SKIPPED (not available)
+
+[T3] Config (64,64), H=56, W=56
+     CacheWinograd: mean=1928.82ms
+     [tvm] TVM not available, skipping.
+     tvm: SKIPPED (not available)
+     [autotvm] TVM not available, skipping.
+     autotvm: SKIPPED (not available)
+     [armcl] No ARMCL_COMMAND set, skipping.
+     armcl: SKIPPED (not available)
+
+[T3] Appended 3000 rows to raw_logs/tvm_armcl_full_traces.csv
+[T3] Summary written to summary/tvm_armcl_significance.csv
+jetson@jetson-desktop:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implementation$ make taskE
+python3 benchmarks/jetson_ablation.py \
+	--runs 1000 --warmup 20 --height 56 --width 56
+[E] Jetson Ablation — fusion x threading
+    n=1000, warmup=20, H'=56, W'=56
+
+  Config (64,64), tile=F(2,3):
+    unfused_1T: mean=2684.1080ms CI95=±8.5769ms
+^CTraceback (most recent call last):
+  File "benchmarks/jetson_ablation.py", line 168, in <module>
+    main()
+  File "benchmarks/jetson_ablation.py", line 165, in main
+    run_ablation(n_runs=args.runs, warmup=args.warmup, h=args.height, w=args.width)
+  File "benchmarks/jetson_ablation.py", line 79, in run_ablation
+    run_fn(input_tile, U)
+  File "benchmarks/../src/fused_winograd_kernel.py", line 51, in run_non_fused
+    M_sum = np.sum(M, axis=1) # (c_out, 4, 4)
+  File "<__array_function__ internals>", line 6, in sum
+  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 2242, in sum
+    initial=initial, where=where)
+  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 87, in _wrapreduction
+    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+KeyboardInterrupt
+Makefile:132: recipe for target 'taskE' failed
+make: *** [taskE] Error 1
+
 
