@@ -14,7 +14,7 @@ SUMMARY   := summary
 ARTIFACTS := artifacts
 PLOTS     := $(ARTIFACTS)/plots
 
-.PHONY: help dirs doctor preflight preflight-backup clean-safe reset smoke-test \
+.PHONY: help dirs doctor preflight preflight-backup clean-safe reset smoke-test quick-test \
         taskA taskB taskC taskD taskE taskF taskG taskH taskI taskJ taskK taskL \
         taskM taskN taskO taskP \
         derived-tables plots report verify-all \
@@ -93,6 +93,20 @@ smoke-test: dirs
 		--plot-dir $(PLOTS) || true
 	$(PYTHON) scripts/generate_reproducibility_report.py || true
 	@echo "=== Smoke Test PASSED (errors above are expected on empty data) ==="
+
+# ============================================================================
+# quick-test: fast local dev sanity — reduced params, completes in ~2 min
+# Use this for iterative development; taskC/taskE are intended for Jetson Nano.
+# ============================================================================
+quick-test: dirs
+	@echo "=== Quick Test (n=50, dev only — do NOT use these numbers) ==="
+	$(PYTHON) benchmarks/jetson_main_microbench.py \
+		--runs 50 --warmup 5 --height 14 --width 14 \
+		--raw $(RAW_LOGS)/quicktest_main_microbench.csv \
+		--summary $(SUMMARY)/quicktest_main_microbench_summary.csv
+	$(PYTHON) benchmarks/jetson_ablation.py \
+		--runs 50 --warmup 5 --height 14 --width 14
+	@echo "=== Quick Test DONE ==="
 
 # ============================================================================
 # Task A: Cache-probe sanity
