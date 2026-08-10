@@ -1,4 +1,3 @@
-# Cache-Aware Winograd Edge Benchmark Suite
 
 
 This repository benchmarks a cache-aware fused Winograd implementation on CPU-class edge devices and compares it against optional external backends such as TVM, AutoTVM, and ARM Compute Library.
