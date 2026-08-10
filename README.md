@@ -1,5 +1,6 @@
 # Cache-Aware Winograd Edge Benchmark Suite
 
+
 This repository benchmarks a cache-aware fused Winograd implementation on CPU-class edge devices and compares it against optional external backends such as TVM, AutoTVM, and ARM Compute Library.
 
 ## Project Layout
@@ -238,6 +239,8 @@ python3 benchmarks/tvm_armcl_rigor.py --runs 1000 --warmup 20
 
 [T3] Appended 3000 rows to raw_logs/tvm_armcl_full_traces.csv
 [T3] Summary written to summary/tvm_armcl_significance.csv
+
+
 jetson@jetson-desktop:~/Documents/Cache Aware Winograd/Cache-Aware-Wino-Implementation$ make taskE
 python3 benchmarks/jetson_ablation.py \
 	--runs 1000 --warmup 20 --height 56 --width 56
@@ -245,7 +248,13 @@ python3 benchmarks/jetson_ablation.py \
     n=1000, warmup=20, H'=56, W'=56
 
   Config (64,64), tile=F(2,3):
-    unfused_1T: mean=2684.1080ms CI95=±8.5769ms
+    unfused_1T: mean=1761.9983ms CI95=±1.4369ms
+    unfused_4T: mean=1739.4361ms CI95=±0.8421ms
+    fused_1T: mean=1753.5704ms CI95=±0.8366ms
+    fused_4T: mean=1757.8550ms CI95=±1.0464ms
+
+  Config (128,128), tile=F(2,3):
+    unfused_1T: mean=7762.4923ms CI95=±5.4691ms
 ^CTraceback (most recent call last):
   File "benchmarks/jetson_ablation.py", line 168, in <module>
     main()
@@ -253,15 +262,11 @@ python3 benchmarks/jetson_ablation.py \
     run_ablation(n_runs=args.runs, warmup=args.warmup, h=args.height, w=args.width)
   File "benchmarks/jetson_ablation.py", line 79, in run_ablation
     run_fn(input_tile, U)
-  File "benchmarks/../src/fused_winograd_kernel.py", line 51, in run_non_fused
-    M_sum = np.sum(M, axis=1) # (c_out, 4, 4)
-  File "<__array_function__ internals>", line 6, in sum
-  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 2242, in sum
-    initial=initial, where=where)
-  File "/home/jetson/.local/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 87, in _wrapreduction
-    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+  File "benchmarks/../src/fused_winograd_kernel.py", line 136, in run_non_fused
+    V = np.matmul(np.matmul(BT, input_tile), BT.T)
 KeyboardInterrupt
-Makefile:132: recipe for target 'taskE' failed
+Makefile:146: recipe for target 'taskE' failed
 make: *** [taskE] Error 1
+
 
 
