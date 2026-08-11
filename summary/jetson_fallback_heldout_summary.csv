@@ -1,0 +1,3 @@
+config,c_in,c_out,tile,working_set_bytes,l1_capacity_bytes,fallback_triggered,n,baseline_mean_ms,baseline_ci95_ms,fused_mean_ms,fused_ci95_ms,improvement_pct,p_value,significance
+"(48,96)",48,96,"F(2,3)",53376,32768,True,1000,2784.7094,0.7447,2776.2298,1.0147,0.3045,< 1e-10,SIGNIFICANT
+"(96,48)",96,48,"F(2,3)",105600,32768,True,1000,1405.7981,0.4704,1402.8156,0.6446,0.2122,< 1e-10,SIGNIFICANT
