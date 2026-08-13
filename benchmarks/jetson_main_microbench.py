@@ -89,7 +89,8 @@ def run_config(kernel, tiler, scheduler, c_in, c_out, h, w, n_runs, warmup, ts):
 
 def run_suite(n_runs=1000, warmup=20, h=56, w=56,
               raw_path="raw_logs/jetson_main_microbench.csv",
-              summary_path="summary/jetson_main_microbench_summary.csv"):
+              summary_path="summary/jetson_main_microbench_summary.csv",
+              only_128=False):
     from scipy import stats as sp_stats
     ts = datetime.datetime.now().isoformat()
     kernel = FusedWinogradKernel()
@@ -98,10 +99,12 @@ def run_suite(n_runs=1000, warmup=20, h=56, w=56,
 
     all_raw, all_summary = [], []
 
-    print(f"[C] Jetson Nano Main Microbenchmark — ALL 7 configs")
+    configs_to_run = [cfg for cfg in CONFIGS if cfg["c_in"] == 128 and cfg["c_out"] == 128] if only_128 else CONFIGS
+
+    print(f"[C] Jetson Nano Main Microbenchmark — {'(128,128) ONLY' if only_128 else 'ALL 7 configs'}")
     print(f"    n={n_runs}, warmup={warmup}, H'={h}, W'={w}")
 
-    for cfg in CONFIGS:
+    for cfg in configs_to_run:
         c_in, c_out = cfg["c_in"], cfg["c_out"]
         print(f"\n  Config ({c_in},{c_out}):")
         rows, results = run_config(kernel, tiler, scheduler,
@@ -148,12 +151,27 @@ def run_suite(n_runs=1000, warmup=20, h=56, w=56,
         w.writerows(all_raw)
     print(f"\n[C] Raw: {raw_path} ({len(all_raw)} rows)")
 
-    # Write summary (overwrite — single authoritative summary per run)
+    # Write summary (overwrite if running all, append or update if only_128)
     os.makedirs(os.path.dirname(summary_path) or ".", exist_ok=True)
-    with open(summary_path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(all_summary[0].keys()))
-        w.writeheader()
-        w.writerows(all_summary)
+    if only_128 and os.path.exists(summary_path) and os.path.getsize(summary_path) > 0:
+        # Read existing summary rows and update/append (128,128)
+        existing_rows = []
+        with open(summary_path, "r", newline="") as f:
+            reader = csv.DictReader(f)
+            fieldnames = reader.fieldnames
+            for r in reader:
+                if r.get("config") != "(128,128)":
+                    existing_rows.append(r)
+        existing_rows.extend(all_summary)
+        with open(summary_path, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=fieldnames or list(all_summary[0].keys()))
+            w.writeheader()
+            w.writerows(existing_rows)
+    else:
+        with open(summary_path, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(all_summary[0].keys()))
+            w.writeheader()
+            w.writerows(all_summary)
     print(f"[C] Summary: {summary_path}")
 
 
@@ -163,11 +181,12 @@ def main():
     p.add_argument("--warmup", type=int, default=20)
     p.add_argument("--height", type=int, default=56)
     p.add_argument("--width", type=int, default=56)
+    p.add_argument("--only-128", action="store_true", help="Run only (128,128) config")
     p.add_argument("--raw", default="raw_logs/jetson_main_microbench.csv")
     p.add_argument("--summary", default="summary/jetson_main_microbench_summary.csv")
     args = p.parse_args()
     run_suite(n_runs=args.runs, warmup=args.warmup, h=args.height, w=args.width,
-              raw_path=args.raw, summary_path=args.summary)
+              raw_path=args.raw, summary_path=args.summary, only_128=args.only_128)
 
 if __name__ == "__main__":
     main()

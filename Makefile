@@ -129,7 +129,7 @@ taskB: dirs
 # ============================================================================
 taskC: dirs
 	$(PYTHON) benchmarks/jetson_main_microbench.py \
-		--runs 1000 --warmup 20 --height 56 --width 56 \
+		--runs 1000 --warmup 20 --height 128 --width 128 --only-128 \
 		--raw $(RAW_LOGS)/jetson_main_microbench.csv \
 		--summary $(SUMMARY)/jetson_main_microbench_summary.csv
 
