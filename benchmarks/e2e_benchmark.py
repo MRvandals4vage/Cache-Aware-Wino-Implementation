@@ -438,6 +438,9 @@ def run_e2e(model_list=None, n_runs=50, warmup=10, platform_name=None, tvm_targe
     summary_rows = []
 
     for model_name in model_list:
+        if model_name == 'vgg16':
+            n_runs = min(n_runs, 10)
+            warmup = min(warmup, 5)
         display = MODEL_DISPLAY.get(model_name, model_name)
         print(f"\n{'='*60}")
         print(f"[T5] E2E Benchmark: {display} on {platform_name}")

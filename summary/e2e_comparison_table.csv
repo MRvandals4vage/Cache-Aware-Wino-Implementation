@@ -1,0 +1,4 @@
+model,platform,baseline,mean_ms,CI95,std_ms,p_value,pct_improvement,n_runs
+VGG16,rpi4,cachewinograd,1846777.8981,17767.1346,28665.6189,N/A,N/A,10
+VGG16,rpi4,naive_winograd,1939926.3183,542.063,874.5682,2.822119e-06,4.8,10
+VGG16,rpi4,nonfused_winograd,1939916.3387,120.1175,193.7984,2.852992e-06,4.8,10
