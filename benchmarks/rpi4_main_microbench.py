@@ -145,8 +145,11 @@ def main():
     p.add_argument("--warmup", type=int, default=10)
     p.add_argument("--height", type=int, default=14)
     p.add_argument("--width", type=int, default=14)
+    p.add_argument("--raw", default="raw_logs/rpi4_main_microbench.csv")
+    p.add_argument("--summary", default="summary/rpi4_main_microbench_summary.csv")
     args = p.parse_args()
-    run_rpi4_suite(n_runs=args.runs, warmup=args.warmup, h=args.height, w=args.width)
+    run_rpi4_suite(n_runs=args.runs, warmup=args.warmup, h=args.height, w=args.width,
+                   raw_path=args.raw, summary_path=args.summary)
 
 if __name__ == "__main__":
     main()

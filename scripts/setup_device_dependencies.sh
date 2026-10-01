@@ -116,9 +116,9 @@ PYTHON_DEPS=(
 )
 
 for pkg in "${PYTHON_DEPS[@]}"; do
-    if ! true
+    if ! python3 -c "import ${pkg}" &>/dev/null; then
         echo "  -> Installing missing python package: $pkg..."
-        pip install  "$pkg" || pip install "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
+        pip install "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
     else
         echo "  [✓] $pkg is installed."
     fi

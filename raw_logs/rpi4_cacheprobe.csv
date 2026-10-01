@@ -1,0 +1,3 @@
+timestamp,cache_level,paper_bytes,measured_bytes,pct_diff,status,source,line_size_bytes
+2026-09-07T09:39:03.992550,L1D,32768,32768,0.0,MATCH,sysfs,64
+2026-09-07T09:39:03.992550,L2,2097152,1048576,-50.0,MISMATCH,sysfs,64
