@@ -67,10 +67,14 @@ fi
 
 HARNESS_BIN="bin/bench_harness"
 if [[ ! -x "${HARNESS_BIN}" ]]; then
-  echo "[run_cell] Compiling ${HARNESS_BIN}..."
+  echo "[run_cell] Compiling ${HARNESS_BIN} with OpenMP support..."
   mkdir -p bin
-  gcc -O3 -fopenmp -o "${HARNESS_BIN}" src/bench_harness.c -lm 2>/dev/null || \
-  gcc -O3 -o "${HARNESS_BIN}" src/bench_harness.c -lm
+  if gcc -O3 -fopenmp -o "${HARNESS_BIN}" src/bench_harness.c -lm 2>/dev/null; then
+    echo "[run_cell] Compiled with OpenMP enabled."
+  else
+    echo "[run_cell] OpenMP not available; compiling single-thread fallback..."
+    gcc -O3 -o "${HARNESS_BIN}" src/bench_harness.c -lm
+  fi
 fi
 
 # Ensure CSV header exists
