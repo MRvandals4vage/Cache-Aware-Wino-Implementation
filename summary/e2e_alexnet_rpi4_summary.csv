@@ -1,0 +1,4 @@
+model,platform,baseline,mean_ms,CI95,std_ms,p_value,pct_improvement,n_runs
+AlexNet,rpi4,cachewinograd,51771.9272,11.7633,42.4384,N/A,N/A,50
+AlexNet,rpi4,naive_winograd,51718.7984,14.8994,53.7523,3.534859e-07,-0.1,50
+AlexNet,rpi4,nonfused_winograd,51725.3425,3.4259,12.3597,5.470830e-10,-0.09,50

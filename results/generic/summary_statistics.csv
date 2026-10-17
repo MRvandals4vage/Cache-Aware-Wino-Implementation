@@ -1,0 +1,2 @@
+variant,m,T,H,W,Cin,Cout,mean_latency_ms,std_latency_ms,ci_95_low,ci_95_high,mean_gflops,n_reps
+fused,2,1,14,14,8,8,0.016,0.0,0.016,0.016,10.367947599999999,5

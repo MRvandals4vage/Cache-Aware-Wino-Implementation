@@ -1,0 +1,8 @@
+c_in,c_out,macs,total_bytes,arithmetic_intensity_flop_byte,ridge_point_flop_byte,jn_peak_gflops,jn_peak_bw_gbs,bounded_by,fused_mean_ms,measured_gflops,note
+16,32,14450688,620544,23.2871,1.7891,45.8,25.6,COMPUTE,0.9881,14.6247,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+32,16,14450688,620544,23.2871,1.7891,45.8,25.6,COMPUTE,1.1056,13.0704,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+32,32,28901376,839680,34.4195,1.7891,45.8,25.6,COMPUTE,2.7208,10.6224,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+32,64,57802752,1277952,45.2308,1.7891,45.8,25.6,COMPUTE,8.1507,7.0918,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+64,32,57802752,1277952,45.2308,1.7891,45.8,25.6,COMPUTE,4.545,12.7179,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+64,64,115605504,1753088,65.9439,1.7891,45.8,25.6,COMPUTE,14.7539,7.8356,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.
+128,128,462422016,3801088,121.6552,1.7891,45.8,25.6,COMPUTE,43695.8825,0.0106,JN peak-compute and BW are board-level constants from paper Table 1. Verify against tegrastats if board differs.

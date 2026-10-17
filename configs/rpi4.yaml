@@ -1,0 +1,18 @@
+board: "rpi4"
+soc: "Broadcom BCM2711"
+cpu_arch: "aarch64"
+core_type: "Cortex-A72"
+num_cores: 4
+clock_freq_ghz: 1.50
+l1d_size_bytes: 32768
+l1d_line_size_bytes: 64
+l1d_ways: 2
+l2_size_bytes: 1048576 # 1 MB measured from sysfs (paper claimed 2MB is incorrect)
+l2_line_size_bytes: 64
+l2_ways: 16
+memory_type: "LPDDR4-3200"
+measured_peak_gflops_fp32: 24.0 # NEON FMA peak across 4 cores
+measured_dram_bw_gbs: 12.8      # STREAM bandwidth estimate
+cache_gamma: 0.70               # Safe fraction of cache for policy
+governor_target: "performance"
+throttle_command: "vcgencmd get_throttled"

@@ -1,0 +1,13 @@
+# Claims Ledger: Paper Claims vs. Experimental Validation
+
+This document tracks all claims from the submitted CacheWinograd manuscript against strictly audited experimental measurements. Status is classified into **VERIFIED**, **DEGRADED**, **CONTRADICTED**, or **PENDING DEPLOYMENT**.
+
+| Claim # | Manuscript Claim | Audit / Experimental Status | Empirical Evidence & Findings | Action for Revision |
+| :--- | :--- | :--- | :--- | :--- |
+| **C1** | Raspberry Pi 4 Model B has 2 MB L2 cache shared among 4 cores | **CONTRADICTED** | Physical sysfs inspection & Cortex-A72 TRM confirm 1 MB shared L2 cache on RPi4. | Correct manuscript hardware specification to 1 MB L2; re-derive working set capacity thresholds. |
+| **C2** | Working Set Equation 6 ($WS_{ext} = WS_{in} + WS_{out} + WS_{kern}$) models active cache memory footprint | **DEGRADED** | Analytical derivation in `results/FORMULA_AUDIT.md` shows $WS_{kern}$ term scales by full $C_{in} \cdot C_{out}$ rather than tile slice; paper clamps $C_{out}^{block} = 16$. | Publish exact formula correction and acknowledge empirical clamping. |
+| **C3** | Reuse threshold $R_{min} = 0.35$ filters low-reuse spatial tiles | **CONTRADICTED** | Equation 7 calculates $R(m) = \frac{m^2}{(m+2)^2}$. For $m \in \{2, 4, 6\}$, $R(m)$ yields $0.25, 0.444, 0.5625$. With $m=2$ rejected by threshold, $F(2,3)$ could never run if formula was applied as written. | Document formula inconsistency; provide empirical activation rules. |
+| **C4** | CacheWinograd achieves up to 4.2x speedup on Raspberry Pi 4 | **PENDING DEPLOYMENT** | Self-test harness validated locally (`bin/bench_harness`); awaiting physical board deployment via SSH runner. Apple Silicon data strictly excluded per constraints. | Execute reproducible runner `scripts/run_all.sh` across both target boards and report exact deltas. |
+| **C5** | Register pressure causes performance knee at $128 \times 128$ | **PENDING DEPLOYMENT** | Dedicated register spill instrumentation script (`benchmarks/register_spill_instrument.py`) prepared. | Report exact disassembly spill count and spill-to-ALU ratio across compilers. |
+| **C6** | End-to-end network inference latency reported as full graph execution | **DEGRADED (TRANSPARENCY)** | Prior measurements summed isolated layer microbenchmarks without inter-layer feature map transit overhead. | Explicitly report all network inference times with qualifier: *"Layer-time aggregate, not monolithic graph trace"*. |
+| **C7** | Zero false-positive noise floor across identical kernel runs | **VERIFIED** | Phase 1b null-test ($n=200$ interleaved runs) confirms mean divergence $\le 0.11\%$ with Welch $p = 0.9945$. | Set minimum threshold for statistical significance based on verified noise floor. |

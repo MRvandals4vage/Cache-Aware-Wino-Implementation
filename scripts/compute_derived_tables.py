@@ -68,7 +68,6 @@ def compute_rmin_sensitivity(jetson_rows, rpi4_rows, out_dir):
         for cfg in CONFIGS:
             c_in, c_out = cfg["c_in"], cfg["c_out"]
             # Re-run selection with this alpha (R_min maps to alpha = 1 - rmin)
-            from src.cache_adaptive_autotiler import CacheAdaptiveAutotiler
             t2 = CacheAdaptiveAutotiler()
             t2.alpha = 1.0 - rmin  # aggressive = lower rmin -> less conservative
             decision = t2.select_best_tile(c_in, c_out)

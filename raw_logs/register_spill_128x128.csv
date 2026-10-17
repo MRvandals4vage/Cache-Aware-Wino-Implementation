@@ -1,0 +1,2 @@
+c_in,c_out,hypothesis_supported,method,over_sub_ratio,spill_loads,spill_ratio,spill_stores,timestamp,total_instructions,total_spills
+128,128,True,static_objdump,2.0,5,0.063694,5,2026-08-14T16:53:27.291894,157,10

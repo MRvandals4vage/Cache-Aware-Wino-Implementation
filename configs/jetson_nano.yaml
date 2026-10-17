@@ -1,0 +1,18 @@
+board: "jetson_nano"
+soc: "NVIDIA Tegra210 (Jetson Nano)"
+cpu_arch: "aarch64"
+core_type: "Cortex-A57"
+num_cores: 4
+clock_freq_ghz: 1.43
+l1d_size_bytes: 32768
+l1d_line_size_bytes: 64
+l1d_ways: 2
+l2_size_bytes: 2097152 # 2 MB measured from sysfs
+l2_line_size_bytes: 64
+l2_ways: 16
+memory_type: "64-bit LPDDR4-1600"
+measured_peak_gflops_fp32: 45.8 # NEON FMA peak across 4 cores
+measured_dram_bw_gbs: 25.6      # Peak DRAM bandwidth
+cache_gamma: 0.70               # Safe fraction of cache for policy
+nvpmodel_mode: 0                # MAXN mode
+tegrastats_interval_ms: 100

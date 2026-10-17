@@ -1,0 +1,169 @@
+=== START alexnet Tue 15 Sep 08:26:09 UTC 2026 ===
+Traceback (most recent call last):
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 579, in <module>
+    main()
+    ~~~~^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 574, in main
+    run_e2e(model_list=model_list, n_runs=args.runs, warmup=args.warmup,
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            platform_name=args.platform, tvm_target=args.tvm_target)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 429, in run_e2e
+    from scipy import stats as sp_stats
+ModuleNotFoundError: No module named 'scipy'
+=== END alexnet rc=1 Tue 15 Sep 08:26:10 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       286Mi       837Mi       5.8Mi       794Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START resnet18 Tue 15 Sep 08:26:10 UTC 2026 ===
+Traceback (most recent call last):
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 579, in <module>
+    main()
+    ~~~~^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 574, in main
+    run_e2e(model_list=model_list, n_runs=args.runs, warmup=args.warmup,
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            platform_name=args.platform, tvm_target=args.tvm_target)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 429, in run_e2e
+    from scipy import stats as sp_stats
+ModuleNotFoundError: No module named 'scipy'
+=== END resnet18 rc=1 Tue 15 Sep 08:26:11 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       301Mi       822Mi       5.8Mi       794Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START resnet34 Tue 15 Sep 08:26:11 UTC 2026 ===
+Traceback (most recent call last):
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 579, in <module>
+    main()
+    ~~~~^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 574, in main
+    run_e2e(model_list=model_list, n_runs=args.runs, warmup=args.warmup,
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            platform_name=args.platform, tvm_target=args.tvm_target)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 429, in run_e2e
+    from scipy import stats as sp_stats
+ModuleNotFoundError: No module named 'scipy'
+=== END resnet34 rc=1 Tue 15 Sep 08:26:11 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       314Mi       808Mi       5.8Mi       794Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START vgg16 Tue 15 Sep 08:26:11 UTC 2026 ===
+Traceback (most recent call last):
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 579, in <module>
+    main()
+    ~~~~^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 574, in main
+    run_e2e(model_list=model_list, n_runs=args.runs, warmup=args.warmup,
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            platform_name=args.platform, tvm_target=args.tvm_target)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/j/Cache-Aware-Wino-Implementation/benchmarks/e2e_benchmark.py", line 429, in run_e2e
+    from scipy import stats as sp_stats
+ModuleNotFoundError: No module named 'scipy'
+=== END vgg16 rc=1 Tue 15 Sep 08:26:12 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       314Mi       808Mi       5.8Mi       794Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START alexnet Tue 15 Sep 08:31:55 UTC 2026 ===
+=== START alexnet Tue 15 Sep 08:51:05 UTC 2026 ===
+=== START alexnet Tue 15 Sep 08:51:54 UTC 2026 ===
+
+============================================================
+[T5] E2E Benchmark: AlexNet on rpi4
+============================================================
+     3 conv3x3 layers detected (3 stride-1)
+     Running CacheWinograd fused (layer-time aggregate)...
+       mean=51771.93ms  [layer-time aggregate, NOT a single e2e trace]
+     Running Naive Winograd...
+     Running Non-fused Winograd (independent run)...
+     Running ONNX Runtime...
+       SKIPPED (not available)
+     Running TVM...
+       SKIPPED (not available)
+     Running AutoTVM...
+       SKIPPED (not available)
+     Wrote 150 rows to raw_logs/e2e_alexnet_rpi4.csv
+
+[T5] E2E summary written to summary/e2e_comparison_table.csv
+[T5] METHODOLOGY: CacheWinograd E2E = layer-time aggregate; ORT/TVM/ArmCL = true single-process runs.
+=== END alexnet rc=0 Tue 15 Sep 11:28:12 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       304Mi       705Mi       9.0Mi       940Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START resnet18 Tue 15 Sep 11:28:12 UTC 2026 ===
+
+============================================================
+[T5] E2E Benchmark: ResNet-18 on rpi4
+============================================================
+     16 conv3x3 layers detected (13 stride-1)
+     Running CacheWinograd fused (layer-time aggregate)...
+       mean=232135.14ms  [layer-time aggregate, NOT a single e2e trace]
+     Running Naive Winograd...
+     Running Non-fused Winograd (independent run)...
+     Running ONNX Runtime...
+       SKIPPED (not available)
+     Running TVM...
+       SKIPPED (not available)
+     Running AutoTVM...
+       SKIPPED (not available)
+     Wrote 150 rows to raw_logs/e2e_resnet18_rpi4.csv
+
+[T5] E2E summary written to summary/e2e_comparison_table.csv
+[T5] METHODOLOGY: CacheWinograd E2E = layer-time aggregate; ORT/TVM/ArmCL = true single-process runs.
+=== END resnet18 rc=0 Wed 16 Sep 15:11:30 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       311Mi       684Mi        23Mi       968Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START resnet34 Wed 16 Sep 15:11:30 UTC 2026 ===
+
+============================================================
+[T5] E2E Benchmark: ResNet-34 on rpi4
+============================================================
+     32 conv3x3 layers detected (29 stride-1)
+     Running CacheWinograd fused (layer-time aggregate)...
+       mean=424153.85ms  [layer-time aggregate, NOT a single e2e trace]
+     Running Naive Winograd...
+     Running Non-fused Winograd (independent run)...
+     Running ONNX Runtime...
+       SKIPPED (not available)
+     Running TVM...
+       SKIPPED (not available)
+     Running AutoTVM...
+       SKIPPED (not available)
+     Wrote 150 rows to raw_logs/e2e_resnet34_rpi4.csv
+
+[T5] E2E summary written to summary/e2e_comparison_table.csv
+[T5] METHODOLOGY: CacheWinograd E2E = layer-time aggregate; ORT/TVM/ArmCL = true single-process runs.
+=== END resnet34 rc=0 Thu 17 Sep 08:44:37 UTC 2026 ===
+throttled=0x0
+               total        used        free      shared  buff/cache   available
+Mem:           1.8Gi       333Mi       661Mi        34Mi       981Mi       1.5Gi
+Swap:          1.8Gi          0B       1.8Gi
+=== START vgg16 Thu 17 Sep 08:44:37 UTC 2026 ===
+
+============================================================
+[T5] E2E Benchmark: VGG16 on rpi4
+============================================================
+     13 conv3x3 layers detected (13 stride-1)
+     Running CacheWinograd fused (layer-time aggregate)...
+       mean=1846777.90ms  [layer-time aggregate, NOT a single e2e trace]
+     Running Naive Winograd...
+     Running Non-fused Winograd (independent run)...
+     Running ONNX Runtime...
+       SKIPPED (not available)
+     Running TVM...
+       SKIPPED (not available)
+     Running AutoTVM...
+       SKIPPED (not available)
+     Wrote 30 rows to raw_logs/e2e_vgg16_rpi4.csv
+
+[T5] E2E summary written to summary/e2e_comparison_table.csv
+[T5] METHODOLOGY: CacheWinograd E2E = layer-time aggregate; ORT/TVM/ArmCL = true single-process runs.
