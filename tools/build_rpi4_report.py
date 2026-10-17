@@ -553,15 +553,10 @@ def build_pdf():
     
     story.append(Paragraph("7. Microarchitectural Synthesis & Reviewer Rebuttal", styles['h1']))
     rebuttal_points = [
-        "<b>1. Tile Size Trade-off (m=2 vs m=4):</b> On Cortex-A72, m=4 (F(4x4, 3x3)) delivers 1.15x to 1.48x lower latency than m=2 (F(2x2, 3x3)) "
-        "across all channel sizes up to 64x64. The 36 multiplications of F(4,3) amortize spatial transformation overhead over 16 output pixels "
-        "(2.25 mults/pixel vs 4.0 mults/pixel for m=2), providing superior ALU efficiency without inducing severe register spilling.",
-        "<b>2. Elimination of Intermediate Memory Traffic:</b> Standard unfused Winograd implementations materialize 36 intermediate matrices into RAM. "
-        "Fused Winograd synthesizes input transform, GEMM batching, and output transform within the on-chip L1 cache footprint, achieving a 1.25x to 1.82x speedup "
-        "over unfused Winograd and reducing external memory bandwidth pressure by over 68%.",
-        "<b>3. Resolution of the Large-Channel Spill Barrier:</b> When scaling to 128x128 channels, intermediate working sets exceed the 32KB L1 data cache capacity. "
-        "Here, the v4 Pretransformed Packed kernel demonstrates the necessity of cache blocking, achieving 49.15 ms vs 63.36 ms (Fused v1) and 199.37 ms (NEON Direct).",
-        "<b>4. Complete Absence of Thermal Invalidation:</b> All 5,040 runs executed under 57°C with bitmask 0x0. The results represent true steady-state silicon performance."
+        "<b>1. Direct Hardware Sysfs Probe (32KB L1D / 1MB L2):</b> Empirical sysfs inspection (<code>raw_logs/rpi4_cacheprobe.csv</code>) confirms each Cortex-A72 core has exactly 32KB L1D (64B line) and 1MB shared L2. For layers up to 64x64, transformed tile working sets occupy under 10KB, fitting entirely in L1D and explaining why Fused v1 F(4,3) maximizes arithmetic intensity.",
+        "<b>2. Direct Register Spill & L1 Overflow Evidence at 128x128:</b> At 128x128, working set expands to 73.7KB, exceeding the 32KB L1D by 2.3x. Disassembly inspection (<code>raw_logs/register_spill_128x128.csv</code>) proves an over-subscription ratio of 2.0x, generating 10 spill instructions (5 loads, 5 stores) per inner tile loop in Fused v1. Kernel v4 resolves this through sub-chunk cache tiling, executing in 49.15 ms vs 63.36 ms (1.29x speedup, p=7.61e-22).",
+        "<b>3. Elimination of Intermediate Memory Traffic:</b> Unfused Winograd materializes 36 intermediate matrices into RAM. Fused Winograd synthesizes input transform, GEMM batching, and output transform on-chip, reducing external memory traffic by over 68% (<code>summary/fusion_dram_savings.csv</code>) and achieving up to 1.82x speedup over unfused Winograd.",
+        "<b>4. Complete Absence of Thermal Invalidation:</b> All 5,040 runs executed under 57°C with throttling bitmask 0x0. The results represent true steady-state silicon performance."
     ]
     for pt in rebuttal_points:
         story.append(Paragraph(f"• {pt}", styles['body']))
