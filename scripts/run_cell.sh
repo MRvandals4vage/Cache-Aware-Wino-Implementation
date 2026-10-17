@@ -69,6 +69,7 @@ HARNESS_BIN="bin/bench_harness"
 if [[ ! -x "${HARNESS_BIN}" ]]; then
   echo "[run_cell] Compiling ${HARNESS_BIN}..."
   mkdir -p bin
+  gcc -O3 -fopenmp -o "${HARNESS_BIN}" src/bench_harness.c -lm 2>/dev/null || \
   gcc -O3 -o "${HARNESS_BIN}" src/bench_harness.c -lm
 fi
 
