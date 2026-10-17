@@ -28,7 +28,7 @@ def test_c_harness():
         print("     Compiling bin/bench_harness...")
         os.makedirs(os.path.join(ROOT_DIR, "bin"), exist_ok=True)
         r = subprocess.run(
-            ["gcc", "-O3", "-march=native", "-o", harness_bin, os.path.join(ROOT_DIR, "src", "bench_harness.c"), "-lm"],
+            ["gcc", "-O3", "-march=native", "-fopenmp", "-o", harness_bin, os.path.join(ROOT_DIR, "src", "bench_harness.c"), "-lm"],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True
         )
         if r.returncode != 0:
