@@ -1,4 +1,13 @@
 model,platform,baseline,mean_ms,CI95,std_ms,p_value,pct_improvement,n_runs
-VGG16,rpi4,cachewinograd,1846777.8981,17767.1346,28665.6189,N/A,N/A,10
-VGG16,rpi4,naive_winograd,1939926.3183,542.063,874.5682,2.822119e-06,4.8,10
-VGG16,rpi4,nonfused_winograd,1939916.3387,120.1175,193.7984,2.852992e-06,4.8,10
+AlexNet,rpi4,cachewinograd,52931.9494,3.8451,10.7452,N/A,N/A,30
+AlexNet,rpi4,naive_winograd,52929.8468,3.8479,10.753,4.517638e-01,-0.0,30
+AlexNet,rpi4,nonfused_winograd,51386.8439,3.5459,9.909,< 1e-10,-3.01,30
+ResNet-18,rpi4,cachewinograd,219803.8698,338.4063,945.6774,N/A,N/A,30
+ResNet-18,rpi4,naive_winograd,219484.4416,20.8588,58.2898,7.495972e-02,-0.15,30
+ResNet-18,rpi4,nonfused_winograd,219695.3885,183.735,513.4479,5.835799e-01,-0.05,30
+ResNet-34,rpi4,cachewinograd,389443.8087,95.6291,267.2357,N/A,N/A,30
+ResNet-34,rpi4,naive_winograd,389394.4456,35.5977,99.4779,3.492105e-01,-0.01,30
+ResNet-34,rpi4,nonfused_winograd,389485.258,50.7573,141.8414,4.570021e-01,0.01,30
+VGG16,rpi4,cachewinograd,1845753.1995,6144.7099,7010.1985,N/A,N/A,5
+VGG16,rpi4,naive_winograd,1841545.211,5839.7823,6662.3215,3.591505e-01,-0.23,5
+VGG16,rpi4,nonfused_winograd,1837807.2061,4564.9904,5207.9739,7.926113e-02,-0.43,5

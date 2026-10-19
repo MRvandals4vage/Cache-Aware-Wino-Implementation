@@ -7,6 +7,7 @@ last model's summary survives there. This recomputes the same stats
 (mean, std, CI95, p-value vs cachewinograd, pct improvement) from the
 raw per-run latency data in raw_logs/, which IS preserved per model.
 """
+import argparse
 import glob
 import os
 import csv
@@ -32,6 +33,11 @@ def load_raw(path):
     return rows
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--since", help="only use rows with timestamp >= this (e.g. 2026-10-18); "
+                    "raw CSVs are appended to, so they can hold several runs")
+    args = ap.parse_args()
+
     pattern = os.path.join(RAW_DIR, "e2e_*_rpi4.csv")
     files = sorted(glob.glob(pattern))
     if not files:
@@ -47,6 +53,8 @@ def main():
         display = MODEL_DISPLAY.get(model_name, model_name)
 
         rows = load_raw(path)
+        if args.since:
+            rows = [r for r in rows if r["timestamp"] >= args.since]
         if not rows:
             print(f"  {fname}: empty, skipping")
             continue
