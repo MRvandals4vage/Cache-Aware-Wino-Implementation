@@ -1,0 +1,9 @@
+timestamp,model,platform,baseline,run_id,latency_ms
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,cachewinograd,0,3683.6114157922566
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,cachewinograd,1,3679.1911667678505
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,naive_winograd,0,3674.4808331131935
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,naive_winograd,1,3679.17845887132
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,nonfused_winograd,0,3683.4248325321823
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,nonfused_winograd,1,3675.4789578262717
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,armcl,0,300.69003842745036
+2026-10-20T15:11:32.351328,alexnet,macos_apple_silicon,armcl,1,302.50543333021983

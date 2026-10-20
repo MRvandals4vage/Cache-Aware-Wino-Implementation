@@ -1,0 +1,80 @@
+{
+  "platform": {
+    "os": "Darwin",
+    "architecture": "arm64",
+    "cpu_model": "arm",
+    "python_version": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "timestamp": "2026-10-20T15:03:41.070250",
+    "git_commit": "95b4badb96705c2f0367138c55a1814004ac4eed",
+    "logical_cores": 12,
+    "physical_cores": 12,
+    "l1d_size_bytes": 65536,
+    "l2_size_bytes": 4194304,
+    "line_size_bytes": 128,
+    "l1d_associativity": null,
+    "l2_associativity": null,
+    "is_raspberry_pi": false,
+    "pi_model": null,
+    "is_jetson": false,
+    "jetson_model": null,
+    "tegra_release": null,
+    "has_neon": false
+  },
+  "workload": {
+    "c_in": 64,
+    "c_out": 64,
+    "height": 4,
+    "width": 4,
+    "kernel": 3
+  },
+  "results": [
+    {
+      "backend": "project",
+      "status": "ok",
+      "avg_latency_ms": 0.19735004752874374,
+      "std_latency_ms": 0.0089724799547615,
+      "runs": 5,
+      "notes": "Fused Winograd F(2,3) tile microbenchmark.",
+      "c_in": 64,
+      "c_out": 64,
+      "height": 4,
+      "width": 4,
+      "kernel": 3,
+      "platform": "Darwin",
+      "architecture": "arm64",
+      "cpu_model": "arm"
+    },
+    {
+      "backend": "onnxruntime",
+      "status": "ok",
+      "avg_latency_ms": 0.02129138447344303,
+      "std_latency_ms": 0.003041701976587297,
+      "runs": 5,
+      "notes": "Single Conv ONNX Runtime CPU benchmark.",
+      "c_in": 64,
+      "c_out": 64,
+      "height": 4,
+      "width": 4,
+      "kernel": 3,
+      "platform": "Darwin",
+      "architecture": "arm64",
+      "cpu_model": "arm"
+    },
+    {
+      "backend": "armcl",
+      "status": "error",
+      "avg_latency_ms": null,
+      "std_latency_ms": null,
+      "runs": 0,
+      "notes": "/bin/sh: /Users/ishaanupponi/Documents/My: No such file or directory",
+      "c_in": 64,
+      "c_out": 64,
+      "height": 4,
+      "width": 4,
+      "kernel": 3,
+      "platform": "Darwin",
+      "architecture": "arm64",
+      "cpu_model": "arm"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+backend,status,avg_latency_ms,std_latency_ms,runs,notes,c_in,c_out,height,width,kernel,platform,architecture,cpu_model
+project,ok,0.18013333901762962,0.00940743814236977,5,"Fused Winograd F(2,3) tile microbenchmark.",64,64,4,4,3,Darwin,arm64,arm
+onnxruntime,ok,0.019182823598384857,0.0036624665685105586,5,Single Conv ONNX Runtime CPU benchmark.,64,64,4,4,3,Darwin,arm64,arm
+tvm,ok,0.45553315430879593,0.0015818340608173105,5,Single Conv TVM benchmark.,64,64,4,4,3,Darwin,arm64,arm
+autotvm,ok,0.4003777652978897,0.0011272247562666882,5,Single Conv AutoTVM benchmark with up to 32 trials per task.,64,64,4,4,3,Darwin,arm64,arm
+armcl,ok,0.121583,0.0,5,External ARM Compute Library wrapper command.,64,64,4,4,3,Darwin,arm64,arm

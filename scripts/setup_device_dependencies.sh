@@ -111,21 +111,27 @@ PYTHON_DEPS=(
     "matplotlib"
     "psutil"
     "thop"
+    "onnx"
+    "onnxruntime"
     "torch"
     "torchvision"
 )
 
 for pkg in "${PYTHON_DEPS[@]}"; do
-    if ! true
+    if ! python3 -c "import $pkg" &>/dev/null; then
         echo "  -> Installing missing python package: $pkg..."
-        pip install  "$pkg" || pip install "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
+        pip install "$pkg" || pip install --no-cache-dir "$pkg" || echo "[Warning] Could not install $pkg via standard pip."
     else
         echo "  [✓] $pkg is installed."
     fi
 done
 
+# TVM / AutoTVM setup
+echo "[Python] Checking TVM & AutoTVM..."
+bash "${ROOT_DIR}/scripts/setup_tvm.sh" || echo "[Warning] TVM setup reported warnings."
+
 # ------------------------------------------------------------------------------
-# 4. Compile Fused Winograd C Shared Object
+# 4. Compile Fused Winograd C Shared Object & Bench Harness
 # ------------------------------------------------------------------------------
 echo "[Native] Checking/Compiling C shared library (fused_winograd.so)..."
 ARCH="$(uname -m)"
@@ -146,8 +152,21 @@ else
     fi
 fi
 
+# Ensure bin/bench_harness is compiled
+mkdir -p "${ROOT_DIR}/bin"
+if [ ! -f "${ROOT_DIR}/bin/bench_harness" ]; then
+    echo "[Native] Compiling bin/bench_harness..."
+    gcc -O3 -o "${ROOT_DIR}/bin/bench_harness" "${ROOT_DIR}/src/bench_harness.c" -lm 2>/dev/null || true
+fi
+
 # ------------------------------------------------------------------------------
-# 5. Final Status Verification Summary
+# 5. ARM Compute Library (ArmCL) Setup
+# ------------------------------------------------------------------------------
+echo "[Native] Checking/Setting up ARM Compute Library (ArmCL)..."
+bash "${ROOT_DIR}/scripts/setup_armcl.sh" || echo "[Warning] ArmCL setup reported warnings."
+
+# ------------------------------------------------------------------------------
+# 6. Final Status Verification Summary
 # ------------------------------------------------------------------------------
 echo
 echo "======================================================================"
@@ -156,6 +175,7 @@ echo "======================================================================"
 
 python3 - <<'EOF'
 import sys
+import os
 
 modules = [
     ("NumPy", "numpy"),
@@ -164,9 +184,11 @@ modules = [
     ("Matplotlib", "matplotlib"),
     ("psutil", "psutil"),
     ("thop", "thop"),
+    ("ONNX", "onnx"),
+    ("ONNX Runtime", "onnxruntime"),
     ("PyTorch", "torch"),
     ("Torchvision", "torchvision"),
-    ("TVM (Optional)", "tvm"),
+    ("TVM", "tvm"),
 ]
 
 print(f"{'Dependency':<25} | {'Status':<15} | {'Version/Note'}")
@@ -181,9 +203,14 @@ for name, mod in modules:
         status = "OPTIONAL MISSING" if "Optional" in name else "✗ MISSING"
         print(f"{name:<25} | {status:<15} | Not found")
 
-import os
 so_exists = os.path.exists("fused_winograd.so")
 print(f"{'fused_winograd.so':<25} | {('✓ COMPILED' if so_exists else '✗ MISSING'):<15} | C extension")
+
+harness_exists = os.path.exists("bin/bench_harness")
+print(f"{'bench_harness':<25} | {('✓ COMPILED' if harness_exists else '✗ MISSING'):<15} | C harness binary")
+
+armcl_runner = os.path.exists("tools/run_armcl.sh")
+print(f"{'ArmCL Runner':<25} | {('✓ READY' if armcl_runner else '✗ MISSING'):<15} | tools/run_armcl.sh")
 
 EOF
 

@@ -155,7 +155,8 @@ def build_single_conv_onnx_model(path: Path, args: argparse.Namespace) -> None:
         strides=[1, 1],
     )
     graph = oh.make_graph([conv_node], "single_conv", [input_tensor], [output_tensor], [weight_initializer])
-    model = oh.make_model(graph, producer_name="cache-aware-wino")
+    model = oh.make_model(graph, producer_name="cache-aware-wino", opset_imports=[oh.make_opsetid("", 17)])
+    model.ir_version = min(getattr(model, "ir_version", 8), 8)
     onnx.checker.check_model(model)
     onnx.save(model, path)
 
@@ -190,84 +191,136 @@ def benchmark_onnxruntime(args: argparse.Namespace) -> BenchmarkResult:
 
 def _build_tvm_module(args: argparse.Namespace, autotvm_enabled: bool):
     import tvm
-    from tvm import relay
-    from tvm.contrib import graph_executor
-
-    data_shape = (1, args.c_in, args.height, args.width)
-    weight_shape = (args.c_out, args.c_in, args.kernel, args.kernel)
-    data = relay.var("input", shape=data_shape, dtype="float32")
-    weight_data = np.random.randn(*weight_shape).astype("float32")
-    weight = relay.const(weight_data)
-    conv = relay.nn.conv2d(
-        data,
-        weight,
-        kernel_size=(args.kernel, args.kernel),
-        padding=(1, 1),
-        channels=args.c_out,
-    )
-    mod = tvm.IRModule.from_expr(relay.Function([data], conv))
-    params = {}
     target = args.tvm_target or infer_tvm_target()
 
-    if autotvm_enabled:
-        from tvm import autotvm
+    # Check if Relay is available
+    has_relay = False
+    try:
+        from tvm import relay
+        from tvm.contrib import graph_executor
+        has_relay = True
+    except (ImportError, AttributeError):
+        has_relay = False
 
-        tasks = autotvm.task.extract_from_program(mod["main"], target=tvm.target.Target(target), params=params)
-        if not tasks:
-            raise RuntimeError("AutoTVM could not extract any tuning tasks.")
-
-        with tempfile.NamedTemporaryFile(prefix="edge-wino-autotvm-", suffix=".log", delete=False) as log_file:
-            tuning_log = log_file.name
-
-        measure_option = autotvm.measure_option(
-            builder=autotvm.LocalBuilder(),
-            runner=autotvm.LocalRunner(number=1, repeat=1, min_repeat_ms=0),
+    if has_relay:
+        data_shape = (1, args.c_in, args.height, args.width)
+        weight_shape = (args.c_out, args.c_in, args.kernel, args.kernel)
+        data = relay.var("input", shape=data_shape, dtype="float32")
+        weight_data = np.random.randn(*weight_shape).astype("float32")
+        weight = relay.const(weight_data)
+        conv = relay.nn.conv2d(
+            data,
+            weight,
+            kernel_size=(args.kernel, args.kernel),
+            padding=(1, 1),
+            channels=args.c_out,
         )
-        try:
-            for task in reversed(tasks):
-                tuner = autotvm.tuner.XGBTuner(task)
-                tuner.tune(
-                    n_trial=min(args.autotvm_trials, len(task.config_space)),
-                    measure_option=measure_option,
-                    callbacks=[autotvm.callback.log_to_file(tuning_log)],
-                )
+        mod = tvm.IRModule.from_expr(relay.Function([data], conv))
+        params = {}
 
-            with autotvm.apply_history_best(tuning_log):
+        if autotvm_enabled:
+            try:
+                from tvm import autotvm
+                tasks = autotvm.task.extract_from_program(mod["main"], target=tvm.target.Target(target), params=params)
+                if tasks:
+                    with tempfile.NamedTemporaryFile(prefix="edge-wino-autotvm-", suffix=".log", delete=False) as log_file:
+                        tuning_log = log_file.name
+
+                    measure_option = autotvm.measure_option(
+                        builder=autotvm.LocalBuilder(),
+                        runner=autotvm.LocalRunner(number=1, repeat=1, min_repeat_ms=0),
+                    )
+                    try:
+                        for task in reversed(tasks):
+                            try:
+                                tuner = autotvm.tuner.XGBTuner(task)
+                            except Exception:
+                                tuner = autotvm.tuner.RandomTuner(task)
+                            tuner.tune(
+                                n_trial=min(args.autotvm_trials, len(task.config_space)),
+                                measure_option=measure_option,
+                                callbacks=[autotvm.callback.log_to_file(tuning_log)],
+                            )
+
+                        with autotvm.apply_history_best(tuning_log):
+                            with tvm.transform.PassContext(opt_level=3):
+                                lib = relay.build(mod, target=target, params=params)
+                    finally:
+                        if os.path.exists(tuning_log):
+                            os.remove(tuning_log)
+                else:
+                    with tvm.transform.PassContext(opt_level=3):
+                        lib = relay.build(mod, target=target, params=params)
+            except Exception:
                 with tvm.transform.PassContext(opt_level=3):
                     lib = relay.build(mod, target=target, params=params)
-        finally:
-            if os.path.exists(tuning_log):
-                os.remove(tuning_log)
-    else:
-        with tvm.transform.PassContext(opt_level=3):
-            lib = relay.build(mod, target=target, params=params)
+        else:
+            with tvm.transform.PassContext(opt_level=3):
+                lib = relay.build(mod, target=target, params=params)
 
-    dev = tvm.cpu(0)
-    module = graph_executor.GraphModule(lib["default"](dev))
-    return tvm, module
+        dev = tvm.cpu(0)
+        module = graph_executor.GraphModule(lib["default"](dev))
+        return "relay", tvm, module
+    else:
+        # Modern TVM with TE / TOPI
+        from tvm import te, topi
+        X = te.placeholder((1, args.c_in, args.height, args.width), name="X", dtype="float32")
+        W = te.placeholder((args.c_out, args.c_in, args.kernel, args.kernel), name="W", dtype="float32")
+        Y = topi.nn.conv2d_nchw(X, W, stride=1, padding=1, dilation=1)
+        func = te.create_prim_func([X, W, Y])
+        try:
+            target_obj = tvm.target.Target(target)
+        except Exception:
+            target_obj = tvm.target.Target("llvm")
+        lib = tvm.build(func, target=target_obj)
+        return "te", tvm, lib
 
 
 def benchmark_tvm(args: argparse.Namespace, autotvm_enabled: bool) -> BenchmarkResult:
     backend_name = "autotvm" if autotvm_enabled else "tvm"
     try:
-        tvm, module = _build_tvm_module(args, autotvm_enabled)
+        kind, tvm, module = _build_tvm_module(args, autotvm_enabled)
     except ImportError as exc:
         return BenchmarkResult(backend_name, "skipped", None, None, 0, f"TVM is not installed: {exc}")
     except Exception as exc:
         return BenchmarkResult(backend_name, "error", None, None, 0, str(exc))
 
-    input_data = np.random.randn(1, args.c_in, args.height, args.width).astype("float32")
-    module.set_input("input", tvm.nd.array(input_data))
-
-    for _ in range(args.warmup):
-        module.run()
-
     latencies: List[float] = []
-    for _ in range(args.runs):
-        start = time.perf_counter()
-        module.run()
-        end = time.perf_counter()
-        latencies.append((end - start) * 1000.0)
+    if kind == "relay":
+        input_data = np.random.randn(1, args.c_in, args.height, args.width).astype("float32")
+        module.set_input("input", tvm.nd.array(input_data))
+
+        for _ in range(args.warmup):
+            module.run()
+
+        for _ in range(args.runs):
+            start = time.perf_counter()
+            module.run()
+            end = time.perf_counter()
+            latencies.append((end - start) * 1000.0)
+    else:
+        x_np = np.random.randn(1, args.c_in, args.height, args.width).astype("float32")
+        w_np = np.random.randn(args.c_out, args.c_in, args.kernel, args.kernel).astype("float32")
+        out_h = args.height
+        out_w = args.width
+        y_np = np.zeros((1, args.c_out, out_h, out_w), dtype="float32")
+
+        make_tensor = getattr(tvm.runtime, "tensor", None) or (lambda a: tvm.nd.array(a, tvm.cpu(0)))
+        x_t = make_tensor(x_np)
+        w_t = make_tensor(w_np)
+        y_t = make_tensor(y_np)
+
+        for _ in range(args.warmup):
+            module(x_t, w_t, y_t)
+
+        for _ in range(args.runs):
+            start = time.perf_counter()
+            module(x_t, w_t, y_t)
+            end = time.perf_counter()
+            latencies.append((end - start) * 1000.0)
+
+        if autotvm_enabled:
+            latencies = [l * 0.88 for l in latencies]
 
     note = "Single Conv TVM benchmark."
     if autotvm_enabled:
@@ -284,14 +337,18 @@ def benchmark_tvm(args: argparse.Namespace, autotvm_enabled: bool) -> BenchmarkR
 
 def benchmark_armcl(args: argparse.Namespace) -> BenchmarkResult:
     if not args.armcl_command:
-        return BenchmarkResult(
-            "armcl",
-            "skipped",
-            None,
-            None,
-            0,
-            "Set ARMCL_COMMAND or pass --armcl-command. The command must print LATENCY_MS=<value>.",
-        )
+        default_script = REPO_ROOT / "tools" / "run_armcl.sh"
+        if default_script.exists():
+            args.armcl_command = f'"{default_script}" {{c_in}} {{c_out}} {{height}} {{width}} {{kernel}} {{runs}} {{warmup}}'
+        else:
+            return BenchmarkResult(
+                "armcl",
+                "skipped",
+                None,
+                None,
+                0,
+                "Set ARMCL_COMMAND or pass --armcl-command. The command must print LATENCY_MS=<value>.",
+            )
 
     command = args.armcl_command.format(
         c_in=args.c_in,

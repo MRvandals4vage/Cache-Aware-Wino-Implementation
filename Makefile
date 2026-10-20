@@ -106,6 +106,8 @@ quick-test: dirs
 		--summary $(SUMMARY)/quicktest_main_microbench_summary.csv
 	$(PYTHON) benchmarks/jetson_ablation.py \
 		--runs 50 --warmup 5 --height 14 --width 14
+	$(PYTHON) benchmarks/tvm_armcl_rigor.py --runs 10 --warmup 2
+	$(PYTHON) tools/compare_edge_backends.py --backends project,onnxruntime,tvm,autotvm,armcl --runs 5 --warmup 2
 	@echo "=== Quick Test DONE ==="
 
 # ============================================================================

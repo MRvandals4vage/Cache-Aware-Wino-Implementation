@@ -264,6 +264,29 @@ class Doctor:
         else:
             self._log_result("C Extension", "fused_winograd.c", "FAIL", "Source file fused_winograd.c missing")
 
+        # Check bench_harness
+        harness_path = os.path.join(REPO_ROOT, "bin", "bench_harness")
+        if os.path.exists(harness_path):
+            self._log_result("C Harness", "bench_harness", "PASS", f"Compiled binary present ({os.path.getsize(harness_path)} B)")
+        else:
+            harness_src = os.path.join(REPO_ROOT, "src", "bench_harness.c")
+            if os.path.exists(harness_src):
+                os.makedirs(os.path.join(REPO_ROOT, "bin"), exist_ok=True)
+                r = subprocess.run(["gcc", "-O3", "-o", harness_path, harness_src, "-lm"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if r.returncode == 0:
+                    self._log_result("C Harness", "bench_harness", "PASS", "Auto-compiled bench_harness successfully")
+                else:
+                    self._log_result("C Harness", "bench_harness", "WARNING", "bench_harness not compiled", "make reset")
+            else:
+                self._log_result("C Harness", "bench_harness", "WARNING", "src/bench_harness.c not found")
+
+        # Check ArmCL Runner
+        armcl_script = os.path.join(REPO_ROOT, "tools", "run_armcl.sh")
+        if os.path.exists(armcl_script):
+            self._log_result("Edge Backend", "ArmCL Runner", "PASS", f"Operational at {armcl_script}")
+        else:
+            self._log_result("Edge Backend", "ArmCL Runner", "WARNING", "tools/run_armcl.sh missing", "bash scripts/setup_armcl.sh")
+
     def run_all_checks(self):
         print("======================================================================")
         print("            CacheWinograd Repository Doctor & Environment Check       ")
