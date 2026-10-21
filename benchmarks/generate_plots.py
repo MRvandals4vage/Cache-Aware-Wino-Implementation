@@ -151,7 +151,7 @@ def plot_autotiling(processed_csv, out_dir):
         
         for t in tiles:
             subset = df[df["Selected_Tile"] == t]
-            sizes = [s * 50 for s in subset["Selected_Tile"]]  # arbitrary scaling
+            sizes = [s * 50 for s in subset["Tile_Input_Size"]]  # arbitrary scaling
             plt.scatter(subset["Workload"], subset["Reuse_Score"], 
                         s=sizes, c=colors_map.get(t, "#000"), label=f"Tile {t}", alpha=0.7)
                         

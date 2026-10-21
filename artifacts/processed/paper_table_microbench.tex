@@ -1,0 +1,39 @@
+% Microbenchmark Custom Winograd Mechanism Evaluation
+\begin{table*}[t]
+\centering
+\begin{tabular}{llllllllllllll}
+\toprule
+ C\textbackslash \_in &  C\textbackslash \_out &    Tile &  Tile\textbackslash \_Input\textbackslash \_Size & Fused & MultiCore & Mean\textbackslash \_Latency\textbackslash \_ms & Median\textbackslash \_Latency\textbackslash \_ms & StdDev\textbackslash \_ms & CI95\textbackslash \_ms & P\textbackslash \_Value\textbackslash \_vs\textbackslash \_Baseline & Effect\textbackslash \_Direction & Improvement\textbackslash \_vs\textbackslash \_Baseline\textbackslash \_pct &  Runs \\
+\midrule
+    16 &      32 &  F(2,3) &                  4 &    No &        No &             33.32 &               33.28 &     0.2582 &     0.08 &                    N/A &               N/A &                            N/A &    40 \\
+    16 &      32 &  F(2,3) &                  4 &   Yes &        No &              33.1 &               33.11 &     0.0487 &   0.0151 &            5.64479e-06 &            Faster &                           0.65 &    40 \\
+    16 &      32 &  F(2,3) &                  4 &    No &       Yes &             33.27 &               33.27 &     0.0686 &   0.0213 &               0.263747 &            Faster &                           0.14 &    40 \\
+    16 &      32 &  F(2,3) &                  4 &   Yes &       Yes &             33.13 &               33.08 &     0.2607 &   0.0808 &             0.00217539 &            Faster &                           0.55 &    40 \\
+    32 &      16 &  F(2,3) &                  4 &    No &        No &             16.67 &               16.67 &     0.0209 &   0.0065 &                    N/A &               N/A &                            N/A &    40 \\
+    32 &      16 &  F(2,3) &                  4 &   Yes &        No &             16.62 &               16.57 &     0.2418 &   0.0749 &               0.205926 &            Faster &                            0.3 &    40 \\
+    32 &      16 &  F(2,3) &                  4 &    No &       Yes &              16.6 &                16.6 &     0.0285 &   0.0088 &                < 1e-10 &            Faster &                           0.44 &    40 \\
+    32 &      16 &  F(2,3) &                  4 &   Yes &       Yes &             16.63 &               16.62 &     0.0712 &   0.0221 &            0.000744157 &            Faster &                           0.25 &    40 \\
+    32 &      32 &  F(2,3) &                  4 &    No &        No &             37.35 &               37.31 &     0.2001 &    0.062 &                    N/A &               N/A &                            N/A &    40 \\
+    32 &      32 &  F(2,3) &                  4 &   Yes &        No &             37.99 &                37.3 &      2.065 &   0.6398 &              0.0584294 &            Slower &                          -1.71 &    40 \\
+    32 &      32 &  F(2,3) &                  4 &    No &       Yes &             37.34 &               37.34 &     0.0629 &   0.0195 &               0.622978 &            Faster &                           0.04 &    40 \\
+    32 &      32 &  F(2,3) &                  4 &   Yes &       Yes &             37.19 &               37.19 &     0.0552 &   0.0171 &            1.84963e-05 &            Faster &                           0.42 &    40 \\
+    32 &      64 &  F(2,3) &                  4 &    No &        No &             90.11 &               90.09 &     0.1076 &   0.0333 &                    N/A &               N/A &                            N/A &    40 \\
+    32 &      64 &  F(2,3) &                  4 &   Yes &        No &             89.78 &               89.78 &     0.0774 &    0.024 &                < 1e-10 &            Faster &                           0.36 &    40 \\
+    32 &      64 &  F(2,3) &                  4 &    No &       Yes &             90.05 &               89.96 &     0.7228 &    0.224 &               0.598273 &            Faster &                           0.07 &    40 \\
+    32 &      64 &  F(2,3) &                  4 &   Yes &       Yes &             89.89 &               89.89 &     0.0917 &   0.0284 &                < 1e-10 &            Faster &                           0.24 &    40 \\
+    64 &      32 &  F(2,3) &                  4 &    No &        No &             44.85 &               44.85 &     0.1448 &   0.0449 &                    N/A &               N/A &                            N/A &    40 \\
+    64 &      32 &  F(2,3) &                  4 &   Yes &        No &             44.82 &               44.82 &     0.0846 &   0.0262 &               0.283024 &            Faster &                           0.06 &    40 \\
+    64 &      32 &  F(2,3) &                  4 &    No &       Yes &             44.89 &               44.89 &     0.0666 &   0.0206 &               0.130952 &            Slower &                          -0.09 &    40 \\
+    64 &      32 &  F(2,3) &                  4 &   Yes &       Yes &             44.78 &               44.78 &     0.0608 &   0.0188 &             0.00641019 &            Faster &                           0.16 &    40 \\
+    64 &      64 &  F(2,3) &                  4 &    No &        No &             111.7 &               111.4 &     0.9815 &   0.3042 &                    N/A &               N/A &                            N/A &    40 \\
+    64 &      64 &  F(2,3) &                  4 &   Yes &        No &             111.4 &               111.5 &     0.2573 &   0.0797 &              0.0858766 &            Faster &                           0.25 &    40 \\
+    64 &      64 &  F(2,3) &                  4 &    No &       Yes &             111.3 &               111.3 &     0.3216 &   0.0997 &               0.020969 &            Faster &                           0.35 &    40 \\
+    64 &      64 &  F(2,3) &                  4 &   Yes &       Yes &             111.7 &               111.6 &     0.7474 &   0.2316 &               0.817332 &            Slower &                          -0.04 &    40 \\
+   128 &     128 &  F(2,3) &                  4 &    No &        No &               455 &               454.4 &      6.596 &    2.044 &                    N/A &               N/A &                            N/A &    40 \\
+   128 &     128 &  F(2,3) &                  4 &   Yes &        No &             455.2 &               454.5 &      4.251 &    1.317 &               0.874516 &            Slower &                          -0.04 &    40 \\
+   128 &     128 &  F(2,3) &                  4 &    No &       Yes &             455.8 &               454.2 &      9.081 &    2.814 &               0.635628 &            Slower &                          -0.19 &    40 \\
+   128 &     128 &  F(2,3) &                  4 &   Yes &       Yes &             456.4 &               454.5 &      6.699 &    2.076 &               0.347587 &            Slower &                          -0.31 &    40 \\
+\bottomrule
+\end{tabular}
+\caption{Microbenchmark Custom Winograd Mechanism Evaluation}
+\end{table*}

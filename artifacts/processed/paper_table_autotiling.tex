@@ -1,0 +1,25 @@
+% Runtime Cache-Aware Tile Selection Decisions
+\begin{table*}[t]
+\centering
+\begin{tabular}{llllllllllll}
+\toprule
+Platform & CPU\textbackslash \_Model &  L1D\textbackslash \_Bytes &  L2\textbackslash \_Bytes &             Workload &        Candidate\textbackslash \_Tiles & Selected\textbackslash \_Tile &  Tile\textbackslash \_Input\textbackslash \_Size & Alpha &  Target\textbackslash \_Cache &  Estimated\textbackslash \_Working\textbackslash \_Set\textbackslash \_Bytes & Reuse\textbackslash \_Score \\
+\midrule
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=16, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           18560 &       0.4414 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=16 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.1139 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.2278 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=64 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.4555 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=64, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           70784 &       0.1157 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=64, C\_out=64 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           70784 &       0.2315 \\
+   Linux &    aarch64 &       32768 &    2097152 &  C\_in=128, C\_out=128 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                          140416 &       0.2334 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=16, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           18560 &       0.4414 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=16 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.1139 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.2278 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=32, C\_out=64 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           35968 &       0.4555 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=64, C\_out=32 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           70784 &       0.1157 \\
+   Linux &    aarch64 &       32768 &    2097152 &    C\_in=64, C\_out=64 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                           70784 &       0.2315 \\
+   Linux &    aarch64 &       32768 &    2097152 &  C\_in=128, C\_out=128 &  F(2,3), F(4,3), F(6,3) &         F(2,3) &                  4 &   0.7 &          32768 &                          140416 &       0.2334 \\
+\bottomrule
+\end{tabular}
+\caption{Runtime Cache-Aware Tile Selection Decisions}
+\end{table*}

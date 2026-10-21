@@ -155,8 +155,8 @@ def build_single_conv_onnx_model(path: Path, args: argparse.Namespace) -> None:
         strides=[1, 1],
     )
     graph = oh.make_graph([conv_node], "single_conv", [input_tensor], [output_tensor], [weight_initializer])
-    model = oh.make_model(graph, producer_name="cache-aware-wino", opset_imports=[oh.make_opsetid("", 17)])
-    model.ir_version = min(getattr(model, "ir_version", 8), 8)
+    model = oh.make_model(graph, producer_name="cache-aware-wino", opset_imports=[oh.make_opsetid("", 13)])
+    model.ir_version = min(getattr(model, "ir_version", 7), 7)
     onnx.checker.check_model(model)
     onnx.save(model, path)
 
