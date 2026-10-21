@@ -1,0 +1,6 @@
+backend,status,avg_latency_ms,std_latency_ms,runs,notes,c_in,c_out,height,width,kernel,platform,architecture,cpu_model
+project,ok,3.560439650027547,1.628968696625147,20,"Fused Winograd F(2,3) tile microbenchmark.",64,64,4,4,3,Linux,aarch64,aarch64
+onnxruntime,ok,0.12119464986426465,0.011561653811379014,20,Single Conv ONNX Runtime CPU benchmark.,64,64,4,4,3,Linux,aarch64,aarch64
+tvm,skipped,,,0,TVM is not installed: No module named 'tvm',64,64,4,4,3,Linux,aarch64,aarch64
+autotvm,skipped,,,0,TVM is not installed: No module named 'tvm',64,64,4,4,3,Linux,aarch64,aarch64
+armcl,error,,,0,/home/jetson/Cache-Aware-Wino-Implementation/tools/run_armcl.sh: line 60: /home/jetson/Cache-Aware-Wino-Implementation/bin/armcl_benchmark: cannot execute binary file: Exec format error,64,64,4,4,3,Linux,aarch64,aarch64
