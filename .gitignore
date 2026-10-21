@@ -28,3 +28,7 @@ raw_logs/.~lock*
 
 venv/
 raw_logs/.~lock*
+
+# Board-built benchmark harness (each board compiles its own; see scripts/run_cell.sh)
+bin/bench_harness
+bin/bench_harness.dSYM/
